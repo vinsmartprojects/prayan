@@ -18,6 +18,7 @@ import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import ContactsPopover from './ContactsPopover';
 import NotificationsPopover from './NotificationsPopover';
+import { UserComponent } from 'src/components/extra/UserDetail';
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ export default function Header({ onOpenNav }: Props) {
         <LanguagePopover />
 
         <NotificationsPopover />
-
+      
         <ContactsPopover />
 
         <AccountPopover />

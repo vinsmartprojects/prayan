@@ -59,15 +59,15 @@ export default function AuthWithSocial() {
       </Divider>
 
       <Stack direction="row" justifyContent="center" spacing={2}>
-        <IconButton onClick={handleGoogleLogin}>
+        <IconButton onClick={() => { }}>
           <Iconify icon="eva:google-fill" color="#DF3E30" />
         </IconButton>
 
-        <IconButton color="inherit" onClick={handleGithubLogin}>
+        <IconButton color="inherit" onClick={() => { }}>
           <Iconify icon="eva:github-fill" />
         </IconButton>
 
-        <IconButton onClick={handleTwitterLogin}>
+        <IconButton onClick={() => { }}>
           <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
         </IconButton>
       </Stack>

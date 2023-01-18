@@ -67,12 +67,12 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField disabled={showPassword} name="email" label="Email address" />
 
         <RHFTextField
           name="password"
           label="Password"
-          type={showPassword ? 'text' : 'password'}
+          type={ showPassword? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -87,7 +87,7 @@ export default function AuthLoginForm() {
 
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
         <Link variant="body2" color="inherit" underline="always">
-          Forgot password?
+          {showPassword?"Check Abaove password?":"Forget Password"}
         </Link>
       </Stack>
 

@@ -1,5 +1,6 @@
 // @mui
 import { Alert, Tooltip, Stack, Typography, Link, Box } from '@mui/material';
+import { APP_NAME } from 'src/assets/data/common';
 // auth
 import { useAuthContext } from '../../auth/useAuthContext';
 // layouts
@@ -14,9 +15,9 @@ export default function Login() {
   const { method } = useAuthContext();
 
   return (
-    <LoginLayout>
+    <LoginLayout title={APP_NAME}>
       <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-        <Typography variant="h4">Sign in to Minimal</Typography>
+        <Typography variant="h4">{APP_NAME} : Sign in </Typography>
 
         <Stack direction="row" spacing={0.5}>
           <Typography variant="body2">New user?</Typography>
