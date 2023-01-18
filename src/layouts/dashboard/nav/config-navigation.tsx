@@ -1,5 +1,5 @@
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_VENDOR } from '../../../routes/paths';
 // components
 import SvgColor from '../../../components/svg-color';
 
@@ -19,28 +19,19 @@ const ICONS = {
 const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
-  {
-    subheader: 'general v4.1.0',
-    items: [
-      { title: 'One', path: PATH_DASHBOARD.one, icon: ICONS.dashboard },
-      { title: 'Two', path: PATH_DASHBOARD.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: PATH_DASHBOARD.three, icon: ICONS.analytics },
-    ],
-  },
 
   // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'management',
+    subheader: 'Admin Access',
     items: [
       {
-        title: 'user',
-        path: PATH_DASHBOARD.user.root,
+        title: 'Vendors',
+        path: PATH_VENDOR.root,
         icon: ICONS.user,
         children: [
-          { title: 'Four', path: PATH_DASHBOARD.user.four },
-          { title: 'Five', path: PATH_DASHBOARD.user.five },
-          { title: 'Six', path: PATH_DASHBOARD.user.six },
+          { title: 'List', path: PATH_VENDOR.list },
+          { title: 'New', path: PATH_VENDOR.new },
         ],
       },
     ],

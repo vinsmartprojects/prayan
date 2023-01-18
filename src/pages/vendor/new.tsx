@@ -8,26 +8,23 @@ import { useSettingsContext } from '../../components/settings';
 import { APP_NAME, APP_VERSION } from 'src/assets/data/common';
 import { PageHeaderTitle } from 'src/components/extra/PageHeaderTitle';
 
+// ----------------------------------------------------------------------
+
+VendorNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-PageOne.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
-
-// ----------------------------------------------------------------------
-
-export default function PageOne() {
+export default function VendorNewPage() {
   const { themeStretch } = useSettingsContext();
 
   return (
     <>
       <Head>
-        <PageHeaderTitle title='Dashboard' />
+        <PageHeaderTitle title="Vendor Detail" />
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Typography variant="h3" component="h1" paragraph>
-          Page One
-        </Typography>
+        <Typography variant="h3" component="h1" paragraph></Typography>
       </Container>
     </>
   );

@@ -5,6 +5,7 @@ function path(root: string, sublink: string) {
 }
 
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOTS_VENDOR = '/vendor';
 
 // ----------------------------------------------------------------------
 
@@ -14,13 +15,12 @@ export const PATH_AUTH = {
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  one: path(ROOTS_DASHBOARD, '/one'),
-  two: path(ROOTS_DASHBOARD, '/two'),
-  three: path(ROOTS_DASHBOARD, '/three'),
-  user: {
-    root: path(ROOTS_DASHBOARD, '/user'),
-    four: path(ROOTS_DASHBOARD, '/user/four'),
-    five: path(ROOTS_DASHBOARD, '/user/five'),
-    six: path(ROOTS_DASHBOARD, '/user/six'),
-  },
+};
+export const PATH_VENDOR = {
+  root: ROOTS_VENDOR,
+  index: path(ROOTS_VENDOR, '/'),
+  list: path(ROOTS_VENDOR, '/list'),
+  new: path(ROOTS_VENDOR, '/new'),
+  detail: path(ROOTS_VENDOR, '/detail'),
+  udpate: path(ROOTS_VENDOR, '/update'),
 };

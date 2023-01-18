@@ -8,7 +8,8 @@ import { useLocales } from '../../../locales';
 // ----------------------------------------------------------------------
 
 export default function NavDocs() {
-  const { user } = useAuthContext();
+ 
+  const { user, logout } = useAuthContext();
 
   const { translate } = useLocales();
 
@@ -24,7 +25,7 @@ export default function NavDocs() {
         textAlign: 'center',
       }}
     >
-      <Box component="img" src="/assets/illustrations/illustration_docs.svg" />
+      {/*  <Box component="img" src="/assets/illustrations/illustration_docs.svg" />
 
       <div>
         <Typography gutterBottom variant="subtitle1">
@@ -34,9 +35,12 @@ export default function NavDocs() {
         <Typography variant="body2" sx={{ color: 'text.secondary', whiteSpace: 'pre-line' }}>
           {`${translate('docs.description')}`}
         </Typography>
-      </div>
+      </div> */}
 
-      <Button variant="contained">{`${translate('docs.documentation')}`}</Button>
+      <Button variant="outlined" color="info" onClick={logout}>
+        {' '}
+        Logout
+      </Button>
     </Stack>
   );
 }
