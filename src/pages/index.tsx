@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { PATH_AUTH } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -8,7 +9,7 @@ export default function Index() {
 
   useEffect(() => {
     if (router.pathname === '/') {
-      router.push('/dashboard');
+      router.push(PATH_AUTH.login);
     }
   });
 

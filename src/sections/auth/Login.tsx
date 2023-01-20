@@ -20,9 +20,7 @@ export default function Login() {
           <Link variant="subtitle2">Create an account</Link>
         </Stack>
       </Stack>
-
-
-      <AuthLoginForm />
+     <AuthLoginForm />
 
       <AuthWithSocial />
     </LoginLayout>
