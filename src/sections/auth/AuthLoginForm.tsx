@@ -31,8 +31,8 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    username: '9986744152',
-    password: '01234',
+    username: '',
+    password: '',
   };
 
   const methods = useForm<FormValuesProps>({
@@ -48,7 +48,7 @@ export default function AuthLoginForm() {
   } = methods;
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log(data)
+    console.log(data);
     try {
       await login(data.username, data.password);
     } catch (error) {
@@ -68,7 +68,7 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField disabled={showPassword} name="username" label="Username" />
+        <RHFTextField disabled={showPassword} name="username" label="Mobile No" type={'number'} />
 
         <RHFTextField
           name="password"
@@ -88,7 +88,7 @@ export default function AuthLoginForm() {
 
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
         <Link variant="body2" color="inherit" underline="always">
-          {showPassword ? "Call Admin For Password Reset?" : "Forget Password"}
+          {showPassword ? 'Call Admin For Password Reset?' : 'Forget Password'}
         </Link>
       </Stack>
 
