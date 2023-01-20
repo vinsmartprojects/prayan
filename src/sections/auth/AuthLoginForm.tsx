@@ -31,8 +31,8 @@ export default function AuthLoginForm() {
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    email: '8884255542',
+    password: '01234',
   };
 
   const methods = useForm<FormValuesProps>({
@@ -67,12 +67,12 @@ export default function AuthLoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField disabled={showPassword} name="email" label="Email address" />
+        <RHFTextField disabled={showPassword} name="username" label="Username" />
 
         <RHFTextField
           name="password"
           label="Password"
-          type={ showPassword? 'text' : 'password'}
+          type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -87,7 +87,7 @@ export default function AuthLoginForm() {
 
       <Stack alignItems="flex-end" sx={{ my: 2 }}>
         <Link variant="body2" color="inherit" underline="always">
-          {showPassword?"Check Abaove password?":"Forget Password"}
+          {showPassword ? "Check Abaove password?" : "Forget Password"}
         </Link>
       </Stack>
 
