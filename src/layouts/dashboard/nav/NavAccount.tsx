@@ -35,7 +35,7 @@ console.log(user);
           </Typography>
 
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {user?.roles}
+            {user?.role}
           </Typography>
         </Box>
       </StyledRoot>
