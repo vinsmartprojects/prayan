@@ -5,8 +5,7 @@ import { Container, Typography } from '@mui/material';
 import DashboardLayout from '../../layouts/dashboard';
 // components
 import { useSettingsContext } from '../../components/settings';
-import { APP_NAME, APP_VERSION } from 'src/assets/data/common';
-import { PageHeaderTitle } from 'src/components/extra/PageHeaderTitle';
+
 
 // ----------------------------------------------------------------------
 
@@ -20,11 +19,10 @@ export default function VendorNewPage() {
   return (
     <>
       <Head>
-        <PageHeaderTitle title="Vendor Detail" />
-      </Head>
+        <title>Home</title>      </Head>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Typography variant="h3" component="h1" paragraph></Typography>
+        <Typography variant="h3" component="h1" paragraph />
       </Container>
     </>
   );

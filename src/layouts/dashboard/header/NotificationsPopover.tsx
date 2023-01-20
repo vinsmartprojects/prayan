@@ -1,24 +1,14 @@
-import { noCase } from 'change-case';
 import { useState } from 'react';
 // @mui
 import {
-  Box,
-  Stack,
-  List,
+  Box, List,
   Badge,
-  Button,
-  Avatar,
-  Tooltip,
+  Button, Tooltip,
   Divider,
   IconButton,
-  Typography,
-  ListItemText,
-  ListSubheader,
-  ListItemAvatar,
-  ListItemButton,
+  Typography, ListSubheader
 } from '@mui/material';
 // utils
-import { fToNow } from '../../../utils/formatTime';
 // _mock_
 import { _notifications } from '../../../_mock/arrays';
 // components
@@ -126,88 +116,8 @@ export default function NotificationsPopover() {
   );
 }
 
-// ----------------------------------------------------------------------
 
-type NotificationItemProps = {
-  id: string;
-  title: string;
-  description: string;
-  avatar: string | null;
-  type: string;
-  createdAt: Date;
-  isUnRead: boolean;
-};
-
-function NotificationItem({ notification }: { notification: NotificationItemProps }) {
-  const { avatar, title } = renderContent(notification);
-
-  return (
-    <ListItemButton
-      sx={{
-        py: 1.5,
-        px: 2.5,
-        mt: '1px',
-        ...(notification.isUnRead && {
-          bgcolor: 'action.selected',
-        }),
-      }}
-    >
-      <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
-      </ListItemAvatar>
-
-      <ListItemText
-        disableTypography
-        primary={title}
-        secondary={
-          <Stack direction="row" sx={{ mt: 0.5, typography: 'caption', color: 'text.disabled' }}>
-            <Iconify icon="eva:clock-fill" width={16} sx={{ mr: 0.5 }} />
-            <Typography variant="caption">{fToNow(notification.createdAt)}</Typography>
-          </Stack>
-        }
-      />
-    </ListItemButton>
-  );
-}
 
 // ----------------------------------------------------------------------
 
-function renderContent(notification: NotificationItemProps) {
-  const title = (
-    <Typography variant="subtitle2">
-      {notification.title}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
-      </Typography>
-    </Typography>
-  );
 
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/notification/ic_package.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/notification/ic_shipping.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'mail') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/notification/ic_mail.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/notification/ic_chat.svg" />,
-      title,
-    };
-  }
-  return {
-    avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
-    title,
-  };
-}

@@ -1,5 +1,5 @@
 // routes
-import { PATH_DASHBOARD, PATH_VENDOR } from '../../../routes/paths';
+import { PATH_VENDOR } from '../../../routes/paths';
 // components
 import SvgColor from '../../../components/svg-color';
 

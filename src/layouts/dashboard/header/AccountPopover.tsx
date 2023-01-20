@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 // @mui
 import { alpha } from '@mui/material/styles';
-import { Box, Divider, Typography, Stack, MenuItem } from '@mui/material';
+import { Box, Divider, Typography, MenuItem } from '@mui/material';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
 // auth
@@ -14,27 +14,10 @@ import { useSnackbar } from '../../../components/snackbar';
 import MenuPopover from '../../../components/menu-popover';
 import { IconButtonAnimate } from '../../../components/animate';
 
-// ----------------------------------------------------------------------
 
-const OPTIONS = [
-  {
-    label: 'Home',
-    linkTo: '/',
-  },
-  {
-    label: 'Profile',
-    linkTo: '/',
-  },
-  {
-    label: 'Settings',
-    linkTo: '/',
-  },
-];
-
-// ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const { replace, push } = useRouter();
+  const { replace } = useRouter();
 
   const { user, logout } = useAuthContext();
 
@@ -61,10 +44,6 @@ export default function AccountPopover() {
     }
   };
 
-  const handleClickItem = (path: string) => {
-    handleClosePopover();
-    push(path);
-  };
 
   return (
     <>
@@ -100,14 +79,7 @@ export default function AccountPopover() {
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-        {/* 
-        <Stack sx={{ p: 1 }}>
-          {OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Stack> */}
+
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

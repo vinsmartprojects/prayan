@@ -2,7 +2,7 @@
 import { useTheme } from '@mui/material/styles';
 import { Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // utils
-import { bgBlur } from '../../../utils/cssStyles';
+
 // hooks
 import useOffSetTop from '../../../hooks/useOffSetTop';
 import useResponsive from '../../../hooks/useResponsive';
@@ -15,11 +15,8 @@ import { useSettingsContext } from '../../../components/settings';
 //
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import LanguagePopover from './LanguagePopover';
-import ContactsPopover from './ContactsPopover';
 import NotificationsPopover from './NotificationsPopover';
-import { UserComponent } from 'src/components/extra/UserDetail';
-
+import { bgBlur } from '../../../utils/cssStyles';
 // ----------------------------------------------------------------------
 
 type Props = {

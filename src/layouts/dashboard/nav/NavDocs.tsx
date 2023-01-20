@@ -1,17 +1,15 @@
 // @mui
-import { Stack, Button, Typography, Box } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 // auth
 import { useAuthContext } from '../../../auth/useAuthContext';
 // locales
-import { useLocales } from '../../../locales';
 
 // ----------------------------------------------------------------------
 
 export default function NavDocs() {
  
-  const { user, logout } = useAuthContext();
-
-  const { translate } = useLocales();
+  const { logout } = useAuthContext();
+ 
 
   return (
     <Stack
@@ -25,19 +23,7 @@ export default function NavDocs() {
         textAlign: 'center',
       }}
     >
-      {/*  <Box component="img" src="/assets/illustrations/illustration_docs.svg" />
-
-      <div>
-        <Typography gutterBottom variant="subtitle1">
-          {`${translate('docs.hi')}, ${user?.displayName}`}
-        </Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary', whiteSpace: 'pre-line' }}>
-          {`${translate('docs.description')}`}
-        </Typography>
-      </div> */}
-
-      <Button variant="outlined" color="info" onClick={logout}>
+     <Button variant="outlined" color="info" onClick={logout}>
         {' '}
         Logout
       </Button>

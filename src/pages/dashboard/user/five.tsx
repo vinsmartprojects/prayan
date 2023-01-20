@@ -1,12 +1,13 @@
 // next
+import { useState } from 'react';
+
 import Head from 'next/head';
 import { Container, Typography } from '@mui/material';
 // layouts
 import DashboardLayout from '../../../layouts/dashboard';
 // components
 import { useSettingsContext } from '../../../components/settings';
-import { useEffect, useState } from 'react';
-import { UserComponent } from 'src/components/extra/UserDetail';
+
 
 // ----------------------------------------------------------------------
 
@@ -33,9 +34,7 @@ export default function PageFive() {
           onChange={(e: any) => {
             setusername(e.target.value);
           }}
-        />
-
-        <UserComponent username={username} role="Admin" />
+        />    
       </Container>
     </>
   );
