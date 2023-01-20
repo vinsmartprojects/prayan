@@ -15,7 +15,7 @@ import FormProvider, { RHFTextField } from '../../components/hook-form';
 // ----------------------------------------------------------------------
 
 type FormValuesProps = {
-  email: string;
+  username: string;
   password: string;
   afterSubmit?: string;
 };
@@ -26,12 +26,12 @@ export default function AuthLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: '8884255542',
+    username: '9986744152',
     password: '01234',
   };
 
@@ -48,8 +48,9 @@ export default function AuthLoginForm() {
   } = methods;
 
   const onSubmit = async (data: FormValuesProps) => {
+    console.log(data)
     try {
-      await login(data.email, data.password);
+      await login(data.username, data.password);
     } catch (error) {
       console.error(error);
 

@@ -3,7 +3,7 @@ module.exports = {
   trailingSlash: true,
   env: {
     // HOST
-    HOST_API_KEY: 'https://p4u-api.vinsmart.in',
+    HOST_API_KEY: 'https://p4u-api.vinsmart.in/',
   },
 
 };
