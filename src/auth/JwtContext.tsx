@@ -99,7 +99,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
         const response = await axios.get('/auth/me');
-        const { user } = response.data;
+        const { user } = response.data?.data;
 
         dispatch({
           type: Types.INITIAL,
@@ -188,9 +188,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user: state.user,
       method: 'jwt',
       login,
-      loginWithGoogle: () => {},
-      loginWithGithub: () => {},
-      loginWithTwitter: () => {},
+      loginWithGoogle: () => { },
+      loginWithGithub: () => { },
+      loginWithTwitter: () => { },
       register,
       logout,
     }),

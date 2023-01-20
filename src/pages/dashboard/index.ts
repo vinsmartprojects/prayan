@@ -13,13 +13,13 @@ export default function Index() {
 
   useEffect(() => {
     if (pathname === PATH_DASHBOARD.root) {
-      replace(PATH_AFTER_LOGIN.root);
+      replace(PATH_AFTER_LOGIN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {
-    prefetch(PATH_AFTER_LOGIN.root);
+    prefetch(PATH_AFTER_LOGIN);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

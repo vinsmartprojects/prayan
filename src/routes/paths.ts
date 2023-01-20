@@ -15,6 +15,7 @@ export const PATH_AUTH = {
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
+  index: path(ROOTS_DASHBOARD, '/analytics'),
 };
 export const PATH_VENDOR = {
   root: ROOTS_VENDOR,

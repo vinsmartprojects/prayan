@@ -38,7 +38,7 @@ export default function Header({ onOpenNav }: Props) {
 
   const renderContent = (
     <>
-      {isDesktop && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
+     {/*  {isDesktop && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />} */}
 
       {!isDesktop && (
         <IconButton onClick={onOpenNav} sx={{ mr: 1, color: 'text.primary' }}>
