@@ -1,12 +1,4 @@
-import {
-  useMemo,
-  useState,
-  ReactNode,
-  useEffect,
-  useContext,
-  useCallback,
-  createContext,
-} from 'react';
+import { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 // utils
 import localStorageAvailable from '../../utils/localStorageAvailable';
 //
@@ -64,7 +56,7 @@ export const useSettingsContext = () => {
 // ----------------------------------------------------------------------
 
 type SettingsProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export function SettingsProvider({ children }: SettingsProviderProps) {

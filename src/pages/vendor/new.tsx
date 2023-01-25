@@ -5,7 +5,10 @@ import { Container, Typography } from '@mui/material';
 import DashboardLayout from '../../layouts/dashboard';
 // components
 import { useSettingsContext } from '../../components/settings';
-
+import { APP_NAME } from 'src/assets/data/common';
+import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
+import { PATH_DASHBOARD, PATH_VENDOR } from 'src/routes/paths';
+import VendorNewEditForm from 'src/sections/vendor/VendorNewEditForm';
 
 // ----------------------------------------------------------------------
 
@@ -19,10 +22,25 @@ export default function VendorNewPage() {
   return (
     <>
       <Head>
-        <title>Home</title>      </Head>
+        <title>Vendor | Create - {APP_NAME}</title>      </Head>
 
-      <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Typography variant="h3" component="h1" paragraph />
+     
+        <Container maxWidth={themeStretch ? false : 'lg'}>
+        <CustomBreadcrumbs
+          heading="Create Vendor"
+          links={[
+            {
+              name: 'Dashboard',
+              href: PATH_DASHBOARD.root,
+            },
+            {
+              name: 'Vendors',
+              href: PATH_VENDOR.list,
+            },
+            { name: 'New ' },
+          ]}
+        />
+        <VendorNewEditForm />
       </Container>
     </>
   );
