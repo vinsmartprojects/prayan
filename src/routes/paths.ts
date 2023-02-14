@@ -7,6 +7,8 @@ function path(root: string, sublink: string) {
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_VENDOR = '/vendor';
 const ROOTS_VEHICLE = '/vehicle';
+const ROOTS_DRIVER = '/driver';
+
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
@@ -35,4 +37,12 @@ export const PATH_VEHICLE = {
   detail: path(ROOTS_VEHICLE, '/detail'),
   udpate: path(ROOTS_VEHICLE, '/update'),
   edit: (name: string) => path(ROOTS_VEHICLE, `/${name}/edit`),
+};
+export const PATH_DRIVER = {
+  root: ROOTS_DRIVER,
+  index: path(ROOTS_DRIVER, '/'),
+  list: path(ROOTS_DRIVER, '/list'),
+  new: path(ROOTS_DRIVER, '/new'),
+  detail: path(ROOTS_DRIVER, '/detail'),
+  udpate: path(ROOTS_DRIVER, '/update'),
 };
