@@ -36,7 +36,7 @@ export default function VehicleTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const {id, name, features } = row;
+  const { id, registerNo, registrationType, permitType,vendor,type } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -70,12 +70,48 @@ export default function VehicleTableRow({
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
             <Typography variant="subtitle2" noWrap>
-              {name}
+              {registerNo}
             </Typography>
           </Stack>
         </TableCell>
 
-       
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {/* <Avatar alt={name} src={avatarUrl} /> */}
+
+            <Typography variant="subtitle2" noWrap>
+              {permitType}
+            </Typography>
+          </Stack>
+        </TableCell>
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {/* <Avatar alt={name} src={avatarUrl} /> */}
+
+            <Typography variant="subtitle2" noWrap>
+              {registrationType}
+            </Typography>
+          </Stack>
+        </TableCell>
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {/* <Avatar alt={name} src={avatarUrl} /> */}
+
+            <Typography variant="subtitle2" noWrap>
+            {type?.name}  
+            </Typography>
+          </Stack>
+        </TableCell>
+        <TableCell>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            {/* <Avatar alt={name} src={avatarUrl} /> */}
+
+            <Typography variant="subtitle2" noWrap>
+             
+            {vendor?.title}
+            </Typography>
+          </Stack>
+        </TableCell>
         <TableCell align="right">
           <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
             <Iconify icon="eva:more-vertical-fill" />

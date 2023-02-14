@@ -21,10 +21,11 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IVehicleCreateInput } from 'src/@types/vehicle';
+import { FuelType, IVehicleCreateInput, PermitType, RegistrationType } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { brands } from 'src/assets/data/carbrand';
 import { registrationTypes } from 'src/assets/data/registrationTypes';
+import RHFDatePicker from 'src/components/hook-form/RHFDatePicker';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleCreateInput, 'avatarUrl'> {
@@ -48,8 +49,8 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
   const defaultValues = useMemo(
     () => ({
       registerNo: currentVehicle?.registerNo || 'KA01MH2022',
-      registrationType: currentVehicle?.registrationType || 'WHITE',
-      permitType: currentVehicle?.permitType || 'ALL INIDA',
+      registrationType: currentVehicle?.registrationType || RegistrationType.YELLOW,
+      permitType: currentVehicle?.permitType || PermitType.INTERSTATE,
       permitNo: currentVehicle?.permitNo || '14555',
       make: currentVehicle?.make || 'HUNDAII',
       model: currentVehicle?.model || 'i20',
@@ -62,22 +63,22 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
       seatingCapacity: currentVehicle?.seatingCapacity || '4',
       rcBookDoc: currentVehicle?.rcBookDoc || '1457888',
       rcNo: currentVehicle?.rcNo || '1457888',
-      rcExpritationDate: currentVehicle?.rcExpritationDate || '12/12/205',
+      rcExpritationDate: currentVehicle?.rcExpritationDate || '12/12/2025',
       insuranceDoc: currentVehicle?.insuranceDoc || '',
       insuranceNo: currentVehicle?.insuranceNo || '1457888',
-      insurationExpritationDate: currentVehicle?.insurationExpritationDate || '12/12/205',
-      emissionDoc: currentVehicle?.emissionDoc || '12/12/205',
-      emissionNo: currentVehicle?.emissionNo || '12/12/205',
-      emissionExpritationDate: currentVehicle?.emissionExpritationDate || '12/12/205',
+      insurationExpritationDate: currentVehicle?.insurationExpritationDate || '12/12/2025',
+      emissionDoc: currentVehicle?.emissionDoc || '12/12/2025',
+      emissionNo: currentVehicle?.emissionNo || '12/12/2025',
+      emissionExpritationDate: currentVehicle?.emissionExpritationDate || '12/12/2025',
       taxDoc: currentVehicle?.taxDoc || '',
       taxno: currentVehicle?.taxno || '1457888',
       vendorId: currentVehicle?.vendorId || '13',
       vehicleTypeId: currentVehicle?.vehicleTypeId || 2,
       isAc: currentVehicle?.isAc || false,
-      fuelType: currentVehicle?.fuelType || 'DIESEL',
+      fuelType: currentVehicle?.fuelType || FuelType.DIESEL,
 
-      taxExpritationDate: currentVehicle?.taxExpritationDate || '',
-      fcExpritationDate: currentVehicle?.fcExpritationDate || '',
+      taxExpritationDate: currentVehicle?.taxExpritationDate || '12/12/2025',
+      fcExpritationDate: currentVehicle?.fcExpritationDate || '12/12/2025',
 
       gpsBox: currentVehicle?.gpsBox || false,
       mobileDevice: currentVehicle?.mobileDevice || false,
@@ -178,19 +179,19 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFSelect native name="country" label="Fuel Type" placeholder="Fuel Type">
+              <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Fuel Type">
                 <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
+                {Object.keys(FuelType).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </RHFSelect>
-              <RHFSelect native name="country" label="Permit Type" placeholder="Permit Type">
+              <RHFSelect native name="permitType" label="Permit Type" placeholder="Permit Type">
                 <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
+                {Object.keys(PermitType).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </RHFSelect>
@@ -262,14 +263,14 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               <RHFTextField name="registerNo" label="Registration Number *" />
               <RHFSelect
                 native
-                name="country"
+                name="registrationType"
                 label="Registgration Type"
                 placeholder="Registgration Type"
               >
                 <option value="" />
-                {registrationTypes.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
+                {Object.keys(RegistrationType).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </RHFSelect>
@@ -321,12 +322,14 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               }}
             >
               <RHFTextField name="rcNo" label="RC Number*" />
-              <RHFTextField name="rcExpritationDate" label="Expiration Date" />
+              <RHFDatePicker name="rcExpritationDate" label="RC Expiration Date" />
               <RHFTextField name="insuranceNo" label="Insurance Number" />
-              <RHFTextField name="insurationExpritationDate" label="Insurance Expiration Date" />
-              <RHFTextField name="emissionExpritationDate" label="Emission Expiration Date" />
-              <RHFTextField name="fcExpritationDate" label="FC Expiration Date" />
-              <RHFTextField name="taxExpritationDate" label="Tax Expiration Date" />
+              <RHFDatePicker name="insurationExpritationDate" label="Insurance Expiration Date" />
+              <RHFDatePicker name="rcExpritationDate" label="RC Expiration Date" />
+              <RHFDatePicker name="taxExpritationDate" label="Tax Expiration Date" />
+              <RHFDatePicker name="emissionExpritationDate" label="Emission Test Expiration Date" />
+
+              <RHFDatePicker name="fcExpritationDate" label="FC Expiration Date" />
               <RHFTextField name="taxno" label="Tax No" />
             </Box>
           </Card>

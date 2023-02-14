@@ -25,11 +25,18 @@ import ProgressBar from '../components/progress-bar';
 import SnackbarProvider from '../components/snackbar';
 import { MotionLazyContainer } from '../components/animate';
 import { ThemeSettings, SettingsProvider } from '../components/settings';
-
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+// or for Day.js
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// or for Luxon
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+// or for Moment.js
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 // Check our docs
 // https://docs.minimals.cc/authentication/ts-version
 
 import { AuthProvider } from '../auth/JwtContext';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +61,7 @@ export default function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <AuthProvider>
         <SettingsProvider>
           <MotionLazyContainer>
@@ -71,6 +78,7 @@ export default function MyApp(props: MyAppProps) {
           </MotionLazyContainer>
         </SettingsProvider>
       </AuthProvider>
+      </LocalizationProvider>
     </CacheProvider>
   );
 }

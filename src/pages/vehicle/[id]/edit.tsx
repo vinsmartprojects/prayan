@@ -46,26 +46,23 @@ export default function UserEditPage() {
   return (
     <>
       <Head>
-        <title> User: Edit user | Minimal UI</title>
+        <title> Vehicles: Edit Vehicles | Minimal UI</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={_vehicle?.name}
+          heading={_vehicle?.registerNo}
           links={[
             {
-              name: 'Dashboard',
-              href: PATH_VEHICLE.root,
-            },
-            {
-              name: 'User',
+              name: 'Vehicles',
+
               href: PATH_VEHICLE.list,
             },
-            { name: _vehicle?.name },
+            { name: _vehicle?.registerNo },
           ]}
         />
 
-        <VehicleEditForm isEdit vehicle={_vehicle} />
+        <VehicleEditForm isEdit currentVehicle={_vehicle} />
       </Container>
     </>
   );

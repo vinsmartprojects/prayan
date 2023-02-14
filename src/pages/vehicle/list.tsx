@@ -49,13 +49,14 @@ import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
+const STATUS_OPTIONS = ['all', 'availble', 'on road', 'on service'];
 
 const TABLE_HEAD = [
-  { id: 'title', label: 'Vehicle Name', align: 'left' },
-  { id: 'contactPerson', label: 'Contact Person', align: 'left' },
-  { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+  { id: 'registerNo', label: 'Vehicle No', align: 'left' },
+  { id: 'permitType', label: 'Permit', align: 'left' },
+  { id: 'registrationType', label: 'Registration', align: 'left' },
+  { id: 'vehicleTypeId', label: 'Type', align: 'left' },
+  { id: 'vendorId', label: 'Vendor', align: 'left' },
 ];
 
 // ----------------------------------------------------------------------
@@ -234,7 +235,6 @@ export default function vehicleListPage() {
           <Divider />
           <VehicleTableToolbar
             isFiltered={isFiltered}
-            filterName={filterName}
             filterRole={filterRole}
             onFilterName={handleFilterName}
             onFilterRole={handleFilterRole}
@@ -368,7 +368,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vehicle) => vehicle.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicle) => vehicle.reg.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
