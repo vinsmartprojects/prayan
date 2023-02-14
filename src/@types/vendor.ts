@@ -52,7 +52,7 @@ export type IVendor = {
   address: Address;
   logo: string;
   status: VendorStatus;
-  status: string;
+  
   state: string;
   country: string;
   gst: string;
