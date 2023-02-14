@@ -21,22 +21,22 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IVendorCreateInput, VendorStatus } from 'src/@types/vendor';
+import { IVendor, IVendorCreateInput, IVendorEdit, VendorStatus } from 'src/@types/vendor';
 import { useVendor } from 'src/modules/vendor/hooks/useVendor';
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<IVendorCreateInput, 'avatarUrl'> {
+interface FormValuesProps extends Omit<IVendorEdit, 'avatarUrl'> {
   avatarUrl: CustomFile | string | null;
 }
 
 type Props = {
   isEdit?: boolean;
-  currentVendor?: IVendorCreateInput;
+  vendor?: IVendor;
 };
 
-export default function VendorNewEditForm({ isEdit = false, currentVendor }: Props) {
+export default function VendorEditForm({ isEdit = false, vendor }: Props) {
   const { push } = useRouter();
-  const { create } = useVendor();
+  const { update } = useVendor();
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVendorSchema = Yup.object().shape({
@@ -52,29 +52,29 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
 
   const defaultValues = useMemo(
     () => ({
-      title: currentVendor?.title || '',
-      contactPerson: currentVendor?.contactPerson || '',
-      contactMobile: currentVendor?.contactMobile || '',
-      contactEmail: currentVendor?.contactEmail || '',
+      id: vendor?.id || undefined,
+      title: vendor?.title || '',
+      contactPerson: vendor?.contactPerson || '',
+      contactMobile: vendor?.contactMobile || '',
+      contactEmail: vendor?.contactEmail || '',
+      addressLine1: vendor?.address?.addressLine1 || '',
+      addressLine2: vendor?.address?.addressLine2 || '',
+      area: vendor?.address?.area || '',
+      landmark: vendor?.address?.landmark || '',
+      city: vendor?.address?.city || '',
+      pincode: vendor?.address?.pincode || '0',
+      state: vendor?.address?.state || '',
+      status:vendor?.status || VendorStatus.PENDING,
 
-      addressLine1: currentVendor?.addressLine1 || '',
-      addressLine2: currentVendor?.addressLine2 || '',
-      area: currentVendor?.area || '',
-      landmark: currentVendor?.landmark || '',
-      city: currentVendor?.city || '',
-      pincode: currentVendor?.pincode || '',
-      state: currentVendor?.state || 'Karnataka',
-      status: currentVendor?.status || VendorStatus.PENDING,
-      country: currentVendor?.country || 'India',
-
-      pan: currentVendor?.pan || '',
-      gst: currentVendor?.gst || '',
-      tin: currentVendor?.tin || '',
-      cin: currentVendor?.cin || '',
-      isVerified: currentVendor?.isVerified || false,
+      country: vendor?.country || 'India',
+      pan: vendor?.pan || '',
+      gst: vendor?.gst || '',
+      tin: vendor?.tin || '',
+      cin: vendor?.cin || '',
+      isVerified: vendor?.isVerified || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentVendor]
+    [vendor]
   );
 
   const methods = useForm<FormValuesProps>({
@@ -94,14 +94,14 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentVendor) {
+    if (isEdit && vendor) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentVendor]);
+  }, [isEdit, vendor]);
 
   const onSubmit = async (data: FormValuesProps) => {
     console.log('vendor Data: ' + data);
@@ -129,23 +129,22 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
       pan: data.pan,
     };
 
-    const vendor = {
+    const _vendor = {
       title: data.title,
-      vendorCommuncation: _communication,
-      vendorDocument: _documents,
-      vendorAddress: _address,
+      address: _address,
+      ..._documents,
     };
     console.log('vendor: ', vendor);
 
-    const _newItemCreated = await create(vendor);
-    await _newItemCreated;
-    console.log('newItemCreated: ', _newItemCreated);
+    const _updatedItem = await update(vendor?.id, _vendor);
+    await _updatedItem;
+    console.log('newItemCreated: ', _updatedItem);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      push(PATH_VENDOR.list);
+      /*    push(PATH_VENDOR.list); */
     } catch (error) {
       console.error(error);
     }
@@ -169,6 +168,75 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
+        <Grid item xs={12} md={8}>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="title" label="Vendor Title *" />
+              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
+              <RHFTextField name="contactMobile" label="Phone Number *" />
+              <RHFTextField name="contactEmail" label="Email  Number " />
+            </Box>
+          </Card>
+
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="addressLine1" label="Address Line 1*" />
+              <RHFTextField name="addressLine2" label="Address Line 2" />
+              <RHFTextField name="area" label="Area / Location " />
+              <RHFTextField name="landmark" label="Landmark / Nearby" />
+              <RHFTextField name="pincode" label="Pincode*" />
+              <RHFTextField name="city" label="City* " />
+              <RHFTextField name="state" label="State" />
+              <RHFSelect native name="country" label="Country" placeholder="Country">
+                <option value="" />
+                {countries.map((country) => (
+                  <option key={country.code} value={country.label}>
+                    {country.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="gst" label="Vendor's GST" />
+              <RHFTextField name="pan" label="Vendor's PAN" />
+              <RHFTextField name="tin" label="Vendor's TIN" />
+              <RHFTextField name="cin" label="Vendor's CIN" />
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                {!isEdit ? 'Create Vendor' : 'Save Changes'}
+              </LoadingButton>
+            </Stack>
+          </Card>
+        </Grid>
         <Grid item xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
@@ -233,7 +301,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
             )}
 
             <RHFSwitch
-              name="isVerified"
+              name="status"
               labelPlacement="start"
               label={
                 <>
@@ -247,76 +315,6 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
               }
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             />
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="title" label="Vendor Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
-            </Box>
-          </Card>
-
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="addressLine1" label="Address Line 1*" />
-              <RHFTextField name="addressLine2" label="Address Line 2" />
-              <RHFTextField name="area" label="Area / Location " />
-              <RHFTextField name="landmark" label="Landmark / Nearby" />
-              <RHFTextField name="pincode" label="Pincode*" />
-              <RHFTextField name="city" label="City* " />
-              <RHFTextField name="state" label="State" />
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="gst" label="Vendor's GST" />
-              <RHFTextField name="pan" label="Vendor's PAD" />
-              <RHFTextField name="tin" label="Vendor's TIN" />
-              <RHFTextField name="cin" label="Vendor's CIN" />
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Vendor' : 'Save Changes'}
-              </LoadingButton>
-            </Stack>
           </Card>
         </Grid>
       </Grid>

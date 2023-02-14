@@ -1,21 +1,21 @@
 // next
 import { Container, Typography } from '@mui/material';
- 
 // layouts
+
 import DashboardLayout from '../../layouts/dashboard';
 // components
-
 import { useSettingsContext } from '../../components/settings';
 
 
+// ----------------------------------------------------------------------
 
-VendorDetailPage.getLayout = (page: React.ReactElement) => (
+VendorUpdatePage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
+// ----------------------------------------------------------------------
 
-
-export default function VendorDetailPage() {
+export default function VendorUpdatePage() {
   const { themeStretch } = useSettingsContext();
 
   return (

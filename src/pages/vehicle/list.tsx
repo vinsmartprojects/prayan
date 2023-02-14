@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
 // @types
-import { IVendor, VendorStatus } from '../../@types/vendor';
+import { IVendor } from '../../@types/vendor';
 // _mock_
 
 // layouts
@@ -87,7 +87,7 @@ export default function vendorListPage() {
   const { themeStretch } = useSettingsContext();
 
   const { push } = useRouter();
-  const { getMany, remove: deleteVendor } = useVendor();
+  const { getMany } = useVendor();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -156,21 +156,19 @@ export default function vendorListPage() {
     setFilterRole(event.target.value);
   };
 
-  const handleDeleteRow = async (id: string) => {
-    handleCloseConfirm();
-    const deletedVendor = await deleteVendor(id);
+  const handleDeleteRow = (id: string) => {
+    const deleteRow = tableData.filter((row: any) => row.id !== id);
+    setSelected([]);
+    setTableData(deleteRow);
 
-    await deletedVendor;
-    if (deletedVendor?.data.success) {
-      enqueueSnackbar('Vendor Deleted  Successfully');
-      getVenodrs();
-    } else {
-      enqueueSnackbar(' This Vendor Cant be Deleted');
+    if (page > 0) {
+      if (dataInPage.length < 2) {
+        setPage(page - 1);
+      }
     }
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
-    handleCloseConfirm();
     const deleteRows = tableData.filter((row: any) => !selectedRows.includes(row.id));
     setSelected([]);
     setTableData(deleteRows);
@@ -195,18 +193,20 @@ export default function vendorListPage() {
     setFilterRole('all');
     setFilterStatus('all');
   };
-  let _filterStatus: any[] = ['ALl'];
-  _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
+
   return (
     <>
       <Head>
-        <title>Vendors: List | Minimal UI</title>
+        <title>Vendors: List</title>
       </Head>
-
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vendors"
-          links={[{ name: 'All', href: PATH_VENDOR.root }, { name: 'List' }]}
+          heading="Vehicles"
+          links={[
+            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Vehicles', href: PATH_VENDOR.root },
+            { name: 'List' },
+          ]}
           action={
             <Button
               component={NextLink}
@@ -227,16 +227,16 @@ export default function vendorListPage() {
               bgcolor: 'background.neutral',
             }}
           >
-            {_filterStatus.map((tab: any) => (
+            {STATUS_OPTIONS.map((tab) => (
               <Tab key={tab} label={tab} value={tab} />
             ))}
           </Tabs>
           <Divider />
           <VendorTableToolbar
             isFiltered={isFiltered}
-            searchValue={filterName}
+            filterName={filterName}
             filterRole={filterRole}
-            onSearchFilter={handleFilterName}
+            onFilterName={handleFilterName}
             onFilterRole={handleFilterRole}
             onResetFilter={handleResetFilter}
           />

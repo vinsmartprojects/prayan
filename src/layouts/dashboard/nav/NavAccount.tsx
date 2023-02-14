@@ -23,7 +23,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 export default function NavAccount() {
   const { user } = useAuthContext();
-console.log(user);
+
   return (
     <Link underline="none" color="inherit">
       <StyledRoot>
@@ -33,7 +33,6 @@ console.log(user);
           <Typography variant="subtitle2" noWrap>
             {user?.username}
           </Typography>
-
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
             {user?.role}
           </Typography>

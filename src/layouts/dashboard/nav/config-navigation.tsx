@@ -1,5 +1,5 @@
 // routes
-import { PATH_VENDOR } from '../../../routes/paths';
+import { PATH_VEHICLE, PATH_VENDOR } from '../../../routes/paths';
 // components
 import SvgColor from '../../../components/svg-color';
 
@@ -11,6 +11,8 @@ const icon = (name: string) => (
 
 const ICONS = {
   user: icon('ic_user'),
+  vehicle:icon('ic_vehicle'),
+  
   ecommerce: icon('ic_ecommerce'),
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
@@ -32,6 +34,15 @@ const navConfig = [
         children: [
           { title: 'List', path: PATH_VENDOR.list },
           { title: 'New', path: PATH_VENDOR.new },
+        ],
+      },
+      {
+        title: 'Vehicles',
+        path: PATH_VEHICLE.root,
+        icon: ICONS.vehicle,
+        children: [
+          { title: 'List', path: PATH_VEHICLE.list },
+          { title: 'New', path: PATH_VEHICLE.new },
         ],
       },
     ],
