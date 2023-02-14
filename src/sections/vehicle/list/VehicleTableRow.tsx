@@ -36,7 +36,7 @@ export default function VehicleTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { id, registerNo, registrationType, permitType,vendor,type } = row;
+  const { id, registerNo, registrationType, permitType, vendor, type } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -98,7 +98,7 @@ export default function VehicleTableRow({
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
             <Typography variant="subtitle2" noWrap>
-            {type?.name}  
+              {type?.name}
             </Typography>
           </Stack>
         </TableCell>
@@ -107,8 +107,7 @@ export default function VehicleTableRow({
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
             <Typography variant="subtitle2" noWrap>
-             
-            {vendor?.title}
+              {vendor?.title}
             </Typography>
           </Stack>
         </TableCell>
