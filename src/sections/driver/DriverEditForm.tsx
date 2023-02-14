@@ -21,22 +21,22 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IDriverCreateInput, DriverStatus } from 'src/@types/driver';
+import { IDriver, IDriverCreateInput, IDriverEdit, DriverStatus } from 'src/@types/driver';
 import { useDriver } from 'src/modules/driver/hooks/useDriver';
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<IDriverCreateInput, 'avatarUrl'> {
+interface FormValuesProps extends Omit<IDriverEdit, 'avatarUrl'> {
   avatarUrl: CustomFile | string | null;
 }
 
 type Props = {
   isEdit?: boolean;
-  currentDriver?: IDriverCreateInput;
+  driver?: IDriver;
 };
 
-export default function DriverNewEditForm({ isEdit = false, currentDriver }: Props) {
+export default function DriverEditForm({ isEdit = false, driver }: Props) {
   const { push } = useRouter();
-  const { create } = useDriver();
+  const { update } = useDriver();
   const { enqueueSnackbar } = useSnackbar();
 
   const NewDriverSchema = Yup.object().shape({
@@ -52,29 +52,29 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
 
   const defaultValues = useMemo(
     () => ({
-      title: currentDriver?.title || '',
-      contactPerson: currentDriver?.contactPerson || '',
-      contactMobile: currentDriver?.contactMobile || '',
-      contactEmail: currentDriver?.contactEmail || '',
+      id: driver?.id || undefined,
+      title: driver?.title || '',
+      contactPerson: driver?.contactPerson || '',
+      contactMobile: driver?.contactMobile || '',
+      contactEmail: driver?.contactEmail || '',
+      addressLine1: driver?.address?.addressLine1 || '',
+      addressLine2: driver?.address?.addressLine2 || '',
+      area: driver?.address?.area || '',
+      landmark: driver?.address?.landmark || '',
+      city: driver?.address?.city || '',
+      pincode: driver?.address?.pincode || '0',
+      state: driver?.address?.state || '',
+      status:driver?.status || DriverStatus.PENDING,
 
-      addressLine1: currentDriver?.addressLine1 || '',
-      addressLine2: currentDriver?.addressLine2 || '',
-      area: currentDriver?.area || '',
-      landmark: currentDriver?.landmark || '',
-      city: currentDriver?.city || '',
-      pincode: currentDriver?.pincode || '',
-      state: currentDriver?.state || 'Karnataka',
-      status: currentDriver?.status || DriverStatus.PENDING,
-      country: currentDriver?.country || 'India',
-
-      pan: currentDriver?.pan || '',
-      gst: currentDriver?.gst || '',
-      tin: currentDriver?.tin || '',
-      cin: currentDriver?.cin || '',
-      isVerified: currentDriver?.isVerified || false,
+      country: driver?.country || 'India',
+      pan: driver?.pan || '',
+      gst: driver?.gst || '',
+      tin: driver?.tin || '',
+      cin: driver?.cin || '',
+      isVerified: driver?.isVerified || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentDriver]
+    [driver]
   );
 
   const methods = useForm<FormValuesProps>({
@@ -94,14 +94,14 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentDriver) {
+    if (isEdit && driver) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentDriver]);
+  }, [isEdit, driver]);
 
   const onSubmit = async (data: FormValuesProps) => {
     console.log('driver Data: ' + data);
@@ -129,23 +129,22 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
       pan: data.pan,
     };
 
-    const driver = {
+    const _driver = {
       title: data.title,
-      driverCommuncation: _communication,
-      driverDocument: _documents,
-      driverAddress: _address,
+      address: _address,
+      ..._documents,
     };
     console.log('driver: ', driver);
 
-    const _newItemCreated = await create(driver);
-    await _newItemCreated;
-    console.log('newItemCreated: ', _newItemCreated);
+    const _updatedItem = await update(driver?.id, _driver);
+    await _updatedItem;
+    console.log('newItemCreated: ', _updatedItem);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      push(PATH_DRIVER.list);
+      /*    push(PATH_DRIVER.list); */
     } catch (error) {
       console.error(error);
     }
@@ -169,6 +168,75 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
+        <Grid item xs={12} md={8}>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="title" label="driver Title *" />
+              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
+              <RHFTextField name="contactMobile" label="Phone Number *" />
+              <RHFTextField name="contactEmail" label="Email  Number " />
+            </Box>
+          </Card>
+
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="addressLine1" label="Address Line 1*" />
+              <RHFTextField name="addressLine2" label="Address Line 2" />
+              <RHFTextField name="area" label="Area / Location " />
+              <RHFTextField name="landmark" label="Landmark / Nearby" />
+              <RHFTextField name="pincode" label="Pincode*" />
+              <RHFTextField name="city" label="City* " />
+              <RHFTextField name="state" label="State" />
+              <RHFSelect native name="country" label="Country" placeholder="Country">
+                <option value="" />
+                {countries.map((country) => (
+                  <option key={country.code} value={country.label}>
+                    {country.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="gst" label="driver's GST" />
+              <RHFTextField name="pan" label="driver's PAN" />
+              <RHFTextField name="tin" label="driver's TIN" />
+              <RHFTextField name="cin" label="driver's CIN" />
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                {!isEdit ? 'Create driver' : 'Save Changes'}
+              </LoadingButton>
+            </Stack>
+          </Card>
+        </Grid>
         <Grid item xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
@@ -233,7 +301,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
             )}
 
             <RHFSwitch
-              name="isVerified"
+              name="status"
               labelPlacement="start"
               label={
                 <>
@@ -241,82 +309,12 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
                     Account Status
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Driver's Account Status
+                    driver's Account Status
                   </Typography>
                 </>
               }
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             />
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="title" label="Driver Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
-            </Box>
-          </Card>
-
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="addressLine1" label="Address Line 1*" />
-              <RHFTextField name="addressLine2" label="Address Line 2" />
-              <RHFTextField name="area" label="Area / Location " />
-              <RHFTextField name="landmark" label="Landmark / Nearby" />
-              <RHFTextField name="pincode" label="Pincode*" />
-              <RHFTextField name="city" label="City* " />
-              <RHFTextField name="state" label="State" />
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="gst" label="Driver's GST" />
-              <RHFTextField name="pan" label="Driver's PAD" />
-              <RHFTextField name="tin" label="Driver's TIN" />
-              <RHFTextField name="cin" label="Driver's CIN" />
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Driver' : 'Save Changes'}
-              </LoadingButton>
-            </Stack>
           </Card>
         </Grid>
       </Grid>
