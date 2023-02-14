@@ -19,7 +19,7 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_DRIVER } from '../../routes/paths';
 // @types
 import { IDriver, DriverStatus } from '../../@types/driver';
 // _mock_
@@ -187,7 +187,7 @@ export default function driverListPage() {
   };
 
   const handleEditRow = (id: string) => {
-    push(PATH_VENDOR.edit(paramCase(id.toString())));
+    push(PATH_DRIVER.edit(paramCase(id.toString())));
   };
 
   const handleResetFilter = () => {
@@ -206,11 +206,11 @@ export default function driverListPage() {
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Drivers"
-          links={[{ name: 'All', href: PATH_VENDOR.root }, { name: 'List' }]}
+          links={[{ name: 'All', href: PATH_DRIVER.root }, { name: 'List' }]}
           action={
             <Button
               component={NextLink}
-              href={PATH_VENDOR.new}
+              href={PATH_DRIVER.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
