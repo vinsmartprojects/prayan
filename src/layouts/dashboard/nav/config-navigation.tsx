@@ -1,5 +1,5 @@
 // routes
-import { PATH_VEHICLE,PATH_VEHICLETYPE, PATH_VENDOR, PATH_DRIVER } from '../../../routes/paths';
+import { PATH_VEHICLE,PATH_VEHICLETYPE, PATH_VENDOR,PATH_CLIENT, PATH_DRIVER } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -63,6 +63,15 @@ const navConfig = [
         children: [
           { title: 'List', path: PATH_VEHICLE.list },
           { title: 'New', path: PATH_VEHICLE.new },
+        ],
+      },
+      {
+        title: 'Clients',
+        path: PATH_CLIENT.root,
+        icon: ICONS.vehicle,
+        children: [
+          { title: 'List', path: PATH_CLIENT.list },
+          { title: 'New', path: PATH_CLIENT.new },
         ],
       },
       
