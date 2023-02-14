@@ -179,7 +179,7 @@ export default function DriverEditForm({ isEdit = false, driver }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="driver Title *" />
+              <RHFTextField name="title" label="driver Name *" />
               <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
               <RHFTextField name="contactMobile" label="Phone Number *" />
               <RHFTextField name="contactEmail" label="Email  Number " />
