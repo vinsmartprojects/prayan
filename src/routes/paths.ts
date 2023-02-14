@@ -9,6 +9,7 @@ const ROOTS_VENDOR = '/vendor';
 const ROOTS_VEHICLE = '/vehicle';
 const ROOTS_VEHICLETYPE = '/vehicletype';
 const ROOTS_DRIVER = '/driver';
+const ROOTS_CLIENT = '/client';
 
 // ----------------------------------------------------------------------
 
@@ -56,4 +57,13 @@ export const PATH_VEHICLETYPE = {
   detail: path(ROOTS_VEHICLETYPE, '/detail'),
   udpate: path(ROOTS_VEHICLETYPE, '/update'),
    edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
+};
+export const PATH_CLIENT = {
+  root: ROOTS_CLIENT,
+  index: path(ROOTS_CLIENT, '/'),
+  list: path(ROOTS_CLIENT, '/list'),
+  new: path(ROOTS_CLIENT, '/new'),
+  detail: path(ROOTS_CLIENT, '/detail'),
+  udpate: path(ROOTS_CLIENT, '/update'),
+   edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
 };
