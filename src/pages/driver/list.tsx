@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
 // @types
-import { IVendor, VendorStatus } from '../../@types/vendor';
+import { IDriver, DriverStatus } from '../../@types/driver';
 // _mock_
 
 // layouts
@@ -43,8 +43,8 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { VendorTableToolbar, VendorTableRow } from '../../sections/vendor/list/index';
-import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { DriverTableToolbar, DriverTableRow } from '../../sections/driver/list/index';
+import { useDriver } from 'src/modules/driver/hooks/useDriver';
 import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
@@ -52,7 +52,7 @@ import { useSnackbar } from 'src/components/snackbar';
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-  { id: 'title', label: 'Vendor Name', align: 'left' },
+  { id: 'title', label: 'Driver Name', align: 'left' },
   { id: 'contactPerson', label: 'Contact Person', align: 'left' },
   { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
@@ -60,11 +60,11 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-vendorListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+driverListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function vendorListPage() {
+export default function driverListPage() {
   const {
     dense,
     page,
@@ -87,7 +87,7 @@ export default function vendorListPage() {
   const { themeStretch } = useSettingsContext();
 
   const { push } = useRouter();
-  const { getMany, remove: deleteVendor } = useVendor();
+  const { getMany, remove: deleteDriver } = useDriver();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -102,10 +102,10 @@ export default function vendorListPage() {
     const _result: any = await getMany();
     await _result;
     if (_result?.data) {
-      enqueueSnackbar(reload ? 'Vendors reloaded Successfully' : ' Vendors Loaded successfully!');
+      enqueueSnackbar(reload ? 'Drivers reloaded Successfully' : ' Drivers Loaded successfully!');
       setTableData(_result?.data);
     } else {
-      enqueueSnackbar(' Vendors Failed to Load success!', {
+      enqueueSnackbar(' Drivers Failed to Load success!', {
         variant: 'error',
       });
       setTableData([]);
@@ -158,14 +158,14 @@ export default function vendorListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedVendor = await deleteVendor(id);
+    const deletedDriver = await deleteDriver(id);
 
-    await deletedVendor;
-    if (deletedVendor?.data.success) {
-      enqueueSnackbar('Vendor Deleted  Successfully');
+    await deletedDriver;
+    if (deletedDriver?.data.success) {
+      enqueueSnackbar('Driver Deleted  Successfully');
       getVenodrs();
     } else {
-      enqueueSnackbar(' This Vendor Cant be Deleted');
+      enqueueSnackbar(' This Driver Cant be Deleted');
     }
   };
 
@@ -196,16 +196,16 @@ export default function vendorListPage() {
     setFilterStatus('all');
   };
   let _filterStatus: any[] = ['ALl'];
-  _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
+  _filterStatus = [_filterStatus, ...Object.keys(DriverStatus)];
   return (
     <>
       <Head>
-        <title>Vendors: List | Minimal UI</title>
+        <title>Drivers: List | Minimal UI</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vendors"
+          heading="Drivers"
           links={[{ name: 'All', href: PATH_VENDOR.root }, { name: 'List' }]}
           action={
             <Button
@@ -214,7 +214,7 @@ export default function vendorListPage() {
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Vendor
+              New Driver
             </Button>
           }
         />
@@ -232,7 +232,7 @@ export default function vendorListPage() {
             ))}
           </Tabs>
           <Divider />
-          <VendorTableToolbar
+          <DriverTableToolbar
             isFiltered={isFiltered}
             searchValue={filterName}
             filterRole={filterRole}
@@ -281,7 +281,7 @@ export default function vendorListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <VendorTableRow
+                      <DriverTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -350,7 +350,7 @@ function applyFilter({
   filterStatus,
   filterRole,
 }: {
-  inputData: IVendor[];
+  inputData: IDriver[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
@@ -368,7 +368,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vendor) => vendor.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (driver) => driver.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

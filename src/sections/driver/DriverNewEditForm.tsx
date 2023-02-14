@@ -52,8 +52,8 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
 
   const defaultValues = useMemo(
     () => ({
-      title: currentDriver?.title || '',
-      contactPerson: currentDriver?.contactPerson || '',
+      name: currentDriver?.name || '',
+
       contactMobile: currentDriver?.contactMobile || '',
       contactEmail: currentDriver?.contactEmail || '',
 
@@ -63,14 +63,18 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
       landmark: currentDriver?.landmark || '',
       city: currentDriver?.city || '',
       pincode: currentDriver?.pincode || '',
+      photo: currentDriver?.photo || '',
       state: currentDriver?.state || 'Karnataka',
       status: currentDriver?.status || DriverStatus.PENDING,
       country: currentDriver?.country || 'India',
 
       pan: currentDriver?.pan || '',
-      gst: currentDriver?.gst || '',
-      tin: currentDriver?.tin || '',
-      cin: currentDriver?.cin || '',
+      licenceNo: currentDriver?.licenceNo || '',
+      badgeNo: currentDriver?.badgeNo || '',
+      displayCardNo: currentDriver?.displayCardNo || '',
+      defenceTraining: currentDriver?.defenceTraining || false,
+      policeVerification: currentDriver?.policeVerification || false,
+      medicalCheck: currentDriver?.medicalCheck || false,
       isVerified: currentDriver?.isVerified || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +111,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
     console.log('driver Data: ' + data);
 
     const _communication = {
-      contactPerson: data.contactPerson,
+      name: data.name,
       contactMobile: data.contactMobile,
       contactEmail: data.contactEmail,
     };
@@ -123,14 +127,14 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
     };
 
     const _documents = {
-      gst: data.gst,
-      tin: data.tin,
-      cin: data.cin,
+      licenceNo: data.licenceNo,
+      badgeNo: data.badgeNo,
+      displayCardNo: data.displayCardNo,
       pan: data.pan,
     };
 
     const driver = {
-      title: data.title,
+      name: data.name,
       driverCommuncation: _communication,
       driverDocument: _documents,
       driverAddress: _address,
