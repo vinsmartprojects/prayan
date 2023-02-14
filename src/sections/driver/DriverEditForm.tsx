@@ -144,7 +144,7 @@ export default function DriverEditForm({ isEdit = false, driver }: Props) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      /*    push(PATH_DRIVER.list); */
+          push(PATH_DRIVER.list); 
     } catch (error) {
       console.error(error);
     }

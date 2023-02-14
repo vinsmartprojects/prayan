@@ -21,7 +21,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IVehicletype, IVehicletypeCreateInput, IVehicletypeEdit, VehicletypeStatus } from 'src/@types/vehicletype';
+import { IVehicletype, IVehicletypeEdit } from 'src/@types/vehicletype';
 import { useVehicletype } from 'src/modules/vehicletype/hooks/useVehicletype';
 // ----------------------------------------------------------------------
 
@@ -40,38 +40,17 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVehicletypeSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    contactMobile: Yup.string().required('Mobile No  is required'),
-    contactPerson: Yup.string().required('Phone number is required'),
-    addressLine1: Yup.string().required('Address Line 1 is required'),
-    area: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    pincode: Yup.string().required('Role is required'),
+    name: Yup.string().required('Title is required'),
+    
   });
 
   const defaultValues = useMemo(
     () => ({
       id: vehicletype?.id || undefined,
-      title: vehicletype?.title || '',
-      contactPerson: vehicletype?.contactPerson || '',
-      contactMobile: vehicletype?.contactMobile || '',
-      contactEmail: vehicletype?.contactEmail || '',
-      addressLine1: vehicletype?.address?.addressLine1 || '',
-      addressLine2: vehicletype?.address?.addressLine2 || '',
-      area: vehicletype?.address?.area || '',
-      landmark: vehicletype?.address?.landmark || '',
-      city: vehicletype?.address?.city || '',
-      pincode: vehicletype?.address?.pincode || '0',
-      state: vehicletype?.address?.state || '',
-      status: vehicletype?.status || VehicletypeStatus.PENDING,
-
-      country: vehicletype?.country || 'India',
-      pan: vehicletype?.pan || '',
-      gst: vehicletype?.gst || '',
-      tin: vehicletype?.tin || '',
-      cin: vehicletype?.cin || '',
-      isVerified: vehicletype?.isVerified || false,
+      name: vehicletype?.name || '',
+      features: vehicletype?.features || '',
+     
+      
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vehicletype]
@@ -106,33 +85,10 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
   const onSubmit = async (data: FormValuesProps) => {
     console.log('vehicle type Data: ' + data);
 
-    const _communication = {
-      contactPerson: data.contactPerson,
-      contactMobile: data.contactMobile,
-      contactEmail: data.contactEmail,
-    };
-    const _address = {
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine1,
-      area: data.area,
-      landmark: data.landmark,
-      city: data.city,
-      pincode: data.pincode,
-      state: data.state,
-      country: data.country,
-    };
-
-    const _documents = {
-      gst: data.gst,
-      tin: data.tin,
-      cin: data.cin,
-      pan: data.pan,
-    };
-
-    const _vehicletype = {
-      title: data.title,
-      address: _address,
-      ..._documents,
+       const _vehicletype = {
+      name: data.name,
+      features: data.features,
+      
     };
     console.log('vehicletype: ', vehicletype);
 
@@ -144,7 +100,7 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      /*    push(PATH_VEHICLETYPE.list); */
+         push(PATH_VEHICLETYPE.list); 
     } catch (error) {
       console.error(error);
     }
@@ -179,10 +135,9 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="Vehicletype Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
+              <RHFTextField name="name" label="name *" />
+              <RHFTextField name="features" label="features *" />
+              
             </Box>
           </Card>
 
@@ -196,21 +151,8 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="addressLine1" label="Address Line 1*" />
-              <RHFTextField name="addressLine2" label="Address Line 2" />
-              <RHFTextField name="area" label="Area / Location " />
-              <RHFTextField name="landmark" label="Landmark / Nearby" />
-              <RHFTextField name="pincode" label="Pincode*" />
-              <RHFTextField name="city" label="City* " />
-              <RHFTextField name="state" label="State" />
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
-              </RHFSelect>
+              
+              
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
@@ -241,10 +183,10 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isVerified ? 'success' : 'error'}
+               
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isVerified}
+                
               </Label>
             )}
 
@@ -271,34 +213,7 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
               />
             </Box>
 
-            {isEdit && (
-              <FormControlLabel
-                labelPlacement="start"
-                control={
-                  <Controller
-                    name="status"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        {...field}
-                        onChange={(event) => field.onChange(event.target.checked ? true : false)}
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Is Verified?
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-              />
-            )}
+           
 
             <RHFSwitch
               name="status"

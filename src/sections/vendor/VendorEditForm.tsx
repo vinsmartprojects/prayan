@@ -144,7 +144,7 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      /*    push(PATH_VENDOR.list); */
+          push(PATH_VENDOR.list); 
     } catch (error) {
       console.error(error);
     }
