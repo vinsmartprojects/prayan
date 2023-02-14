@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import DashboardLayout from 'src/layouts/dashboard';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/settings';
-import { PATH_DASHBOARD, PATH_VENDOR } from 'src/routes/paths';
-import VendorEditForm from 'src/sections/vendor/VendorEditForm';
-import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { PATH_DASHBOARD, PATH_VEHICLE } from 'src/routes/paths';
+import VehicleEditForm from 'src/sections/vehicle/VehicleEditForm';
+import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 
 // ----------------------------------------------------------------------
 
@@ -21,26 +21,26 @@ UserEditPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</
 
 export default function UserEditPage() {
   const { themeStretch } = useSettingsContext();
-  const [_vendor, set_vendor] = useState<any>();
-  const { update, get } = useVendor();
+  const [_vehicle, set_vehicle] = useState<any>();
+  const { update, get } = useVehicle();
   const {
     query: { id },
   } = useRouter();
 
   useEffect(() => {
     if (id) {
-      vendorGet(id);
+      vehicleGet(id);
     }
   }, [id]);
 
-  async function vendorGet(id: any) {
+  async function vehicleGet(id: any) {
     await get(id)
       .catch((e: any) => {
         console.log();
       })
       .then((res) => {
         console.log(res);
-        set_vendor(res?.data);
+        set_vehicle(res?.data);
       });
   }
   return (
@@ -51,21 +51,21 @@ export default function UserEditPage() {
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={_vendor?.name}
+          heading={_vehicle?.name}
           links={[
             {
               name: 'Dashboard',
-              href: PATH_VENDOR.root,
+              href: PATH_VEHICLE.root,
             },
             {
               name: 'User',
-              href: PATH_VENDOR.list,
+              href: PATH_VEHICLE.list,
             },
-            { name: _vendor?.name },
+            { name: _vehicle?.name },
           ]}
         />
 
-        <VendorEditForm isEdit vendor={_vendor} />
+        <VehicleEditForm isEdit vehicle={_vehicle} />
       </Container>
     </>
   );

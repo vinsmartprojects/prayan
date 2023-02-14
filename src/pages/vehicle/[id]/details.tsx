@@ -3,11 +3,11 @@ import { Container, Typography } from '@mui/material';
 import { useSettingsContext } from 'src/components/settings';
 import DashboardLayout from 'src/layouts/dashboard';
 
-VendorDetailPage.getLayout = (page: React.ReactElement) => (
+VehicleDetailPage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
-export default function VendorDetailPage() {
+export default function VehicleDetailPage() {
   const { themeStretch } = useSettingsContext();
 
   return (

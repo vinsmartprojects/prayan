@@ -19,9 +19,9 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
+import { PATH_DASHBOARD, PATH_VEHICLE } from '../../routes/paths';
 // @types
-import { IVendor } from '../../@types/vendor';
+import { IVehicle } from '../../@types/vehicle';
 // _mock_
 
 // layouts
@@ -43,8 +43,8 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { VendorTableToolbar, VendorTableRow } from '../../sections/vendor/list/index';
-import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { VehicleTableToolbar, VehicleTableRow } from '../../sections/vehicle/list/index';
+import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
@@ -52,7 +52,7 @@ import { useSnackbar } from 'src/components/snackbar';
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-  { id: 'title', label: 'Vendor Name', align: 'left' },
+  { id: 'title', label: 'Vehicle Name', align: 'left' },
   { id: 'contactPerson', label: 'Contact Person', align: 'left' },
   { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
@@ -60,11 +60,11 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-vendorListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+vehicleListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function vendorListPage() {
+export default function vehicleListPage() {
   const {
     dense,
     page,
@@ -87,7 +87,7 @@ export default function vendorListPage() {
   const { themeStretch } = useSettingsContext();
 
   const { push } = useRouter();
-  const { getMany } = useVendor();
+  const { getMany } = useVehicle();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -102,10 +102,10 @@ export default function vendorListPage() {
     const _result: any = await getMany();
     await _result;
     if (_result?.data) {
-      enqueueSnackbar(reload ? 'Vendors reloaded Successfully' : ' Vendors Loaded successfully!');
+      enqueueSnackbar(reload ? 'Vehicles reloaded Successfully' : ' Vehicles Loaded successfully!');
       setTableData(_result?.data);
     } else {
-      enqueueSnackbar(' Vendors Failed to Load success!', {
+      enqueueSnackbar(' Vehicles Failed to Load success!', {
         variant: 'error',
       });
       setTableData([]);
@@ -185,7 +185,7 @@ export default function vendorListPage() {
   };
 
   const handleEditRow = (id: string) => {
-    push(PATH_VENDOR.edit(paramCase(id.toString())));
+    push(PATH_VEHICLE.edit(paramCase(id.toString())));
   };
 
   const handleResetFilter = () => {
@@ -197,24 +197,24 @@ export default function vendorListPage() {
   return (
     <>
       <Head>
-        <title>Vendors: List</title>
+        <title>Vehicles: List</title>
       </Head>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Vehicles"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Vehicles', href: PATH_VENDOR.root },
+            { name: 'Vehicles', href: PATH_VEHICLE.root },
             { name: 'List' },
           ]}
           action={
             <Button
               component={NextLink}
-              href={PATH_VENDOR.new}
+              href={PATH_VEHICLE.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Vendor
+              New Vehicle
             </Button>
           }
         />
@@ -232,7 +232,7 @@ export default function vendorListPage() {
             ))}
           </Tabs>
           <Divider />
-          <VendorTableToolbar
+          <VehicleTableToolbar
             isFiltered={isFiltered}
             filterName={filterName}
             filterRole={filterRole}
@@ -281,7 +281,7 @@ export default function vendorListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <VendorTableRow
+                      <VehicleTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -350,7 +350,7 @@ function applyFilter({
   filterStatus,
   filterRole,
 }: {
-  inputData: IVendor[];
+  inputData: IVehicle[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
@@ -368,7 +368,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vendor) => vendor.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicle) => vehicle.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

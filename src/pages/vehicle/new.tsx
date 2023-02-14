@@ -7,40 +7,40 @@ import DashboardLayout from '../../layouts/dashboard';
 import { useSettingsContext } from '../../components/settings';
 import { APP_NAME } from 'src/assets/data/common';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
-import { PATH_DASHBOARD, PATH_VENDOR } from 'src/routes/paths';
-import VendorNewEditForm from 'src/sections/vendor/VendorNewEditForm';
+import { PATH_DASHBOARD, PATH_VEHICLE } from 'src/routes/paths';
+import VehicleNewEditForm from 'src/sections/vehicle/VehicleNewEditForm';
 
 // ----------------------------------------------------------------------
 
-VendorNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+VehicleNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function VendorNewPage() {
+export default function VehicleNewPage() {
   const { themeStretch } = useSettingsContext();
 
   return (
     <>
       <Head>
-        <title>Vendor | Create - {APP_NAME}</title>      </Head>
+        <title>Vehicle | Create - {APP_NAME}</title>      </Head>
 
      
         <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create Vendor"
+          heading="Create Vehicle"
           links={[
             {
               name: 'Dashboard',
               href: PATH_DASHBOARD.root,
             },
             {
-              name: 'Vendors',
-              href: PATH_VENDOR.list,
+              name: 'Vehicles',
+              href: PATH_VEHICLE.list,
             },
             { name: 'New ' },
           ]}
         />
-        <VendorNewEditForm />
+        <VehicleNewEditForm />
       </Container>
     </>
   );
