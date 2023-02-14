@@ -36,7 +36,7 @@ export default function VehicletypeTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const {id, title, contactEmail, contactPerson, contactMobile, isVerified } = row;
+  const {id, name, features } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -70,39 +70,12 @@ export default function VehicletypeTableRow({
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
             <Typography variant="subtitle2" noWrap>
-              {title}
+              {name}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell align="left">{contactPerson}</TableCell>
-
-        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {contactMobile}
-        </TableCell>
-
-        <TableCell align="center">
-          <Iconify
-            icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-            sx={{
-              width: 20,
-              height: 20,
-              color: 'success.main',
-              ...(!isVerified && { color: 'warning.main' }),
-            }}
-          />
-        </TableCell>
-
-        {/* <TableCell align="left">
-          <Label
-            variant="soft"
-            color={(isVerified === false && 'error') || 'success'}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {isVerified}
-          </Label>
-        </TableCell> */}
-
+       
         <TableCell align="right">
           <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
             <Iconify icon="eva:more-vertical-fill" />

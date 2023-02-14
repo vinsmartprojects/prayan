@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_DASHBOARD, PATH_VEHICLETYPE } from '../../routes/paths';
 // @types
-import { IVehicletype, VehicletypeStatus } from '../../@types/vehicletype';
+import { IVehicletype } from '../../@types/vehicletype';
 // _mock_
 
 // layouts
@@ -43,24 +43,24 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { VehicletypeTableToolbar, VehicletypeTableRow } from '../../sections/vehicletype/list/index';
+import {
+  VehicletypeTableToolbar,
+  VehicletypeTableRow,
+} from '../../sections/vehicletype/list/index';
 import { useVehicletype } from 'src/modules/vehicletype/hooks/useVehicletype';
 import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
+const STATUS_OPTIONS = ['all'];
 
-const TABLE_HEAD = [
-  { id: 'title', label: 'Vehicle Type Name', align: 'left' },
-  { id: 'contactPerson', label: 'Contact Person', align: 'left' },
-  { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
-];
+const TABLE_HEAD = [{ id: 'name', label: 'Vehicle Type Name', align: 'left' }];
 
 // ----------------------------------------------------------------------
 
-vehicletypeListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+vehicletypeListPage.getLayout = (page: React.ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);
 
 // ----------------------------------------------------------------------
 
@@ -102,7 +102,9 @@ export default function vehicletypeListPage() {
     const _result: any = await getMany();
     await _result;
     if (_result?.data) {
-      enqueueSnackbar(reload ? 'Vehicles type reloaded Successfully' : ' Vehicles type Loaded successfully!');
+      enqueueSnackbar(
+        reload ? 'Vehicles type reloaded Successfully' : ' Vehicles type Loaded successfully!'
+      );
       setTableData(_result?.data);
     } else {
       enqueueSnackbar(' Vehicles type Failed to Load success!', {
@@ -161,7 +163,7 @@ export default function vehicletypeListPage() {
     const deletedVehicletype = await deleteVehicletype(id);
 
     await deletedVehicletype;
-    if (deletedVehicletype?.data.success) {
+    if (deletedVehicletype && deletedVehicletype?.data.success) {
       enqueueSnackbar('Vehicle type Deleted  Successfully');
       getVenodrs();
     } else {
@@ -196,7 +198,7 @@ export default function vehicletypeListPage() {
     setFilterStatus('all');
   };
   let _filterStatus: any[] = ['ALl'];
-  _filterStatus = [_filterStatus, ...Object.keys(VehicletypeStatus)];
+
   return (
     <>
       <Head>
@@ -368,7 +370,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vehicletype) => vehicletype.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicletype) => vehicletype.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
