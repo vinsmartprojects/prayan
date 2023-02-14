@@ -1,74 +1,64 @@
-import { Suspense } from 'react';
+import { Suspense } from "react";
 
 export type IDriverCreateInput = {
-  name: string;
+  title: string;
+  contactPerson: string;
   contactMobile: string;
   contactEmail: string;
   addressLine1: string;
   addressLine2: string;
   area: string;
   landmark: string;
-  photo: string;
+  logo: string;
   city: string;
   pincode: string;
   status: DriverStatus;
   state: string;
   country: string;
+  gst: string;
   pan: string;
-  licenceNo: string;
-  badgeNo: string;
-  displayCardNo: string;
-  defenceTraining: boolean;
-  medicalCheck: boolean;
-  policeVerification: boolean;
+  tin: string;
+  cin: string;
   isVerified: boolean;
 };
 export type IDriverEdit = {
-  id: any;
-  name: string;
+  id:any;
+  title: string;
+  contactPerson: string;
   contactMobile: string;
   contactEmail: string;
   addressLine1: string;
   addressLine2: string;
   area: string;
   landmark: string;
-  photo: string;
+  logo: string;
   city: string;
   pincode: string;
   status: DriverStatus;
   state: string;
   country: string;
+  gst: string;
   pan: string;
-  licenceNo: string;
-  badgeNo: string;
-  displayCardNo: string;
-  defenceTraining: boolean;
-  medicalCheck: boolean;
-  policeVerification: boolean;
+  tin: string;
+  cin: string;
   isVerified: boolean;
 };
 export type IDriver = {
-  id: any;
-  name: string;
+  id:any;
+  title: string;
+  contactPerson: string;
   contactMobile: string;
   contactEmail: string;
-  addressLine1: string;
-  addressLine2: string;
-  area: string;
-  landmark: string;
-  photo: string;
-  city: string;
-  pincode: string;
+  address: Address;
+  logo: string;
   status: DriverStatus;
+  
   state: string;
   country: string;
+  gst: string;
   pan: string;
-  licenceNo: string;
-  badgeNo: string;
-  displayCardNo: string;
-  defenceTraining: boolean;
-  medicalCheck: boolean;
-  policeVerification: boolean;
+  tin: string;
+  cin: string;
   isVerified: boolean;
 };
 
@@ -92,9 +82,12 @@ export type DriverDoc = {
   state: string;
   country: string;
 };
+ 
 
-export enum DriverStatus {
-  ACTIVE = 'active',
-  PENDING = 'pending',
-  SUSPENDED = 'suspended',
+ 
+export enum  DriverStatus {
+  ACTIVE = "active",
+  PENDING="pending",
+  SUSPENDED = "suspended"
+  
 }
