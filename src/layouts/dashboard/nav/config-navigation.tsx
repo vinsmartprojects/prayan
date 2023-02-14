@@ -1,5 +1,7 @@
 // routes
 import { PATH_VENDOR } from '../../../routes/paths';
+import { PATH_DRIVER } from '../../../routes/paths';
+
 // components
 import SvgColor from '../../../components/svg-color';
 
@@ -34,7 +36,17 @@ const navConfig = [
           { title: 'New', path: PATH_VENDOR.new },
         ],
       },
+      {
+        title: 'Drivers',
+        path: PATH_DRIVER.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'List', path: PATH_DRIVER.list },
+          { title: 'New', path: PATH_DRIVER.new },
+        ],
+      },
     ],
+   
   },
 ];
 
