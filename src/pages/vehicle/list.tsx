@@ -368,7 +368,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vehicle) => vehicle.reg.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicle) => vehicle.registerNo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
