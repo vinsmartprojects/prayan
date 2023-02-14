@@ -130,7 +130,7 @@ export default function DriverEditForm({ isEdit = false, driver }: Props) {
     };
 
     const _driver = {
-      title: data.title,
+      name: data.name,
       address: _address,
       ..._documents,
     };

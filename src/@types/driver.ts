@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 export type IDriverCreateInput = {
-  title: string;
+  name: string;
   contactPerson: string;
   contactMobile: string;
   contactEmail: string;
@@ -23,7 +23,7 @@ export type IDriverCreateInput = {
 };
 export type IDriverEdit = {
   id:any;
-  title: string;
+  name: string;
   contactPerson: string;
   contactMobile: string;
   contactEmail: string;
@@ -45,7 +45,7 @@ export type IDriverEdit = {
 };
 export type IDriver = {
   id:any;
-  title: string;
+  name: string;
   contactPerson: string;
   contactMobile: string;
   contactEmail: string;
