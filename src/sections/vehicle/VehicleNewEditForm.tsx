@@ -23,6 +23,8 @@ import FormProvider, {
 } from '../../components/hook-form';
 import { IVehicleCreateInput } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
+import { brands } from 'src/assets/data/carbrand';
+import { registrationTypes } from 'src/assets/data/registrationTypes';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleCreateInput, 'avatarUrl'> {
@@ -40,13 +42,45 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVehicleSchema = Yup.object().shape({
-    name: Yup.string().required('Title is required'),
+    registerNo: Yup.string().required('Register No is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
-      name: currentVehicle?.name || '',
-      features: currentVehicle?.features || '',
+      registerNo: currentVehicle?.registerNo || 'KA01MH2022',
+      registrationType: currentVehicle?.registrationType || 'WHITE',
+      permitType: currentVehicle?.permitType || 'ALL INIDA',
+      permitNo: currentVehicle?.permitNo || '14555',
+      make: currentVehicle?.make || 'HUNDAII',
+      model: currentVehicle?.model || 'i20',
+      year: currentVehicle?.year || '2010',
+      color: currentVehicle?.color || 'Gray',
+      vin: currentVehicle?.vin || '1457888',
+      trNo: currentVehicle?.trNo || '1457888',
+      chassiNo: currentVehicle?.chassiNo || '1457888',
+      engineNo: currentVehicle?.engineNo || '1457888',
+      seatingCapacity: currentVehicle?.seatingCapacity || '4',
+      rcBookDoc: currentVehicle?.rcBookDoc || '1457888',
+      rcNo: currentVehicle?.rcNo || '1457888',
+      rcExpritationDate: currentVehicle?.rcExpritationDate || '12/12/205',
+      insuranceDoc: currentVehicle?.insuranceDoc || '',
+      insuranceNo: currentVehicle?.insuranceNo || '1457888',
+      insurationExpritationDate: currentVehicle?.insurationExpritationDate || '12/12/205',
+      emissionDoc: currentVehicle?.emissionDoc || '12/12/205',
+      emissionNo: currentVehicle?.emissionNo || '12/12/205',
+      emissionExpritationDate: currentVehicle?.emissionExpritationDate || '12/12/205',
+      taxDoc: currentVehicle?.taxDoc || '',
+      taxno: currentVehicle?.taxno || '1457888',
+      vendorId: currentVehicle?.vendorId || '13',
+      vehicleTypeId: currentVehicle?.vehicleTypeId || 2,
+      isAc: currentVehicle?.isAc || false,
+      fuelType: currentVehicle?.fuelType || 'DIESEL',
+
+      taxExpritationDate: currentVehicle?.taxExpritationDate || '',
+      fcExpritationDate: currentVehicle?.fcExpritationDate || '',
+
+      gpsBox: currentVehicle?.gpsBox || false,
+      mobileDevice: currentVehicle?.mobileDevice || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentVehicle]
@@ -79,17 +113,9 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
   }, [isEdit, currentVehicle]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log('Vehicle Data: ' + data);
-
-    const vehicle = {
-      name: data.name,
-      features: data.features,
-    };
-    console.log('vehicle: ', vehicle);
-
-    const _newItemCreated = await create(vehicle);
+    const vehicle = {};
+    const _newItemCreated = await create(data);
     await _newItemCreated;
-    console.log('newItemCreated: ', _newItemCreated);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -104,11 +130,9 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
-
       if (file) {
         setValue('avatarUrl', newFile, { shouldValidate: true });
       }
@@ -118,7 +142,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
+      <Grid container spacing={5}>
         <Grid item xs={12} md={4}>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             <Box sx={{ mb: 5 }}>
@@ -144,10 +168,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               />
             </Box>
           </Card>
-        </Grid>
-
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 2 }}>
+          <Card sx={{ p: 3, m: 1 }}>
             <Box
               rowGap={3}
               columnGap={3}
@@ -157,11 +178,158 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="name" label="Vehicle type  *" />
-              <RHFTextField name="features" label="Features of Type" />
+              <RHFSelect native name="country" label="Fuel Type" placeholder="Fuel Type">
+                <option value="" />
+                {countries.map((country) => (
+                  <option key={country.code} value={country.label}>
+                    {country.label}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="country" label="Permit Type" placeholder="Permit Type">
+                <option value="" />
+                {countries.map((country) => (
+                  <option key={country.code} value={country.label}>
+                    {country.label}
+                  </option>
+                ))}
+              </RHFSelect>
             </Box>
           </Card>
-
+          <Card sx={{ p: 3, m: 1 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFSwitch
+                name="isAc"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      AC
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+              <RHFSwitch
+                name="gpsBox"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      GPS Enbaled
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+              <RHFSwitch
+                name="mobileDevice"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      Mobile Device Tracking
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+            </Box>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box sx={{ p: 0.1, mb: 2 }}>
+              <Typography sx={{}}>Basic Details</Typography>
+            </Box>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="registerNo" label="Registration Number *" />
+              <RHFSelect
+                native
+                name="country"
+                label="Registgration Type"
+                placeholder="Registgration Type"
+              >
+                <option value="" />
+                {registrationTypes.map((country) => (
+                  <option key={country.code} value={country.label}>
+                    {country.label}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="country" label="Maker" placeholder="Brand">
+                <option value="" />
+                {brands.map((brand) => (
+                  <option key={brand.code} value={brand.label}>
+                    {brand.label}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFTextField name="model" label="Model" />
+              <RHFTextField name="year" label="Year" />
+              <RHFTextField name="color" label="Color" />
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box sx={{ p: 0.1, mb: 2 }}>
+              <Typography sx={{}}>Vehicle Detail</Typography>
+            </Box>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="vin" label="Vin Number *" />
+              <RHFTextField name="trNo" label="TR Number" />
+              <RHFTextField name="chassiNo" label="Chassi Number" />
+              <RHFTextField name="engineNo" label="Engine Number" />
+              <RHFTextField name="seatingCapacity" label="Seating Capacity" />
+              <RHFTextField name="fuelType" label="Fuel Type" />
+            </Box>
+          </Card>
+          <Card sx={{ p: 3, m: 2 }}>
+            <Box sx={{ p: 0.1, mb: 2 }}>
+              <Typography sx={{}}>Vehicle Document</Typography>
+            </Box>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFTextField name="rcNo" label="RC Number*" />
+              <RHFTextField name="rcExpritationDate" label="Expiration Date" />
+              <RHFTextField name="insuranceNo" label="Insurance Number" />
+              <RHFTextField name="insurationExpritationDate" label="Insurance Expiration Date" />
+              <RHFTextField name="emissionExpritationDate" label="Emission Expiration Date" />
+              <RHFTextField name="fcExpritationDate" label="FC Expiration Date" />
+              <RHFTextField name="taxExpritationDate" label="Tax Expiration Date" />
+              <RHFTextField name="taxno" label="Tax No" />
+            </Box>
+          </Card>
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
@@ -170,6 +338,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
             </Stack>
           </Card>
         </Grid>
+        <Grid item xs={12} md={4}></Grid>
       </Grid>
     </FormProvider>
   );
