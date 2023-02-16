@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // next
 import { useRouter } from 'next/router';
 // form
@@ -21,11 +21,19 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { FuelType, IVehicleCreateInput, PermitType, RegistrationType } from 'src/@types/vehicle';
+import {
+  FuelType,
+  IVehicle,
+  IVehicleCreateInput,
+  PermitType,
+  RegistrationType,
+} from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { brands } from 'src/assets/data/carbrand';
 import { registrationTypes } from 'src/assets/data/registrationTypes';
 import RHFDatePicker from 'src/components/hook-form/RHFDatePicker';
+import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { useVehicletype } from 'src/modules/vehicletype/hooks/useVehicletype';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleCreateInput, 'avatarUrl'> {
@@ -34,14 +42,17 @@ interface FormValuesProps extends Omit<IVehicleCreateInput, 'avatarUrl'> {
 
 type Props = {
   isEdit?: boolean;
-  currentVehicle?: IVehicleCreateInput;
+  currentVehicle?: IVehicle;
 };
 
 export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: Props) {
   const { push } = useRouter();
   const { create } = useVehicle();
+  const { getMany: getManyVendors } = useVendor();
+  const { getMany: getManyVehicleTypes } = useVehicletype();
   const { enqueueSnackbar } = useSnackbar();
-
+  const [vendors, setvendors] = useState([]);
+  const [vehicleTypes, setVehicleTypes] = useState([]);
   const NewVehicleSchema = Yup.object().shape({
     registerNo: Yup.string().required('Register No is required'),
   });
@@ -72,8 +83,8 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
       emissionExpritationDate: currentVehicle?.emissionExpritationDate || '12/12/2025',
       taxDoc: currentVehicle?.taxDoc || '',
       taxno: currentVehicle?.taxno || '1457888',
-      vendorId: currentVehicle?.vendorId || '13',
-      vehicleTypeId: currentVehicle?.vehicleTypeId || 2,
+      vendor: currentVehicle?.vendor?.id || undefined,
+      vehicleType: currentVehicle?.type?.id || undefined,
       isAc: currentVehicle?.isAc || false,
       fuelType: currentVehicle?.fuelType || FuelType.DIESEL,
 
@@ -86,6 +97,31 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentVehicle]
   );
+
+  async function getVendors() {
+    const _vendors = await getManyVendors();
+
+    await _vendors;
+
+    if (_vendors?.data) {
+      setvendors(_vendors.data);
+    }
+    console.log(_vendors?.data);
+  }
+  async function getVehicleTypes() {
+    const _types = await getManyVehicleTypes();
+
+    await _types;
+
+    if (_types?.data) {
+      setVehicleTypes(_types.data);
+    }
+  }
+
+  useEffect(() => {
+    getVendors();
+    getVehicleTypes();
+  }, []);
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewVehicleSchema),
@@ -169,6 +205,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               />
             </Box>
           </Card>
+
           <Card sx={{ p: 3, m: 1 }}>
             <Box
               rowGap={3}
@@ -179,6 +216,15 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
                 sm: 'repeat(1, 1fr)',
               }}
             >
+              {' '}
+              <RHFSelect native name="type" label="Vehicle Type" placeholder="Vehicle ">
+                <option value="" />
+                {vehicleTypes.map((item: any) => (
+                  <option key={item?.id} value={item?.id}>
+                    {item?.name}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Fuel Type">
                 <option value="" />
                 {Object.keys(FuelType).map((item) => (
@@ -190,6 +236,19 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               <RHFSelect native name="permitType" label="Permit Type" placeholder="Permit Type">
                 <option value="" />
                 {Object.keys(PermitType).map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect
+                native
+                name="registrationType"
+                label="Registgration Type"
+                placeholder="Registgration Type"
+              >
+                <option value="" />
+                {Object.keys(RegistrationType).map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -261,19 +320,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               }}
             >
               <RHFTextField name="registerNo" label="Registration Number *" />
-              <RHFSelect
-                native
-                name="registrationType"
-                label="Registgration Type"
-                placeholder="Registgration Type"
-              >
-                <option value="" />
-                {Object.keys(RegistrationType).map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </RHFSelect>
+
               <RHFSelect native name="country" label="Maker" placeholder="Brand">
                 <option value="" />
                 {brands.map((brand) => (
@@ -300,6 +347,20 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
                 sm: 'repeat(1, 1fr)',
               }}
             >
+              {' '}
+              <RHFSelect
+                native
+                name="vendor"
+                label="Vehicle Belongs (Vendors) "
+                placeholder="Vehicle Belongs (Vendors) "
+              >
+                <option value="" />
+                {vendors.map((item: any) => (
+                  <option key={item?.id} value={item?.id}>
+                    {item?.title}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="vin" label="Vin Number *" />
               <RHFTextField name="trNo" label="TR Number" />
               <RHFTextField name="chassiNo" label="Chassi Number" />
