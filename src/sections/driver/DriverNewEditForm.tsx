@@ -310,7 +310,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
               }}
             >
               <RHFTextField name="gst" label="Driver's GST" />
-              <RHFTextField name="pan" label="Driver's PAD" />
+              <RHFTextField name="pan" label="Driver's PAN" />
               <RHFTextField name="tin" label="Driver's TIN" />
               <RHFTextField name="cin" label="Driver's CIN" />
             </Box>
