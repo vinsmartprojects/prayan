@@ -10,6 +10,7 @@ const ROOTS_VEHICLE = '/vehicle';
 const ROOTS_VEHICLETYPE = '/vehicletype';
 const ROOTS_DRIVER = '/driver';
 const ROOTS_CLIENT = '/client';
+const ROOTS_BOOKING = '/booking';
 
 // ----------------------------------------------------------------------
 
@@ -66,4 +67,13 @@ export const PATH_CLIENT = {
   detail: path(ROOTS_CLIENT, '/detail'),
   udpate: path(ROOTS_CLIENT, '/update'),
    edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
+};
+export const PATH_BOOKING = {
+  root: ROOTS_BOOKING,
+  index: path(ROOTS_BOOKING, '/'),
+  list: path(ROOTS_BOOKING, '/list'),
+  new: path(ROOTS_BOOKING, '/new'),
+  detail: path(ROOTS_BOOKING, '/detail'),
+  udpate: path(ROOTS_BOOKING, '/update'),
+   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };

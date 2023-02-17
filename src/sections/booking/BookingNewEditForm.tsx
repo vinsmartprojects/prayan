@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
-import { PATH_DRIVER } from 'src/routes/paths';
+import { PATH_BOOKING } from 'src/routes/paths';
 import { useSnackbar } from 'notistack';
 import { countries } from 'src/assets/data';
 
@@ -21,28 +21,25 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IDriverCreateInput, DriverStatus } from 'src/@types/driver';
-import { useDriver } from 'src/modules/driver/hooks/useDriver';
+import { IBookingCreateInput, BookingStatus } from 'src/@types/booking';
+import { useBooking } from 'src/modules/booking/hooks/useBooking';
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<IDriverCreateInput, 'avatarUrl'> {
-  displayCardNo: any;
-  badgeNo: any;
-  licenceNo: any;
+interface FormValuesProps extends Omit<IBookingCreateInput, 'avatarUrl'> {
   avatarUrl: CustomFile | string | null;
 }
 
 type Props = {
   isEdit?: boolean;
-  currentDriver?: IDriverCreateInput;
+  currentBooking?: IBookingCreateInput;
 };
 
-export default function DriverNewEditForm({ isEdit = false, currentDriver }: Props) {
+export default function BookingNewEditForm({ isEdit = false, currentBooking }: Props) {
   const { push } = useRouter();
-  const { create } = useDriver();
+  const { create } = useBooking();
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewDriverSchema = Yup.object().shape({
+  const NewBookingSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     contactMobile: Yup.string().required('Mobile No  is required'),
     contactPerson: Yup.string().required('Phone number is required'),
@@ -55,37 +52,33 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
 
   const defaultValues = useMemo(
     () => ({
-      name: currentDriver?.name || '',
+      title: currentBooking?.title || '',
+      contactPerson: currentBooking?.contactPerson || '',
+      contactMobile: currentBooking?.contactMobile || '',
+      contactEmail: currentBooking?.contactEmail || '',
 
-      contactMobile: currentDriver?.contactMobile || '',
-      contactEmail: currentDriver?.contactEmail || '',
+      addressLine1: currentBooking?.addressLine1 || '',
+      addressLine2: currentBooking?.addressLine2 || '',
+      area: currentBooking?.area || '',
+      landmark: currentBooking?.landmark || '',
+      city: currentBooking?.city || '',
+      pincode: currentBooking?.pincode || '',
+      state: currentBooking?.state || 'Karnataka',
+      status: currentBooking?.status || BookingStatus.PENDING,
+      country: currentBooking?.country || 'India',
 
-      addressLine1: currentDriver?.addressLine1 || '',
-      addressLine2: currentDriver?.addressLine2 || '',
-      area: currentDriver?.area || '',
-      landmark: currentDriver?.landmark || '',
-      city: currentDriver?.city || '',
-      pincode: currentDriver?.pincode || '',
-      photo: currentDriver?.photo || '',
-      state: currentDriver?.state || 'Karnataka',
-      status: currentDriver?.status || DriverStatus.PENDING,
-      country: currentDriver?.country || 'India',
-
-      pan: currentDriver?.pan || '',
-      licenceNo: currentDriver?.licenceNo || '',
-      badgeNo: currentDriver?.badgeNo || '',
-      displayCardNo: currentDriver?.displayCardNo || '',
-      defenceTraining: currentDriver?.defenceTraining || false,
-      policeVerification: currentDriver?.policeVerification || false,
-      medicalCheck: currentDriver?.medicalCheck || false,
-      isVerified: currentDriver?.isVerified || false,
+      pan: currentBooking?.pan || '',
+      gst: currentBooking?.gst || '',
+      tin: currentBooking?.tin || '',
+      cin: currentBooking?.cin || '',
+      isVerified: currentBooking?.isVerified || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentDriver]
+    [currentBooking]
   );
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(NewDriverSchema),
+    resolver: yupResolver(NewBookingSchema),
     defaultValues,
   });
 
@@ -101,20 +94,20 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && currentDriver) {
+    if (isEdit && currentBooking) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, currentDriver]);
+  }, [isEdit, currentBooking]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log('driver Data: ' + data);
+    console.log('Booking Data: ' + data);
 
     const _communication = {
-      name: data.name,
+      contactPerson: data.contactPerson,
       contactMobile: data.contactMobile,
       contactEmail: data.contactEmail,
     };
@@ -130,21 +123,21 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
     };
 
     const _documents = {
-      licenceNo: data.licenceNo,
-      badgeNo: data.badgeNo,
-      displayCardNo: data.displayCardNo,
+      gst: data.gst,
+      tin: data.tin,
+      cin: data.cin,
       pan: data.pan,
     };
 
-    const driver = {
-      name: data.name,
-      driverCommuncation: _communication,
-      driverDocument: _documents,
-      driverAddress: _address,
+    const booking = {
+      title: data.title,
+      bookingCommuncation: _communication,
+      bookingDocument: _documents,
+      bookingAddress: _address,
     };
-    console.log('driver: ', driver);
+    console.log('booking: ', booking);
 
-    const _newItemCreated = await create(driver);
+    const _newItemCreated = await create(booking);
     await _newItemCreated;
     console.log('newItemCreated: ', _newItemCreated);
 
@@ -152,7 +145,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      push(PATH_DRIVER.list);
+      push(PATH_BOOKING.list);
     } catch (error) {
       console.error(error);
     }
@@ -248,7 +241,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
                     Account Status
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Driver's Account Status
+                    Booking's Account Status
                   </Typography>
                 </>
               }
@@ -268,7 +261,7 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="Driver Title *" />
+              <RHFTextField name="title" label="booking Title *" />
               <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
               <RHFTextField name="contactMobile" label="Phone Number *" />
               <RHFTextField name="contactEmail" label="Email  Number " />
@@ -312,16 +305,16 @@ export default function DriverNewEditForm({ isEdit = false, currentDriver }: Pro
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="gst" label="Driver's GST" />
-              <RHFTextField name="pan" label="Driver's PAN" />
-              <RHFTextField name="tin" label="Driver's TIN" />
-              <RHFTextField name="cin" label="Driver's CIN" />
+              <RHFTextField name="gst" label="booking's GST" />
+              <RHFTextField name="pan" label="booking's PAD" />
+              <RHFTextField name="tin" label="booking's TIN" />
+              <RHFTextField name="cin" label="booking's CIN" />
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create Driver' : 'Save Changes'}
+                {!isEdit ? 'Create booking' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
