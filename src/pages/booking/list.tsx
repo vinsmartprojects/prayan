@@ -52,10 +52,13 @@ import { useSnackbar } from 'src/components/snackbar';
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-  { id: 'title', label: 'Booking Name', align: 'left' },
-  { id: 'contactPerson', label: 'Contact Person', align: 'left' },
-  { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+
+  { id: 'contactPerson', label: 'Customer', align: 'left' },
+  { id: 'contactMobile', label: 'Mobile', align: 'left' },
+  { id: 'contactMobile', label: 'Pickup Location', align: 'left' },
+  { id: 'contactMobile', label: 'TRIP Start ', align: 'left' },
+  { id: 'contactMobile', label: 'Trip Type', align: 'left' },
+  { id: 'contactMobile', label: ' Status', align: 'left' },
 ];
 
 // ----------------------------------------------------------------------
@@ -64,7 +67,7 @@ BookingListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page
 
 // ----------------------------------------------------------------------
 
-export default function bookingListPage() {
+export default function BookingListPage() {
   const {
     dense,
     page,
@@ -195,7 +198,7 @@ export default function bookingListPage() {
     setFilterRole('all');
     setFilterStatus('all');
   };
-  let _filterStatus: any[] = ['ALl'];
+  let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(BookingStatus)];
   return (
     <>

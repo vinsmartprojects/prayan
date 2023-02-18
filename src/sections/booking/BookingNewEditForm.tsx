@@ -11,7 +11,7 @@ import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@m
 import { PATH_BOOKING } from 'src/routes/paths';
 import { useSnackbar } from 'notistack';
 import { countries } from 'src/assets/data';
-
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import Label from 'src/components/label';
 import { CustomFile } from 'src/components/upload';
 import { fData } from 'src/utils/formatNumber';
@@ -23,6 +23,8 @@ import FormProvider, {
 } from '../../components/hook-form';
 import { IBookingCreateInput, BookingStatus } from 'src/@types/booking';
 import { useBooking } from 'src/modules/booking/hooks/useBooking';
+import { RegistrationType } from 'src/@types/vehicle';
+import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IBookingCreateInput, 'avatarUrl'> {
@@ -135,11 +137,11 @@ export default function BookingNewEditForm({ isEdit = false, currentBooking }: P
       bookingDocument: _documents,
       bookingAddress: _address,
     };
-    console.log('booking: ', booking);
+
 
     const _newItemCreated = await create(booking);
     await _newItemCreated;
-    console.log('newItemCreated: ', _newItemCreated);
+
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -158,7 +160,6 @@ export default function BookingNewEditForm({ isEdit = false, currentBooking }: P
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
-
       if (file) {
         setValue('avatarUrl', newFile, { shouldValidate: true });
       }
@@ -169,157 +170,169 @@ export default function BookingNewEditForm({ isEdit = false, currentBooking }: P
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {isEdit && (
-              <Label
-                color={values.isVerified ? 'success' : 'error'}
-                sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
-              >
-                {values.isVerified}
-              </Label>
-            )}
+        <Grid container spacing={3} sx={{ mx: 0.5 }}>
+          <Grid item xs={6} md={6}  >
+            <Card sx={{ pt: 5, pb: 5, px: 3 }}>
 
-            <Box sx={{ mb: 5 }}>
-              <RHFUploadAvatar
-                name="avatarUrl"
-                maxSize={3145728}
-                onDrop={handleDrop}
-                helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary',
-                    }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-            </Box>
 
-            {isEdit && (
-              <FormControlLabel
+              <RHFSwitch
+                name="isVerified"
                 labelPlacement="start"
-                control={
-                  <Controller
-                    name="status"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        {...field}
-                        onChange={(event) => field.onChange(event.target.checked ? true : false)}
-                      />
-                    )}
-                  />
-                }
                 label={
                   <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Is Verified?
+                    <Typography variant="subtitle2" sx={{ mb: 2 }}>
+                      Register Client?
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
+
                     </Typography>
                   </>
                 }
-                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
               />
-            )}
+              <Box
+                rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+                <RHFTextField name="title" label="Client Name*" />
+                <RHFTextField name="contactMobile" label="Phone Number *" />
+                <RHFTextField name="contactEmail" label="Email  Number " />
+              </Box>
+            </Card>
+          </Grid>
 
-            <RHFSwitch
-              name="isVerified"
-              labelPlacement="start"
-              label={
-                <>
-                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                    Account Status
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Booking's Account Status
-                  </Typography>
-                </>
-              }
-              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-            />
-          </Card>
+          <Grid item xs={6} md={6}>
+            <Card sx={{ p: 3, mx: 2 }}>
+              <Box
+                rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              >
+
+                <RHFSelect native name="type" label="Vehicle Type" placeholder="Vehicle ">
+                  <option value="" />
+                  {Object.keys(RegistrationType).map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+
+                </RHFSelect>
+                <RHFSelect native name="type" label="Renting Type" placeholder="Vehicle ">
+                  <option value="" />
+                  {Object.keys(RegistrationType).map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+
+                </RHFSelect>
+                <RHFTextField name="tin" label="Choose Package" />
+                <RHFTextField name="cin" label="RATE" />
+              </Box>
+            </Card>
+
+          </Grid>
+
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={6}>
+            <Card sx={{ p: 3, m: 2 }}>
+              <Box
+                rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+              > <Box
+
+                display="flex"
+
+              ><Typography sx={{ flexGrow: 1,fontWeight:"bold" }}> Pickup </Typography>
+                  <AddLocationAltIcon  sx={{ my:1 }}/>
+                </Box>
+
+                <RHFTextField name="addressLine1" label="Address Line 1*" />
+                <RHFTextField name="addressLine2" label="Address Line 2" />
+                <RHFTextField name="area" label="Area / Location " />
+                <RHFTextField name="landmark" label="Landmark / Nearby" />
+                <RHFTextField name="pincode" label="Pincode*" />
+                <RHFTextField name="city" label="City* " />
+                <RHFTextField name="state" label="State" />
+                <RHFSelect native name="country" label="Country" placeholder="Country">
+                  <option value="" />
+                  {countries.map((country) => (
+                    <option key={country.code} value={country.label}>
+                      {country.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Box>
+            </Card>
+          </Grid>
+
+          <Grid item xs={6} md={6}>
+            <Card sx={{ p: 3, m: 2 }}>
+             <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            > <Box
+
+              display="flex"
+
+            ><Typography sx={{ flexGrow: 1,fontWeight:"bold" }}> Drop </Typography>
+                <AddLocationAltIcon  sx={{ my:1 }}/>
+              </Box>
+
+
+                <RHFTextField name="addressLine1" label="Address Line 1*" />
+                <RHFTextField name="addressLine2" label="Address Line 2" />
+                <RHFTextField name="area" label="Area / Location " />
+                <RHFTextField name="landmark" label="Landmark / Nearby" />
+                <RHFTextField name="pincode" label="Pincode*" />
+                <RHFTextField name="city" label="City* " />
+                <RHFTextField name="state" label="State" />
+                <RHFSelect native name="country" label="Country" placeholder="Country">
+                  <option value="" />
+                  {countries.map((country) => (
+                    <option key={country.code} value={country.label}>
+                      {country.label}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </Box>
+            </Card>
+
+          </Grid>
+
         </Grid>
 
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="title" label="booking Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
-            </Box>
-          </Card>
-
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="addressLine1" label="Address Line 1*" />
-              <RHFTextField name="addressLine2" label="Address Line 2" />
-              <RHFTextField name="area" label="Area / Location " />
-              <RHFTextField name="landmark" label="Landmark / Nearby" />
-              <RHFTextField name="pincode" label="Pincode*" />
-              <RHFTextField name="city" label="City* " />
-              <RHFTextField name="state" label="State" />
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="gst" label="booking's GST" />
-              <RHFTextField name="pan" label="booking's PAD" />
-              <RHFTextField name="tin" label="booking's TIN" />
-              <RHFTextField name="cin" label="booking's CIN" />
-            </Box>
-          </Card>
+        <Grid item xs={12} md={12}>
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                 {!isEdit ? 'Create booking' : 'Save Changes'}
               </LoadingButton>
             </Stack>
-          </Card>
-        </Grid>
+          </Card></Grid>
       </Grid>
+
     </FormProvider>
   );
 }

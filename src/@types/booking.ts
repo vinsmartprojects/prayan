@@ -22,7 +22,7 @@ export type IBookingCreateInput = {
   isVerified: boolean;
 };
 export type IBookingEdit = {
-  id:any;
+  id: any;
   title: string;
   contactPerson: string;
   contactMobile: string;
@@ -44,7 +44,7 @@ export type IBookingEdit = {
   isVerified: boolean;
 };
 export type IBooking = {
-  id:any;
+  id: any;
   title: string;
   contactPerson: string;
   contactMobile: string;
@@ -52,7 +52,7 @@ export type IBooking = {
   address: Address;
   logo: string;
   status: BookingStatus;
-  
+
   state: string;
   country: string;
   gst: string;
@@ -82,12 +82,12 @@ export type BookingDoc = {
   state: string;
   country: string;
 };
- 
 
- 
-export enum  BookingStatus {
-  ACTIVE = "active",
-  PENDING="pending",
-  SUSPENDED = "suspended"
-  
+
+
+export enum BookingStatus {
+  UNASSIGNED = "UNASSIGNED",
+  SHEDULED = "SHEDULED",
+  CANCELLED = "ENDED"
+
 }

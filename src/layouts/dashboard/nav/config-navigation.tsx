@@ -1,5 +1,5 @@
 // routes
-import { PATH_BOOKING,PATH_VEHICLE,PATH_VEHICLETYPE, PATH_VENDOR,PATH_CLIENT, PATH_DRIVER } from '../../../routes/paths';
+import { PATH_BOOKING, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_CLIENT, PATH_DRIVER } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -29,21 +29,21 @@ const navConfig = [
     subheader: 'Admin Access',
     items: [
       {
-        title: 'Vendors',
-        path: PATH_VENDOR.root,
-        icon: ICONS.user,
+        title: 'Trips',
+        path: PATH_BOOKING.root,
+        icon: ICONS.vehicle,
         children: [
-          { title: 'List', path: PATH_VENDOR.list },
-          { title: 'New', path: PATH_VENDOR.new },
+          { title: 'List', path: PATH_BOOKING.list },
+          { title: 'New', path: PATH_BOOKING.new },
         ],
       },
       {
-        title: 'Vehicle Types',
-        path: PATH_VEHICLETYPE.root,
+        title: 'Bookings',
+        path: PATH_BOOKING.root,
         icon: ICONS.vehicle,
         children: [
-          { title: 'List', path: PATH_VEHICLETYPE.list },
-          { title: 'New', path: PATH_VEHICLETYPE.new },
+          { title: 'List', path: PATH_BOOKING.list },
+          { title: 'New', path: PATH_BOOKING.new },
         ],
       },
       {
@@ -55,7 +55,7 @@ const navConfig = [
           { title: 'New', path: PATH_DRIVER.new },
         ],
       },
-      
+
       {
         title: 'Vehicles',
         path: PATH_VEHICLE.root,
@@ -75,15 +75,28 @@ const navConfig = [
         ],
       },
       {
-        title: 'Bookings',
-        path: PATH_BOOKING.root,
-        icon: ICONS.vehicle,
+
+        title: 'Vendors',
+        path: PATH_VENDOR.root,
+        icon: ICONS.user,
         children: [
-          { title: 'List', path: PATH_BOOKING.list },
-          { title: 'New', path: PATH_BOOKING.new },
+          { title: 'List', path: PATH_VENDOR.list },
+          { title: 'New', path: PATH_VENDOR.new },
         ],
       },
-      
+      {
+        title: 'Vehicle Types',
+        path: PATH_VEHICLETYPE.root,
+        icon: ICONS.vehicle,
+        children: [
+          { title: 'List', path: PATH_VEHICLETYPE.list },
+          { title: 'New', path: PATH_VEHICLETYPE.new },
+        ],
+      },
+
+
+
+
     ],
   },
 ];
