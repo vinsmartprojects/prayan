@@ -12,6 +12,7 @@ const ROOTS_DRIVER = '/driver';
 const ROOTS_CLIENT = '/client';
 const ROOTS_BOOKING = '/booking';
 const ROOTS_PACKAGE = '/package';
+const ROOTS_LOCATION = '/location';
 
 // ----------------------------------------------------------------------
 
@@ -87,4 +88,14 @@ export const PATH_PACKAGE = {
   detail: path(ROOTS_PACKAGE, '/detail'),
   udpate: path(ROOTS_PACKAGE, '/update'),
    edit: (name: string) => path(ROOTS_PACKAGE, `/${name}/edit`),
+};
+
+export const PATH_LOCATION = {
+  root: ROOTS_LOCATION,
+  index: path(ROOTS_LOCATION, '/'),
+  list: path(ROOTS_LOCATION, '/list'),
+  new: path(ROOTS_LOCATION, '/new'),
+  detail: path(ROOTS_LOCATION, '/detail'),
+  udpate: path(ROOTS_LOCATION, '/update'),
+   edit: (name: string) => path(ROOTS_LOCATION, `/${name}/edit`),
 };
