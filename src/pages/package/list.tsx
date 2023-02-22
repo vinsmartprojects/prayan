@@ -163,7 +163,7 @@ export default function packageListPage() {
     await deletedPackage;
     if (deletedPackage?.data.success) {
       enqueueSnackbar('Package Deleted  Successfully');
-      getPackages();
+    /*   getPackages(); */
     } else {
       enqueueSnackbar(' This Package Cant be Deleted');
     }
@@ -368,7 +368,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (package) => package.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (plans: any) => plans.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
