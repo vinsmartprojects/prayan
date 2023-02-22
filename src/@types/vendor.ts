@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense } from 'react';
 
 export type IVendorCreateInput = {
   title: string;
@@ -17,10 +17,15 @@ export type IVendorCreateInput = {
   country: string;
   gst: string;
   pan: string;
-  gestablishmentId: string;
+  estbId: string;
   cin: string;
+  estbtDoc: any;
+  panDoc: any;
+  gstDoc: any;
+  cinDoc: any;
   isVerified: boolean;
-  profileImage: any
+  isActive: boolean;
+  profileImage: any;
 };
 export type IVendorEdit = {
   id: any;
@@ -40,11 +45,17 @@ export type IVendorEdit = {
   country: string;
   gst: string;
   pan: string;
-  gestablishmentId: string;
+  estbId: string;
   cin: string;
+
+  user?: any;
+  profileImage?: any;
+  estbtDoc: any;
+  panDoc: any;
+  gstDoc: any;
+  cinDoc: any;
   isVerified: boolean;
-  user?: any
-  profileImage?: any
+  isActive: boolean;
 };
 export type IVendor = {
   id: any;
@@ -55,15 +66,18 @@ export type IVendor = {
   address: Address;
   profileImage: any;
   status: VendorStatus;
-
+  estbtDoc: any;
+  panDoc: any;
+  gstDoc: any;
+  cinDoc: any;
   state: string;
   country: string;
   gst: string;
   pan: string;
-  gestablishmentId: string;
+  estbId: string;
   cin: string;
   isVerified: boolean;
-  user?: any
+  user?: any;
 };
 
 export type Address = {
@@ -87,11 +101,8 @@ export type VendorDoc = {
   country: string;
 };
 
-
-
 export enum VendorStatus {
-  ACTIVE = "active",
-  PENDING = "pending",
-  SUSPENDED = "suspended"
-
+  ACTIVE = 'active',
+  PENDING = 'pending',
+  SUSPENDED = 'suspended',
 }

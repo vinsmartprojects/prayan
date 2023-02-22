@@ -70,7 +70,7 @@ export default function VendorNewForm({ isEdit = false, currentVendor }: Props) 
 
       pan: currentVendor?.pan || '',
       gst: currentVendor?.gst || '',
-      gestablishmentId: currentVendor?.gestablishmentId || '',
+      estbId: currentVendor?.estbId || '',
       cin: currentVendor?.cin || '',
       isVerified: currentVendor?.isVerified || false,
     }),
@@ -125,7 +125,7 @@ export default function VendorNewForm({ isEdit = false, currentVendor }: Props) 
 
     const _documents = {
       gst: data.gst,
-      gestablishmentId: data.gestablishmentId,
+      estbId: data.estbId,
       cin: data.cin,
       pan: data.pan,
     };

@@ -100,9 +100,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
 
   async function getVendors() {
     const _vendors = await getManyVendors();
-
     await _vendors;
-
     if (_vendors?.data) {
       setvendors(_vendors.data);
     }
@@ -205,7 +203,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               />
             </Box>
           </Card>
-          
+
           <Card sx={{ p: 3, m: 1 }}>
             <Box
               rowGap={3}
@@ -217,7 +215,6 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               }}
             >
               {' '}
-            
               <RHFSelect native name="type" label="Vehicle Type" placeholder="Vehicle ">
                 <option value="" />
                 {vehicleTypes.map((item: any) => (
@@ -347,19 +344,21 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
                 xs: 'repeat(1, 1fr)',
                 sm: 'repeat(1, 1fr)',
               }}
-            >  <RHFSelect
-            native
-            name="vendor"
-            label="Vehicle Belongs (Vendors) "
-            placeholder="Vehicle Belongs (Vendors) "
-          >
-            <option value="" />
-            {vendors.map((item: any) => (
-              <option key={item?.id} value={item?.id}>
-                {item?.title}
-              </option>
-            ))}
-          </RHFSelect>
+            >
+              {' '}
+              <RHFSelect
+                native
+                name="vendor"
+                label="Vehicle Belongs (Vendors) "
+                placeholder="Vehicle Belongs (Vendors) "
+              >
+                <option value="" />
+                {vendors.map((item: any) => (
+                  <option key={item?.id} value={item?.id}>
+                    {item?.title}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="vin" label="Vin Number *" />
               <RHFTextField name="trNo" label="TR Number" />
               <RHFTextField name="chassiNo" label="Chassi Number" />
