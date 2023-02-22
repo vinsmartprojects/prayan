@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // next
 import { useRouter } from 'next/router';
 // form
@@ -23,6 +23,7 @@ import FormProvider, {
 } from '../../components/hook-form';
 import { IVendor, IVendorCreateInput, IVendorEdit, VendorStatus } from 'src/@types/vendor';
 import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { useUploader } from 'src/modules/cdn/useUploader';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVendorEdit, 'avatarUrl'> {
@@ -38,7 +39,9 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
   const { push } = useRouter();
   const { update } = useVendor();
   const { enqueueSnackbar } = useSnackbar();
+  const { uploadFile, cdnPath } = useUploader()
 
+  const [profileImageToBeUpload, setProfileImageToBeUpload] = useState<File>()
   const NewVendorSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     contactMobile: Yup.string().required('Mobile No  is required'),
@@ -64,14 +67,15 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       city: vendor?.address?.city || '',
       pincode: vendor?.address?.pincode || '0',
       state: vendor?.address?.state || '',
-      status:vendor?.status || VendorStatus.PENDING,
-
+      status: vendor?.status || VendorStatus.PENDING,
+      profileImage: { file: cdnPath(vendor?.profileImage), isNew: false } || undefined,
       country: vendor?.country || 'India',
       pan: vendor?.pan || '',
       gst: vendor?.gst || '',
-      tin: vendor?.tin || '',
+      gestablishmentId: vendor?.gestablishmentId || '',
       cin: vendor?.cin || '',
       isVerified: vendor?.isVerified || false,
+      username: vendor?.user?.username || ""
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vendor]
@@ -95,16 +99,27 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
 
   useEffect(() => {
     if (isEdit && vendor) {
+
       reset(defaultValues);
     }
     if (!isEdit) {
+
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, vendor]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log('vendor Data: ' + data);
+
+    if (data?.profileImage?.isNew) {
+      const _fileUploaded: any = await uploadFile(data?.profileImage?.file)
+      await _fileUploaded;
+
+      if (_fileUploaded?.data?.filename) {
+        data.profileImage = _fileUploaded?.data?.filename
+      }
+    }
+
 
     const _communication = {
       contactPerson: data.contactPerson,
@@ -124,34 +139,36 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
 
     const _documents = {
       gst: data.gst,
-      tin: data.tin,
+      gestablishmentId: data.gestablishmentId,
       cin: data.cin,
       pan: data.pan,
     };
 
     const _vendor = {
       title: data.title,
+      profileImage: data?.profileImage,
       address: _address,
       ..._documents,
     };
-    console.log('vendor: ', vendor);
+    console.log("vendor New updates", _vendor)
 
     const _updatedItem = await update(vendor?.id, _vendor);
     await _updatedItem;
-    console.log('newItemCreated: ', _updatedItem);
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-          push(PATH_VENDOR.list); 
+      push(PATH_VENDOR.list);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
+
+
+  const handleProfileImageUpload = useCallback(
+    async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
 
       const newFile = Object.assign(file, {
@@ -159,11 +176,12 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       });
 
       if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
+        setValue('profileImage', { file: newFile, isNew: true }, { shouldValidate: true });
       }
     },
     [setValue]
   );
+
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -223,10 +241,157 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="gst" label="Vendor's GST" />
-              <RHFTextField name="pan" label="Vendor's PAN" />
-              <RHFTextField name="tin" label="Vendor's TIN" />
-              <RHFTextField name="cin" label="Vendor's CIN" />
+              <Box rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}>
+                <RHFTextField name="gst" label="Vendor's GST" />
+                <RHFUploadAvatar
+                  name="gstDoc"
+                  placeholder=" Upload GST Doc"
+                  maxSize={3145728}
+                  onDrop={handleProfileImageUpload}
+                  helperText={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
+                    </Typography>
+                  }
+                />
+              </Box>
+              <Box rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}>
+                <RHFTextField name="pan" label="Vendor's PAN" />
+                <RHFUploadAvatar
+                  name="panDoc"
+                  placeholder=" Upload PAN Doc"
+                  maxSize={3145728}
+                  onDrop={handleProfileImageUpload}
+                  helperText={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
+                    </Typography>
+                  }
+                />
+              </Box>
+              <Box rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}>
+                <RHFTextField name="cin" label="Vendor's CIN" />
+                <RHFUploadAvatar
+                  name="cinDoc"
+                  placeholder=" Upload CIN Doc"
+                  maxSize={3145728}
+                  onDrop={handleProfileImageUpload}
+                  helperText={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
+                    </Typography>
+                  }
+                />
+              </Box>
+              <Box rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}>
+                <RHFTextField name="cin" label="Vendor's CIN" />
+                <RHFUploadAvatar
+                  name="cinDoc"
+                  placeholder=" Upload CIN Doc"
+                  maxSize={3145728}
+                  onDrop={handleProfileImageUpload}
+                  helperText={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
+                    </Typography>
+                  }
+                />
+              </Box>
+              <Box rowGap={3}
+                columnGap={3}
+                display="grid"
+                gridTemplateColumns={{
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}>
+                <RHFTextField name="gestablishmentId" label="Vendor's Establishment  Doc" />
+                <RHFUploadAvatar
+                  name="establishmentDoc"
+                  placeholder=" Upload Establishment Doc"
+                  maxSize={3145728}
+                  onDrop={handleProfileImageUpload}
+                  helperText={
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png, *.gif
+                      <br /> max size of {fData(3145728)}
+                    </Typography>
+                  }
+                />
+              </Box>
+ 
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
@@ -250,9 +415,9 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
 
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
-                name="avatarUrl"
+                name="profileImage"
                 maxSize={3145728}
-                onDrop={handleDrop}
+                onDrop={handleProfileImageUpload}
                 helperText={
                   <Typography
                     variant="caption"
@@ -316,8 +481,25 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             />
           </Card>
+          <Card sx={{ mt: 3, pt: 2, pb: 2, px: 3 }}>
+
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            > <Typography> Vendor Credentials</Typography>
+              <RHFTextField name="username" label=" Username" />
+              <RHFTextField name="username" label="Password" type={"password"} />
+            </Box>
+          </Card>
         </Grid>
       </Grid>
     </FormProvider>
   );
 }
+
+

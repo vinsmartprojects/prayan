@@ -58,7 +58,7 @@ export default function UserEditPage() {
               href: PATH_VENDOR.root,
             },
             {
-              name: 'User',
+              name: 'Vendors',
               href: PATH_VENDOR.list,
             },
             { name: _vendor?.name },

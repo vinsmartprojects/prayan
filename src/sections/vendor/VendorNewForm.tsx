@@ -23,6 +23,7 @@ import FormProvider, {
 } from '../../components/hook-form';
 import { IVendorCreateInput, VendorStatus } from 'src/@types/vendor';
 import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { useUploader } from 'src/modules/cdn/useUploader';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVendorCreateInput, 'avatarUrl'> {
@@ -34,11 +35,11 @@ type Props = {
   currentVendor?: IVendorCreateInput;
 };
 
-export default function VendorNewEditForm({ isEdit = false, currentVendor }: Props) {
+export default function VendorNewForm({ isEdit = false, currentVendor }: Props) {
   const { push } = useRouter();
   const { create } = useVendor();
   const { enqueueSnackbar } = useSnackbar();
-
+  const { uploadFile } = useUploader()
   const NewVendorSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     contactMobile: Yup.string().required('Mobile No  is required'),
@@ -56,7 +57,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
       contactPerson: currentVendor?.contactPerson || '',
       contactMobile: currentVendor?.contactMobile || '',
       contactEmail: currentVendor?.contactEmail || '',
-
+      profileImage: currentVendor?.profileImage || undefined,
       addressLine1: currentVendor?.addressLine1 || '',
       addressLine2: currentVendor?.addressLine2 || '',
       area: currentVendor?.area || '',
@@ -69,7 +70,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
 
       pan: currentVendor?.pan || '',
       gst: currentVendor?.gst || '',
-      tin: currentVendor?.tin || '',
+      gestablishmentId: currentVendor?.gestablishmentId || '',
       cin: currentVendor?.cin || '',
       isVerified: currentVendor?.isVerified || false,
     }),
@@ -104,7 +105,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
   }, [isEdit, currentVendor]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log('vendor Data: ' + data);
+
 
     const _communication = {
       contactPerson: data.contactPerson,
@@ -124,7 +125,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
 
     const _documents = {
       gst: data.gst,
-      tin: data.tin,
+      gestablishmentId: data.gestablishmentId,
       cin: data.cin,
       pan: data.pan,
     };
@@ -135,7 +136,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
       vendorDocument: _documents,
       vendorAddress: _address,
     };
-    console.log('vendor: ', vendor);
+
 
     const _newItemCreated = await create(vendor);
     await _newItemCreated;
@@ -152,15 +153,15 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
   };
 
   const handleDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-
+      const _fileUploaded: any = await uploadFile(file)
+      await _fileUploaded;
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
-
       if (file) {
-        setValue('avatarUrl', newFile, { shouldValidate: true });
+        setValue('profileImage', newFile, { shouldValidate: true });
       }
     },
     [setValue]
@@ -182,7 +183,7 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
 
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
-                name="avatarUrl"
+                name="profileImage"
                 maxSize={3145728}
                 onDrop={handleDrop}
                 helperText={
@@ -231,7 +232,6 @@ export default function VendorNewEditForm({ isEdit = false, currentVendor }: Pro
                 sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
               />
             )}
-
             <RHFSwitch
               name="isVerified"
               labelPlacement="start"

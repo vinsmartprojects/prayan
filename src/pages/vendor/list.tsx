@@ -53,8 +53,10 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
   { id: 'title', label: 'Vendor Name', align: 'left' },
-  { id: 'contactPerson', label: 'Contact Person', align: 'left' },
-  { id: 'contactMobile', label: 'Contact Mobile', align: 'left' },
+  { id: 'address.area', label: 'Area', align: 'left' },
+  { id: 'address.pincode', label: 'Pincode', align: 'left' },
+  { id: 'contactPerson', label: 'Contact Name', align: 'left' },
+  { id: 'contactMobile', label: 'Mobile', align: 'left' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
 ];
 

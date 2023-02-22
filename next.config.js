@@ -4,6 +4,7 @@ module.exports = {
   env: {
     // HOST
     HOST_API_KEY: 'https://p4u-api.vinsmart.in/',
+    HOST_CDN_KEY: 'https://p4u-api.vinsmart.in/cdn',
   },
 
 };

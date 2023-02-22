@@ -28,7 +28,7 @@ export function RHFUploadAvatar({ name, ...other }: Props) {
               'image/*': [],
             }}
             error={!!error}
-            file={field.value}
+            file={field.value?.file}
             {...other}
           />
 

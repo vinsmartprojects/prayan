@@ -8,7 +8,7 @@ import { useSettingsContext } from '../../components/settings';
 import { APP_NAME } from 'src/assets/data/common';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
 import { PATH_DASHBOARD, PATH_VENDOR } from 'src/routes/paths';
-import VendorNewEditForm from 'src/sections/vendor/VendorNewEditForm';
+import VendorNewForm from 'src/sections/vendor/VendorNewForm';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ export default function VendorNewPage() {
             { name: 'New ' },
           ]}
         />
-        <VendorNewEditForm />
+        <VendorNewForm />
       </Container>
     </>
   );

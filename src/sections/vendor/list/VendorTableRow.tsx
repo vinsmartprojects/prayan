@@ -36,7 +36,7 @@ export default function VendorTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const {id, title, contactEmail, contactPerson, contactMobile, isVerified } = row;
+  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, address } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -74,12 +74,14 @@ export default function VendorTableRow({
             </Typography>
           </Stack>
         </TableCell>
-
+        <TableCell align="left">{address?.area}</TableCell>
+        <TableCell align="left">{address?.pincode}</TableCell>
         <TableCell align="left">{contactPerson}</TableCell>
-
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
           {contactMobile}
         </TableCell>
+
+
 
         <TableCell align="center">
           <Iconify

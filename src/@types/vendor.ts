@@ -17,12 +17,13 @@ export type IVendorCreateInput = {
   country: string;
   gst: string;
   pan: string;
-  tin: string;
+  gestablishmentId: string;
   cin: string;
   isVerified: boolean;
+  profileImage: any
 };
 export type IVendorEdit = {
-  id:any;
+  id: any;
   title: string;
   contactPerson: string;
   contactMobile: string;
@@ -39,27 +40,30 @@ export type IVendorEdit = {
   country: string;
   gst: string;
   pan: string;
-  tin: string;
+  gestablishmentId: string;
   cin: string;
   isVerified: boolean;
+  user?: any
+  profileImage?: any
 };
 export type IVendor = {
-  id:any;
+  id: any;
   title: string;
   contactPerson: string;
   contactMobile: string;
   contactEmail: string;
   address: Address;
-  logo: string;
+  profileImage: any;
   status: VendorStatus;
-  
+
   state: string;
   country: string;
   gst: string;
   pan: string;
-  tin: string;
+  gestablishmentId: string;
   cin: string;
   isVerified: boolean;
+  user?: any
 };
 
 export type Address = {
@@ -82,12 +86,12 @@ export type VendorDoc = {
   state: string;
   country: string;
 };
- 
 
- 
-export enum  VendorStatus {
+
+
+export enum VendorStatus {
   ACTIVE = "active",
-  PENDING="pending",
+  PENDING = "pending",
   SUSPENDED = "suspended"
-  
+
 }
