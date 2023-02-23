@@ -36,21 +36,19 @@ type Props = {
 };
 
 export default function VendorEditForm({ isEdit = false, vendor }: Props) {
-  const { push,reload } = useRouter();
+  const { push, reload } = useRouter();
   const { update } = useVendor();
   const { enqueueSnackbar } = useSnackbar();
   const { uploadFile, cdnPath } = useUploader();
 
   const [profileImageToBeUpload, setProfileImageToBeUpload] = useState<File>();
   const NewVendorSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    contactMobile: Yup.string().required('Mobile No  is required'),
-    contactPerson: Yup.string().required('Phone number is required'),
-    addressLine1: Yup.string().required('Address Line 1 is required'),
-    area: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    pincode: Yup.string().required('Role is required'),
+    id: Yup.string().required('Id is required'),
+    title: Yup.string().required('Id is required'),
+    contactPerson: Yup.string().required("Contact Person Name is required"),
+    contactMobile: Yup.string().required("Contact Person Mobile is required")
+    ,
+
   });
 
   const defaultValues = useMemo(
@@ -67,7 +65,6 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       city: vendor?.address?.city || '',
       pincode: vendor?.address?.pincode || '0',
       state: vendor?.address?.state || '',
-      status: vendor?.status || VendorStatus.PENDING,
       profileImage:
         (vendor?.profileImage && { file: cdnPath(vendor?.profileImage), isNew: false }) ||
         undefined,
@@ -83,18 +80,16 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       cin: vendor?.cin || '',
       cinDoc: (vendor?.cinDoc && { file: cdnPath(vendor?.cinDoc), isNew: false }) || undefined,
       isVerified: vendor?.isVerified || false,
-      isActive: vendor?.isVerified || false,
+      isActive: vendor?.isActive || false,
       username: vendor?.user?.username || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vendor]
   );
-
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(NewVendorSchema),
     defaultValues,
   });
-
   const {
     reset,
     watch,
@@ -105,8 +100,10 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
   } = methods;
 
   const values = watch();
-
   useEffect(() => {
+    console.log("vendor ", vendor?.isVerified)
+
+
     if (isEdit && vendor) {
       reset(defaultValues);
     }
@@ -121,7 +118,6 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
     if (data?.profileImage?.isNew === true) {
       const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
       await _fileUploaded;
-
       if (_fileUploaded?.data?.filename) {
         _vendorUpdateParams.profileImage = _fileUploaded?.data?.filename;
       }
@@ -145,15 +141,15 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
       await _fileUploaded;
 
-      if (_fileUploaded?.data?.filename === true) {
+      if (_fileUploaded?.data?.filename) {
         _vendorUpdateParams.estbtDoc = _fileUploaded?.data?.filename;
       }
     }
-    if (data?.cinDoc?.isNew) {
+    if (data?.cinDoc?.isNew === true) {
       const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
       await _fileUploaded;
 
-      if (_fileUploaded?.data?.filename === true) {
+      if (_fileUploaded?.data?.filename) {
         _vendorUpdateParams.cinDoc = _fileUploaded?.data?.filename;
       }
     }
@@ -181,25 +177,32 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
       pan: data.pan,
     };
 
-    const _vendor = {
+    const _vendor: any = {
       title: data.title,
+      isVerified: data?.isVerified,
+      isActive: data?.isActive,
       address: _address,
       ..._vendorUpdateParams,
       ..._ids,
+      ..._communication
     };
-
-    const _updatedItem = await update(vendor?.id, _vendor);
-    await _updatedItem;
-
     try {
+      const _updatedItem = await update(vendor?.id, _vendor);
+      await _updatedItem;
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       reload();
     } catch (error) {
-      console.error(error);
-    }
-  };
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      enqueueSnackbar(error?.message, {
+        variant: "error"
+      });
+
+    };
+  }
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -370,7 +373,7 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
                   }
                 />
               </Box>
-              
+
               <Box
                 rowGap={3}
                 columnGap={3}
@@ -447,37 +450,8 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
               />
             </Box>
 
-            {isEdit && (
-              <FormControlLabel
-                labelPlacement="start"
-                control={
-                  <Controller
-                    name="status"
-                    control={control}
-                    render={({ field }) => (
-                      <Switch
-                        {...field}
-                        onChange={(event) => field.onChange(event.target.checked ? true : false)}
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Is Verified?
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Apply disable account
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-              />
-            )}
-
             <RHFSwitch
-              name="status"
+              name="isVerified"
               labelPlacement="start"
               label={
                 <>
@@ -485,7 +459,23 @@ export default function VendorEditForm({ isEdit = false, vendor }: Props) {
                     Account Status
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Vendor's Account Status
+                    Driver's Account Status
+                  </Typography>
+                </>
+              }
+              sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+            />
+
+            <RHFSwitch
+              name="isActive"
+              labelPlacement="start"
+              label={
+                <>
+                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                    Account Status
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Driver's Account Status
                   </Typography>
                 </>
               }

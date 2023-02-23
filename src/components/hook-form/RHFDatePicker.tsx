@@ -10,7 +10,7 @@ type Props = TextFieldProps & {
   name: string;
 };
 
-export default function RHFDatePicker({ name,label, helperText, ...other }: Props) {
+export default function RHFDatePicker({ name, label, helperText, ...other }: any) {
   const { control } = useFormContext();
 
   return (
@@ -19,11 +19,13 @@ export default function RHFDatePicker({ name,label, helperText, ...other }: Prop
       control={control}
       render={({ field, fieldState: { error } }) => (
         <DatePicker
+
           label={label}
           value={field.value}
           onChange={(newValue) => {
             field.onChange(newValue);
           }}
+          {...other}
           renderInput={(params) => (
             <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
           )}

@@ -27,6 +27,7 @@ type Props = {
   onEditRow: VoidFunction;
   onSelectRow: VoidFunction;
   onDeleteRow: VoidFunction;
+  onDetailRow: VoidFunction;
 };
 
 export default function VendorTableRow({
@@ -35,8 +36,9 @@ export default function VendorTableRow({
   onEditRow,
   onSelectRow,
   onDeleteRow,
+  onDetailRow
 }: Props) {
-  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, address } = row;
+  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, isActive, address } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -65,7 +67,8 @@ export default function VendorTableRow({
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
 
-        <TableCell>
+        <TableCell onClick={onDetailRow} sx={{ cursor: "pointer" }}
+        >
           <Stack direction="row" alignItems="center" spacing={2}>
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
@@ -80,9 +83,6 @@ export default function VendorTableRow({
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
           {contactMobile}
         </TableCell>
-
-
-
         <TableCell align="center">
           <Iconify
             icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
@@ -94,7 +94,17 @@ export default function VendorTableRow({
             }}
           />
         </TableCell>
-
+        <TableCell align="center">
+          <Iconify
+            icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+            sx={{
+              width: 20,
+              height: 20,
+              color: 'success.main',
+              ...(!isVerified && { color: 'warning.main' }),
+            }}
+          />
+        </TableCell>
         {/* <TableCell align="left">
           <Label
             variant="soft"

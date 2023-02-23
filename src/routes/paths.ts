@@ -29,9 +29,10 @@ export const PATH_VENDOR = {
   index: path(ROOTS_VENDOR, '/'),
   list: path(ROOTS_VENDOR, '/list'),
   new: path(ROOTS_VENDOR, '/new'),
-  detail: path(ROOTS_VENDOR, '/detail'),
+
   udpate: path(ROOTS_VENDOR, '/update'),
   edit: (name: string) => path(ROOTS_VENDOR, `/${name}/edit`),
+  detail: (name: string) => path(ROOTS_VENDOR, `/${name}/detail`),
 };
 
 export const PATH_VEHICLE = {
@@ -50,7 +51,7 @@ export const PATH_DRIVER = {
   new: path(ROOTS_DRIVER, '/new'),
   detail: path(ROOTS_DRIVER, '/detail'),
   udpate: path(ROOTS_DRIVER, '/update'),
-   edit: (name: string) => path(ROOTS_DRIVER, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_DRIVER, `/${name}/edit`),
 };
 export const PATH_VEHICLETYPE = {
   root: ROOTS_VEHICLETYPE,
@@ -59,7 +60,7 @@ export const PATH_VEHICLETYPE = {
   new: path(ROOTS_VEHICLETYPE, '/new'),
   detail: path(ROOTS_VEHICLETYPE, '/detail'),
   udpate: path(ROOTS_VEHICLETYPE, '/update'),
-   edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
 };
 export const PATH_CLIENT = {
   root: ROOTS_CLIENT,
@@ -68,7 +69,7 @@ export const PATH_CLIENT = {
   new: path(ROOTS_CLIENT, '/new'),
   detail: path(ROOTS_CLIENT, '/detail'),
   udpate: path(ROOTS_CLIENT, '/update'),
-   edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
 };
 export const PATH_BOOKING = {
   root: ROOTS_BOOKING,
@@ -77,7 +78,7 @@ export const PATH_BOOKING = {
   new: path(ROOTS_BOOKING, '/new'),
   detail: path(ROOTS_BOOKING, '/detail'),
   udpate: path(ROOTS_BOOKING, '/update'),
-   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };
 
 export const PATH_PACKAGE = {
@@ -87,7 +88,7 @@ export const PATH_PACKAGE = {
   new: path(ROOTS_PACKAGE, '/new'),
   detail: path(ROOTS_PACKAGE, '/detail'),
   udpate: path(ROOTS_PACKAGE, '/update'),
-   edit: (name: string) => path(ROOTS_PACKAGE, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_PACKAGE, `/${name}/edit`),
 };
 
 export const PATH_LOCATION = {
@@ -97,5 +98,5 @@ export const PATH_LOCATION = {
   new: path(ROOTS_LOCATION, '/new'),
   detail: path(ROOTS_LOCATION, '/detail'),
   udpate: path(ROOTS_LOCATION, '/update'),
-   edit: (name: string) => path(ROOTS_LOCATION, `/${name}/edit`),
+  edit: (name: string) => path(ROOTS_LOCATION, `/${name}/edit`),
 };

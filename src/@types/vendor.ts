@@ -77,6 +77,7 @@ export type IVendor = {
   estbId: string;
   cin: string;
   isVerified: boolean;
+  isActive: boolean;
   user?: any;
 };
 
@@ -102,7 +103,7 @@ export type VendorDoc = {
 };
 
 export enum VendorStatus {
-  ACTIVE = 'active',
-  PENDING = 'pending',
-  SUSPENDED = 'suspended',
+  ACTIVE = 'isActive',
+  VERFIIED = 'isVerified',
+  SUSPENDED = 'isBanned',
 }

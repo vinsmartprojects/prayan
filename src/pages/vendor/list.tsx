@@ -52,12 +52,15 @@ import { useSnackbar } from 'src/components/snackbar';
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-  { id: 'title', label: 'Vendor Name', align: 'left' },
+
+  { id: 'title', label: 'Vendor', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Contact Name', align: 'left' },
+  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
   { id: 'contactMobile', label: 'Mobile', align: 'left' },
+  { id: 'isActive', label: 'Active', align: 'center' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
+  { id: 'actions', label: '', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
@@ -191,7 +194,9 @@ export default function vendorListPage() {
   const handleEditRow = (id: string) => {
     push(PATH_VENDOR.edit(paramCase(id.toString())));
   };
-
+  const handleDetailRow = (id: string) => {
+    push(PATH_VENDOR.detail(paramCase(id.toString())));
+  };
   const handleResetFilter = () => {
     setFilterName('');
     setFilterRole('all');
@@ -290,6 +295,7 @@ export default function vendorListPage() {
                         onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        onDetailRow={() => handleDetailRow(row.id)}
                       />
                     ))}
 

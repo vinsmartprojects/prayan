@@ -74,7 +74,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
       seatingCapacity: currentVehicle?.seatingCapacity || '4',
       rcBookDoc: currentVehicle?.rcBookDoc || '1457888',
       rcNo: currentVehicle?.rcNo || '1457888',
-      rcExpritationDate: currentVehicle?.rcExpritationDate || '12/12/2025',
+      rcExpritationDate: currentVehicle?.rcExpritationDate || null,
       insuranceDoc: currentVehicle?.insuranceDoc || '',
       insuranceNo: currentVehicle?.insuranceNo || '1457888',
       insurationExpritationDate: currentVehicle?.insurationExpritationDate || '12/12/2025',
@@ -381,7 +381,7 @@ export default function VehicleNewEditForm({ isEdit = false, currentVehicle }: P
               }}
             >
               <RHFTextField name="rcNo" label="RC Number*" />
-              <RHFDatePicker name="rcExpritationDate" label="RC Expiration Date" />
+              <RHFDatePicker name="rcExpritationDate" label="RC Expiration Date" disablePast />
               <RHFTextField name="insuranceNo" label="Insurance Number" />
               <RHFDatePicker name="insurationExpritationDate" label="Insurance Expiration Date" />
               <RHFDatePicker name="rcExpritationDate" label="RC Expiration Date" />
