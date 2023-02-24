@@ -47,7 +47,8 @@ export default function VehicletypeEditForm({ isEdit = false, vehicletype }: Pro
 
   const defaultValues = useMemo(
     () => ({
-      name: '',
+      name: vehicletype?.name||"",
+      features:vehicletype?.features ||"",
       image:
         (vehicletype?.image && { file: cdnPath(vehicletype?.image), isNew: false }) || undefined,
     }),
