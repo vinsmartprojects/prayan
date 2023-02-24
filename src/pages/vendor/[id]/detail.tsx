@@ -60,6 +60,14 @@ export default function VendorDetailPage() {
       ),
     },
     {
+      value: 'locations',
+      label: 'Serving Locations',
+      icon: <Iconify icon="iconoir:stats-report" />,
+      component: (
+        <VendorDrivers id={id} />
+      ),
+    },
+    {
       value: 'reports',
       label: 'Reports',
       icon: <Iconify icon="iconoir:stats-report" />,

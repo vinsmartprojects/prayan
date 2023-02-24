@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
 // @types
-import { IVendor, VendorStatus } from '../../@types/vendor';
+import { IVendor, VendorSearchParams, VendorStatus } from '../../@types/vendor';
 // _mock_
 
 // layouts
@@ -102,7 +102,11 @@ export default function vendorListPage() {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [filterStatus, setFilterStatus] = useState('all');
+
+
   const { enqueueSnackbar } = useSnackbar();
+
+
   async function getVenodrs(reload?: any) {
     const _result: any = await getMany();
     await _result;
@@ -164,14 +168,16 @@ export default function vendorListPage() {
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
     const deletedVendor = await deleteVendor(id);
-
     await deletedVendor;
+
     if (deletedVendor?.data.success) {
       enqueueSnackbar('Vendor Deleted  Successfully');
       getVenodrs();
     } else {
       enqueueSnackbar(' This Vendor Cant be Deleted');
     }
+
+
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -204,10 +210,13 @@ export default function vendorListPage() {
   };
   let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
+
+  let _searchParams: any[] = [];
+  _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
   return (
     <>
       <Head>
-        <title>Vendors: List | Minimal UI</title>
+        <title>Vendors: List  </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -240,6 +249,7 @@ export default function vendorListPage() {
           </Tabs>
           <Divider />
           <VendorTableToolbar
+            optionsRole={_searchParams}
             isFiltered={isFiltered}
             searchValue={filterName}
             filterRole={filterRole}

@@ -9,7 +9,7 @@ type Props = {
   searchValue: string;
   filterRole: string;
   isFiltered: boolean;
-
+  optionsRole: any,
   onResetFilter: VoidFunction;
   onSearchFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onFilterRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +19,7 @@ export default function VendorTableToolbar({
   isFiltered,
   onSearchFilter,
   filterRole,
+  optionsRole,
   searchValue,
   onFilterRole,
   onResetFilter,
@@ -33,6 +34,42 @@ export default function VendorTableToolbar({
       }}
       sx={{ px: 2.5, py: 3 }}
     >
+      <TextField
+        fullWidth
+        select
+        label="Search By"
+        value={filterRole}
+        onChange={onFilterRole}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {optionsRole.map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+
       <TextField
         fullWidth
         value={searchValue}

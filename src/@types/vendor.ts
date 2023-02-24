@@ -107,3 +107,11 @@ export enum VendorStatus {
   VERFIIED = 'isVerified',
   SUSPENDED = 'isBanned',
 }
+
+
+export enum VendorSearchParams {
+  TITLE = 'title',
+  AREA = 'area',
+  PINCODE = 'pincode',
+  CONTACTNO = "contactNo"
+}
