@@ -39,7 +39,7 @@ export const PATH_VEHICLE = {
   index: path(ROOTS_VEHICLE, '/'),
   list: path(ROOTS_VEHICLE, '/list'),
   new: path(ROOTS_VEHICLE, '/new'),
-  detail: path(ROOTS_VEHICLE, '/detail'),
+  detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
   udpate: path(ROOTS_VEHICLE, '/update'),
   edit: (name: string) => path(ROOTS_VEHICLE, `/${name}/edit`),
 };
@@ -48,7 +48,7 @@ export const PATH_DRIVER = {
   index: path(ROOTS_DRIVER, '/'),
   list: path(ROOTS_DRIVER, '/list'),
   new: path(ROOTS_DRIVER, '/new'),
-  detail: path(ROOTS_DRIVER, '/detail'),
+  detail: (name: string) => path(ROOTS_DRIVER, `/${name}/detail`),
   udpate: path(ROOTS_DRIVER, '/update'),
   edit: (name: string) => path(ROOTS_DRIVER, `/${name}/edit`),
 };
@@ -57,7 +57,7 @@ export const PATH_VEHICLETYPE = {
   index: path(ROOTS_VEHICLETYPE, '/'),
   list: path(ROOTS_VEHICLETYPE, '/list'),
   new: path(ROOTS_VEHICLETYPE, '/new'),
-  detail: path(ROOTS_VEHICLETYPE, '/detail'),
+  detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
   udpate: path(ROOTS_VEHICLETYPE, '/update'),
   edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
 };

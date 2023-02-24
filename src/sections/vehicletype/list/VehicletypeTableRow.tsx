@@ -18,6 +18,8 @@ import Label from '../../../components/label';
 import Iconify from '../../../components/iconify';
 import MenuPopover from '../../../components/menu-popover';
 import ConfirmDialog from '../../../components/confirm-dialog';
+import { fDate } from 'src/utils/formatTime';
+import { useUploader } from 'src/modules/cdn/useUploader';
 
 // ----------------------------------------------------------------------
 
@@ -36,10 +38,10 @@ export default function VehicletypeTableRow({
   onEditRow,
   onSelectRow,
   onDeleteRow,
-  onDetailRow
+  onDetailRow,
 }: Props) {
-  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, isActive, address } = row;
-
+  const { id, name, image, createdAt } = row;
+  const { cdnPath } = useUploader();
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [openPopover, setOpenPopover] = useState<HTMLElement | null>(null);
@@ -66,54 +68,24 @@ export default function VehicletypeTableRow({
         <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
-
-        <TableCell onClick={onDetailRow} sx={{ cursor: "pointer" }}
-        >
+        <TableCell padding="checkbox" align="left" onClick={onDetailRow} sx={{ cursor: 'pointer' }}>
+        <Typography variant="subtitle2" noWrap>
+              {id}
+            </Typography>
+        </TableCell>
+       
+        <TableCell   align="left"  onClick={onDetailRow} sx={{ cursor: 'pointer' }}>
+          <Avatar alt={name} src={cdnPath(image)} />
+        </TableCell>
+       
+        <TableCell onClick={onDetailRow} sx={{ cursor: 'pointer' }}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            {/* <Avatar alt={name} src={avatarUrl} /> */}
-
             <Typography variant="subtitle2" noWrap>
-              {title}
+              {name}
             </Typography>
           </Stack>
         </TableCell>
-        <TableCell align="left">{address?.area}</TableCell>
-        <TableCell align="left">{address?.pincode}</TableCell>
-        <TableCell align="left">{contactPerson}</TableCell>
-        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {contactMobile}
-        </TableCell>
-        <TableCell align="center">
-          <Iconify
-            icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-            sx={{
-              width: 20,
-              height: 20,
-              color: 'success.main',
-              ...(!isActive && { color: 'warning.main' }),
-            }}
-          />
-        </TableCell>
-        <TableCell align="center">
-          <Iconify
-            icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-            sx={{
-              width: 20,
-              height: 20,
-              color: 'success.main',
-              ...(!isVerified && { color: 'warning.main' }),
-            }}
-          />
-        </TableCell>
-        {/* <TableCell align="left">
-          <Label
-            variant="soft"
-            color={(isVerified === false && 'error') || 'success'}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {isVerified}
-          </Label>
-        </TableCell> */}
+        <TableCell align="left">{fDate(createdAt)}</TableCell>
 
         <TableCell align="right">
           <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
