@@ -12,22 +12,25 @@ type Props = {
   searchParams: any,
   searchParam: any,
   onResetFilter: VoidFunction;
-  onSearchFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
   onFilterRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchParam: (event: React.ChangeEvent<HTMLInputElement>) => void;
-
+  onSearchValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchSubmit: VoidFunction
 };
 
 export default function VendorTableToolbar({
   isFiltered,
-  onSearchFilter,
+
   searchParam,
   filterRole,
   searchParams,
   searchValue,
   onFilterRole,
   onResetFilter,
-  onSearchParam
+  onSearchValue,
+  onSearchParam,
+  onSearchSubmit
 }: Props) {
   return (
     <Stack
@@ -78,7 +81,7 @@ export default function VendorTableToolbar({
       <TextField
         fullWidth
         value={searchValue}
-        onChange={onSearchFilter}
+        onChange={onSearchValue}
         placeholder="Search..."
         InputProps={{
           startAdornment: (
@@ -88,7 +91,16 @@ export default function VendorTableToolbar({
           ),
         }}
       />
-
+      {isFiltered && (
+        <Button
+          color="success"
+          sx={{ flexShrink: 0 }}
+          onClick={onSearchSubmit}
+          startIcon={<Iconify icon="material-symbols:search-sharp" />}
+        >
+          Search
+        </Button>
+      )}
       {isFiltered && (
         <Button
           color="error"

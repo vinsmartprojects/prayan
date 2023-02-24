@@ -19,7 +19,7 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD, PATH_VENDOR } from '../../routes/paths';
+import { PATH_VENDOR } from '../../routes/paths';
 // @types
 import { IVendor, VendorSearchParams, VendorStatus } from '../../@types/vendor';
 // _mock_
@@ -46,6 +46,7 @@ import {
 import { VendorTableToolbar, VendorTableRow } from '../../sections/vendor/list/index';
 import { useVendor } from 'src/modules/vendor/hooks/useVendor';
 import { useSnackbar } from 'src/components/snackbar';
+import { buildVendorWhereFilter } from 'src/modules/vendor/helpers/buildWhereFilter';
 
 // ----------------------------------------------------------------------
 
@@ -105,7 +106,8 @@ export default function vendorListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(VendorSearchParams.TITLE)
+  const [searchQ, setsearchQ] = useState("")
   const { enqueueSnackbar } = useSnackbar();
 
 
@@ -113,18 +115,25 @@ export default function vendorListPage() {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-      enqueueSnackbar(reload ? 'Vendors reloaded Successfully' : ' Vendors Loaded successfully!');
+
       setTableData(_result?.data);
     } else {
-      enqueueSnackbar(' Vendors Failed to Load success!', {
-        variant: 'error',
-      });
+
       setTableData([]);
     }
   }
   useEffect(() => {
-    getVendors({ filter });
-  }, []);
+    getVendors(filter);
+  }, [
+
+  ]);
+
+
+
+
+
+
+
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(order, orderBy),
@@ -137,7 +146,7 @@ export default function vendorListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== "" || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -157,11 +166,12 @@ export default function vendorListPage() {
     setFilterStatus(newValue);
   };
 
-  const handleFilterName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
 
+
+  const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(0);
+    setsearchQ(event.target.value);
+  };
   const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
     setFilterRole(event.target.value);
@@ -199,6 +209,13 @@ export default function vendorListPage() {
     }
   };
 
+  const onSearchSubmit = () => {
+  const _query = buildVendorWhereFilter(searchParam, searchQ)
+    getVendors({
+      ..._query
+    });
+  };
+
   const handleEditRow = (id: string) => {
     push(PATH_VENDOR.edit(paramCase(id.toString())));
   };
@@ -209,13 +226,15 @@ export default function vendorListPage() {
     setFilterName('');
     setFilterRole('all');
     setFilterStatus('all');
-    setsearchParam("")
+    setsearchParam(undefined)
+    setsearchQ('')
+    getVendors({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleSearchParam", event.target.value)
     setPage(0);
-    setsearchParam(event.target.value);
+
+    setsearchParam(event.target.value)
   };
 
 
@@ -267,12 +286,13 @@ export default function vendorListPage() {
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
-            searchValue={filterName}
+            searchValue={searchQ}
             filterRole={filterRole}
-            onSearchFilter={handleFilterName}
+            onSearchValue={handleSearchValue}
             onFilterRole={handleFilterRole}
             onResetFilter={handleResetFilter}
             onSearchParam={handleSearchParam}
+            onSearchSubmit={onSearchSubmit}
           />
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction

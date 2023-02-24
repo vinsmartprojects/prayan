@@ -56,7 +56,9 @@ export const useVendor = () => {
   async function getManyWithFilters(filter: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/vendors/filter');
+      const response = await axios.post('/vendors/filter', {
+        ...filter
+      });
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };

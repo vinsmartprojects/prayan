@@ -110,8 +110,10 @@ export enum VendorStatus {
 
 
 export enum VendorSearchParams {
-  TITLE = 'title',
-  AREA = 'area',
-  PINCODE = 'pincode',
-  CONTACTNO = "contactNo"
+  TITLE="TITLE" ,
+  AREA="AREA",
+  PINCODE="PINCODE",
+  MOBILE="MOBILE",
+  EMAIL="EMAIL",
+   
 }
