@@ -14,7 +14,6 @@ import VehicletypeDrivers from 'src/sections/vehicletype/details/VehicletypeDriv
 import VehicletypeTrips from 'src/sections/vehicletype/details/VehicletypeTrips';
 import VehicletypeVechicles from 'src/sections/vehicletype/details/VehicletypeVechicles';
 
-
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';
 
 VehicletypeDetailPage.getLayout = (page: React.ReactElement) => (
@@ -28,8 +27,6 @@ export default function VehicletypeDetailPage() {
     query: { id },
   } = useRouter();
 
-
-
   const [currentTab, setCurrentTab] = useState('general');
 
   const TABS = [
@@ -39,85 +36,49 @@ export default function VehicletypeDetailPage() {
       icon: <Iconify icon="ic:round-account-box" />,
       component: <VehicletypeBasicInfo id={id} />,
     },
-    {
-      value: 'trips',
-      label: 'Trips',
-      icon: <Iconify icon="bx:trip" />,
-      component: <VehicletypeTrips id={id} />,
-    },
+
     {
       value: 'vehicles',
       label: 'Vehicles',
       icon: <Iconify icon="ic:baseline-directions-car" />,
       component: <VehicletypeVechicles id={id} />,
     },
-    {
-      value: 'drivers',
-      label: 'Drivers',
-      icon: <Iconify icon="healthicons:truck-driver" />,
-      component: (
-        <VehicletypeDrivers id={id} />
-      ),
-    },
-    {
-      value: 'locations',
-      label: 'Serving Locations',
-      icon: <Iconify icon="iconoir:stats-report" />,
-      component: (
-        <VehicletypeDrivers id={id} />
-      ),
-    },
+
     {
       value: 'reports',
       label: 'Reports',
       icon: <Iconify icon="iconoir:stats-report" />,
-      component: (
-        <VehicletypeDrivers id={id} />
-      ),
+      component: <VehicletypeDrivers id={id} />,
     },
-    {
-      value: 'payments',
-      label: 'Payments',
-      icon: <Iconify icon="mdi:payment-settings" />,
-      component: (
-        <VehicletypeDrivers id={id} />
-      ),
-    },
-
-
   ];
 
-  return (<>
-    <Head>
-      <title> User: Edit user | Minimal UI</title>
-    </Head>
+  return (
+    <>
+      <Head>
+        <title> User: Edit user | Minimal UI</title>
+      </Head>
 
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <CustomBreadcrumbs
+          heading={'Vehicle type ID : ' + id}
+          links={[{ name: 'Vehicle types', href: PATH_VEHICLETYPE.root }, { name: 'Details' }]}
+        />
 
-    <Container maxWidth={themeStretch ? false : 'lg'}>
-      <CustomBreadcrumbs
-        heading={"Vehicle type ID : " + id}
-        links={[
-          { name: 'Vehicle types', href: PATH_VEHICLETYPE.root },
+        <Tabs value={currentTab} onChange={(event: any, newValue: any) => setCurrentTab(newValue)}>
+          {TABS.map((tab) => (
+            <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
+          ))}
+        </Tabs>
 
-          { name: 'Details' },
-        ]}
-      />
-
-      <Tabs value={currentTab} onChange={(event: any, newValue: any) => setCurrentTab(newValue)}>
-        {TABS.map((tab) => (
-          <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
-        ))}
-      </Tabs>
-
-      {TABS.map(
-        (tab) =>
-          tab.value === currentTab && (
-            <Box key={tab.value} sx={{ mt: 5 }}>
-              {tab.component}
-            </Box>
-          )
-      )}
-    </Container></>
-
+        {TABS.map(
+          (tab) =>
+            tab.value === currentTab && (
+              <Box key={tab.value} sx={{ mt: 5 }}>
+                {tab.component}
+              </Box>
+            )
+        )}
+      </Container>
+    </>
   );
 }
