@@ -85,18 +85,18 @@ export default function VendorTableRow({
         </TableCell>
         <TableCell align="center">
           <Iconify
-            icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+            icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
             sx={{
               width: 20,
               height: 20,
               color: 'success.main',
-              ...(!isVerified && { color: 'warning.main' }),
+              ...(!isActive && { color: 'warning.main' }),
             }}
           />
         </TableCell>
         <TableCell align="center">
           <Iconify
-            icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
+            icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
             sx={{
               width: 20,
               height: 20,

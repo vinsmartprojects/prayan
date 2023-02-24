@@ -210,7 +210,7 @@ export default function vendorListPage() {
   };
 
   const onSearchSubmit = () => {
-  const _query = buildVendorWhereFilter(searchParam, searchQ)
+    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
     getVendors({
       ..._query
     });
@@ -224,8 +224,8 @@ export default function vendorListPage() {
   };
   const handleResetFilter = () => {
     setFilterName('');
-    setFilterRole('all');
-    setFilterStatus('all');
+
+    setFilterStatus('ALL');
     setsearchParam(undefined)
     setsearchQ('')
     getVendors({});
@@ -233,7 +233,6 @@ export default function vendorListPage() {
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-
     setsearchParam(event.target.value)
   };
 
@@ -246,6 +245,12 @@ export default function vendorListPage() {
   _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
 
 
+  useEffect(() => {
+    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
+    getVendors({
+      ..._query
+    });
+  }, [filterStatus])
 
   return (
     <>
