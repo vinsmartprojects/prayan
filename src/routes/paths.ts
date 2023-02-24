@@ -13,7 +13,7 @@ const ROOTS_CLIENT = '/client';
 const ROOTS_BOOKING = '/booking';
 const ROOTS_PACKAGE = '/package';
 const ROOTS_LOCATION = '/location';
-
+const ROOT_TRIPS="/trips"
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
@@ -29,7 +29,6 @@ export const PATH_VENDOR = {
   index: path(ROOTS_VENDOR, '/'),
   list: path(ROOTS_VENDOR, '/list'),
   new: path(ROOTS_VENDOR, '/new'),
-
   udpate: path(ROOTS_VENDOR, '/update'),
   edit: (name: string) => path(ROOTS_VENDOR, `/${name}/edit`),
   detail: (name: string) => path(ROOTS_VENDOR, `/${name}/detail`),
@@ -80,6 +79,17 @@ export const PATH_BOOKING = {
   udpate: path(ROOTS_BOOKING, '/update'),
   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };
+
+export const PATH_TRIPS= {
+  root: ROOT_TRIPS,
+  index: path(ROOT_TRIPS, '/'),
+  list: path(ROOT_TRIPS, '/list'),
+  new: path(ROOT_TRIPS, '/new'),
+  detail: path(ROOT_TRIPS, '/detail'),
+  udpate: path(ROOT_TRIPS, '/update'),
+  edit: (name: string) => path(ROOT_TRIPS, `/${name}/edit`),
+};
+
 
 export const PATH_PACKAGE = {
   root: ROOTS_PACKAGE,

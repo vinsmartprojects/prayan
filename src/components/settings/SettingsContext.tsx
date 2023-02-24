@@ -19,26 +19,26 @@ import {
 const initialState: SettingsContextProps = {
   ...defaultSettings,
   // Mode
-  onToggleMode: () => {},
-  onChangeMode: () => {},
+  onToggleMode: () => { },
+  onChangeMode: () => { },
   // Direction
-  onToggleDirection: () => {},
-  onChangeDirection: () => {},
-  onChangeDirectionByLang: () => {},
+  onToggleDirection: () => { },
+  onChangeDirection: () => { },
+  onChangeDirectionByLang: () => { },
   // Layout
-  onToggleLayout: () => {},
-  onChangeLayout: () => {},
+  onToggleLayout: () => { },
+  onChangeLayout: () => { },
   // Contrast
-  onToggleContrast: () => {},
-  onChangeContrast: () => {},
+  onToggleContrast: () => { },
+  onChangeContrast: () => { },
   // Color
-  onChangeColorPresets: () => {},
+  onChangeColorPresets: () => { },
   presetsColor: defaultPreset,
   presetsOption: [],
   // Stretch
-  onToggleStretch: () => {},
+  onToggleStretch: () => { },
   // Reset
-  onResetSetting: () => {},
+  onResetSetting: () => { },
 };
 
 // ----------------------------------------------------------------------
@@ -46,9 +46,10 @@ const initialState: SettingsContextProps = {
 export const SettingsContext = createContext(initialState);
 
 export const useSettingsContext = () => {
+ 
   const context = useContext(SettingsContext);
 
-  if (!context) throw new Error('useSettingsContext must be use inside SettingsProvider');
+ if (!context) throw new Error('useSettingsContext must be use inside SettingsProvider');
 
   return context;
 };

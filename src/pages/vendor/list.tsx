@@ -202,7 +202,7 @@ export default function vendorListPage() {
     setFilterRole('all');
     setFilterStatus('all');
   };
-  let _filterStatus: any[] = ['ALl'];
+  let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
   return (
     <>

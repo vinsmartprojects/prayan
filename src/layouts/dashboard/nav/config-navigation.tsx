@@ -1,8 +1,9 @@
 // routes
-import { PATH_BOOKING, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PACKAGE, PATH_CLIENT, PATH_DRIVER } from '../../../routes/paths';
+import { PATH_BOOKING, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PACKAGE, PATH_CLIENT, PATH_DRIVER, PATH_TRIPS } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
+import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -12,6 +13,7 @@ const icon = (name: string) => (
 
 const ICONS = {
   user: icon('ic_user'),
+
   vehicle: icon('ic_vehicle'),
 
   ecommerce: icon('ic_ecommerce'),
@@ -30,11 +32,11 @@ const navConfig = [
     items: [
       {
         title: 'Trips',
-        path: PATH_BOOKING.root,
-        icon: ICONS.vehicle,
+        path: PATH_TRIPS.root,
+        icon: <Iconify icon="bx:trip" />,
         children: [
-          { title: 'List', path: PATH_BOOKING.list },
-          { title: 'New', path: PATH_BOOKING.new },
+          { title: 'List', path: PATH_TRIPS.list },
+          { title: 'New', path: PATH_TRIPS.new },
         ],
       },
       {
@@ -49,7 +51,7 @@ const navConfig = [
       {
         title: 'Drivers',
         path: PATH_DRIVER.root,
-        icon: ICONS.user,
+        icon:  <Iconify icon="healthicons:truck-driver" />,
         children: [
           { title: 'List', path: PATH_DRIVER.list },
           { title: 'New', path: PATH_DRIVER.new },
@@ -59,7 +61,7 @@ const navConfig = [
       {
         title: 'Vehicles',
         path: PATH_VEHICLE.root,
-        icon: ICONS.vehicle,
+        icon: <Iconify icon="ic:baseline-directions-car" />,
         children: [
           { title: 'List', path: PATH_VEHICLE.list },
           { title: 'New', path: PATH_VEHICLE.new },
@@ -68,17 +70,17 @@ const navConfig = [
       {
         title: 'Clients',
         path: PATH_CLIENT.root,
-        icon: ICONS.vehicle,
+        icon: <Iconify icon="clarity:building-outline-alerted" />,
         children: [
           { title: 'List', path: PATH_CLIENT.list },
           { title: 'New', path: PATH_CLIENT.new },
         ],
       },
       {
-
+        
         title: 'Vendors',
         path: PATH_VENDOR.root,
-        icon: ICONS.user,
+        icon: <Iconify icon="carbon:partnership" />,
         children: [
           { title: 'List', path: PATH_VENDOR.list },
           { title: 'New', path: PATH_VENDOR.new },
@@ -96,7 +98,7 @@ const navConfig = [
       {
         title: 'Packages',
         path: PATH_PACKAGE.root,
-        icon: ICONS.vehicle,
+        icon: <Iconify icon="ic:twotone-local-offer" />,
         children: [
           { title: 'List', path: PATH_PACKAGE.list },
           { title: 'New', path: PATH_PACKAGE.new },
@@ -105,7 +107,7 @@ const navConfig = [
       {
         title: 'Location',
         path: PATH_LOCATION.root,
-        icon: ICONS.vehicle,
+        icon: <Iconify icon="majesticons:map-marker-area" />,
         children: [
           { title: 'List', path: PATH_LOCATION.list },
           { title: 'New', path: PATH_LOCATION.new },
