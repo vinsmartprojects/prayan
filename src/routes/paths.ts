@@ -57,7 +57,7 @@ export const PATH_VEHICLETYPE = {
   index: path(ROOTS_VEHICLETYPE, '/'),
   list: path(ROOTS_VEHICLETYPE, '/list'),
   new: path(ROOTS_VEHICLETYPE, '/new'),
-  detail: path(ROOTS_VEHICLETYPE, '/detail'),
+  detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
   udpate: path(ROOTS_VEHICLETYPE, '/update'),
   edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
 };

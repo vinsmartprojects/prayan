@@ -12,7 +12,9 @@ import VehicletypeNewForm from 'src/sections/vehicletype/VehicletypeNewForm';
 
 // ----------------------------------------------------------------------
 
-VehicletypeNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+VehicletypeNewPage.getLayout = (page: React.ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);
 
 // ----------------------------------------------------------------------
 
@@ -22,19 +24,15 @@ export default function VehicletypeNewPage() {
   return (
     <>
       <Head>
-        <title>Vehicle type | Create - {APP_NAME}</title>      </Head>
+        <title>Vehicle type | Create - {APP_NAME}</title>{' '}
+      </Head>
 
-     
-        <Container maxWidth={themeStretch ? false : 'lg'}>
+      <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create Vehicle type"
+          heading="Add Vehicle Segment"
           links={[
             {
-              name: 'Dashboard',
-              href: PATH_DASHBOARD.root,
-            },
-            {
-              name: 'Vehicle types',
+              name: 'Vehicle Types',
               href: PATH_VEHICLETYPE.list,
             },
             { name: 'New ' },

@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_VEHICLETYPE } from '../../routes/paths';
 // @types
-import { IVehicletype, VehicletypeSearchParams, VehicletypeStatus } from '../../@types/vehicletype';
+import { IVehicletype, VehicletypeSearchParams } from '../../@types/vehicletype';
 // _mock_
 
 // layouts
@@ -43,7 +43,10 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { VehicletypeTableToolbar, VehicletypeTableRow } from '../../sections/vehicletype/list/index';
+import {
+  VehicletypeTableToolbar,
+  VehicletypeTableRow,
+} from '../../sections/vehicletype/list/index';
 import { useVehicletype } from 'src/modules/vehicletype/hooks/useVehicletype';
 import { useSnackbar } from 'src/components/snackbar';
 import { buildVehicletypeWhereFilter } from 'src/modules/vehicletype/helpers/buildWhereFilter';
@@ -53,20 +56,18 @@ import { buildVehicletypeWhereFilter } from 'src/modules/vehicletype/helpers/bui
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-
-  { id: 'title', label: 'Vehicletype', align: 'left' },
-  { id: 'address.area', label: 'Area', align: 'left' },
-  { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
-  { id: 'contactMobile', label: 'Mobile', align: 'left' },
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+  { id: 'image', label: '', align: 'left' },
+  { id: 'id', label: 'id', align: 'left' },
+  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'createdAt', label: 'Created At', align: 'left' },
   { id: 'actions', label: '', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
 
-vehicletypeListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+vehicletypeListPage.getLayout = (page: React.ReactElement) => (
+  <DashboardLayout>{page}</DashboardLayout>
+);
 
 // ----------------------------------------------------------------------
 
@@ -92,8 +93,7 @@ export default function vehicletypeListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deleteVehicletype } = useVehicletype();
   const [tableData, setTableData] = useState([]);
@@ -106,33 +106,22 @@ export default function vehicletypeListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(VehicletypeSearchParams.TITLE)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(VehicletypeSearchParams.NAME);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getVehicletypes(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getVehicletypes(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -146,7 +135,11 @@ export default function vehicletypeListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -165,8 +158,6 @@ export default function vehicletypeListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -188,8 +179,6 @@ export default function vehicletypeListPage() {
     } else {
       enqueueSnackbar(' This Vehicle type Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -210,9 +199,9 @@ export default function vehicletypeListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVehicletypeWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVehicletypeWhereFilter(searchParam, searchQ, filterStatus);
     getVehicletypes({
-      ..._query
+      ..._query,
     });
   };
 
@@ -226,36 +215,30 @@ export default function vehicletypeListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getVehicletypes({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
-
-
-  let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(VehicletypeStatus)];
-
 
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(VehicletypeSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildVehicletypeWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVehicletypeWhereFilter(searchParam, searchQ, filterStatus);
     getVehicletypes({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Vehicle types: List  </title>
+        <title>Vehicle types: List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -274,19 +257,6 @@ export default function vehicletypeListPage() {
           }
         />
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: 'background.neutral',
-            }}
-          >
-            {_filterStatus.map((tab: any) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-          <Divider />
           <VehicletypeTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
@@ -428,7 +398,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vehicletype) => vehicletype.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicletype) => vehicletype.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

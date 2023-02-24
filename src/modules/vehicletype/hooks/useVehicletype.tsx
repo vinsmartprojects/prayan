@@ -4,7 +4,7 @@ export const useVehicletype = () => {
   async function create(params: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/vehicletypes', {
+      const response = await axios.post('/vehicles-type', {
         ...params,
       });
       await response;
@@ -22,7 +22,7 @@ export const useVehicletype = () => {
   async function update(id: any, data: any) {
     let result: any = null;
     try {
-      const response = await axios.patch('/vehicletypes/' + id, {
+      const response = await axios.patch('/vehicles-type/' + id, {
         ...data,
       });
       await response;
@@ -56,8 +56,8 @@ export const useVehicletype = () => {
   async function getManyWithFilters(filter: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/vehicletypes/filter', {
-        ...filter
+      const response = await axios.post('/vehicles-type/filter', {
+        ...filter,
       });
       await response;
       if (response?.data?.data) {
@@ -74,7 +74,7 @@ export const useVehicletype = () => {
   async function search(params: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/vehicletypes/search', {
+      const response = await axios.post('/vehicles-type/search', {
         ...params,
       });
       await response;
@@ -92,7 +92,7 @@ export const useVehicletype = () => {
   async function get(id: any) {
     let result: any = null;
     try {
-      const response = await axios.get('/vehicletypes/' + id);
+      const response = await axios.get('/vehicles-type/' + id);
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };
@@ -107,7 +107,7 @@ export const useVehicletype = () => {
   async function remove(id: any) {
     let result: any = null;
     try {
-      const response = await axios.delete('/vehicletypes/' + id, {});
+      const response = await axios.delete('/vehicles-type/' + id, {});
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };
@@ -123,7 +123,7 @@ export const useVehicletype = () => {
   async function deleteMany(ids: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/vehicletypes/', {
+      const response = await axios.post('/vehicles-type/', {
         data: { ids: ids },
       });
       await response;
