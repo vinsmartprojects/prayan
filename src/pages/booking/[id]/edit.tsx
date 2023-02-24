@@ -55,7 +55,7 @@ export default function UserEditPage() {
           links={[
             {
               name: 'Dashboard',
-              href: PATH_BOOKINGroot,
+              href: PATH_BOOKING.root,
             },
             {
               name: 'User',
