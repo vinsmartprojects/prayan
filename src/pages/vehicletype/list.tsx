@@ -238,12 +238,12 @@ export default function vehicletypeListPage() {
   return (
     <>
       <Head>
-        <title>Vehicle types: List </title>
+        <title>Vehicle Segment: List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vehicle types"
+          heading="Vehicle Segment"
           links={[{ name: 'All', href: PATH_VEHICLETYPE.root }, { name: 'List' }]}
           action={
             <Button
