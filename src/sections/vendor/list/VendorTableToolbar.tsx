@@ -9,20 +9,25 @@ type Props = {
   searchValue: string;
   filterRole: string;
   isFiltered: boolean;
-  optionsRole: any,
+  searchParams: any,
+  searchParam: any,
   onResetFilter: VoidFunction;
   onSearchFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onFilterRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchParam: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
 };
 
 export default function VendorTableToolbar({
   isFiltered,
   onSearchFilter,
+  searchParam,
   filterRole,
-  optionsRole,
+  searchParams,
   searchValue,
   onFilterRole,
   onResetFilter,
+  onSearchParam
 }: Props) {
   return (
     <Stack
@@ -38,8 +43,8 @@ export default function VendorTableToolbar({
         fullWidth
         select
         label="Search By"
-        value={filterRole}
-        onChange={onFilterRole}
+        value={searchParam}
+        onChange={onSearchParam}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -54,7 +59,7 @@ export default function VendorTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {optionsRole.map((option: any) => (
+        {searchParams.map((option: any) => (
           <MenuItem
             key={option}
             value={option}

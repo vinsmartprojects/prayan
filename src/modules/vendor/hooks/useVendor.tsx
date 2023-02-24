@@ -53,6 +53,22 @@ export const useVendor = () => {
     return { ...result };
   }
 
+  async function getManyWithFilters(filter: any) {
+    let result: any = null;
+    try {
+      const response = await axios.post('/vendors/filter');
+      await response;
+      if (response?.data?.data) {
+        result = { data: response?.data?.data };
+      } else {
+        result = { error: response?.data?.error };
+      }
+    } catch (error: any) {
+      result = { error: error };
+    }
+    return { ...result };
+  }
+
   async function search(params: any) {
     let result: any = null;
     try {
@@ -126,7 +142,7 @@ export const useVendor = () => {
     getMany,
     remove,
     deleteMany,
-
+    getManyWithFilters,
     search,
   };
 };

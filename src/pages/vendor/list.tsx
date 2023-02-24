@@ -91,8 +91,10 @@ export default function vendorListPage() {
 
   const { themeStretch } = useSettingsContext();
 
+
+  const [filter, setFilter] = useState({})
   const { push } = useRouter();
-  const { getMany, remove: deleteVendor } = useVendor();
+  const { getManyWithFilters, remove: deleteVendor } = useVendor();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -103,12 +105,12 @@ export default function vendorListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-
+  const [searchParam, setsearchParam] = useState("")
   const { enqueueSnackbar } = useSnackbar();
 
 
-  async function getVenodrs(reload?: any) {
-    const _result: any = await getMany();
+  async function getVendors(filter: any, reload?: any) {
+    const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
       enqueueSnackbar(reload ? 'Vendors reloaded Successfully' : ' Vendors Loaded successfully!');
@@ -121,7 +123,7 @@ export default function vendorListPage() {
     }
   }
   useEffect(() => {
-    getVenodrs();
+    getVendors({ filter });
   }, []);
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -135,7 +137,7 @@ export default function vendorListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered = searchParam !== "" || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -172,7 +174,7 @@ export default function vendorListPage() {
 
     if (deletedVendor?.data.success) {
       enqueueSnackbar('Vendor Deleted  Successfully');
-      getVenodrs();
+      getVendors(filter);
     } else {
       enqueueSnackbar(' This Vendor Cant be Deleted');
     }
@@ -207,12 +209,25 @@ export default function vendorListPage() {
     setFilterName('');
     setFilterRole('all');
     setFilterStatus('all');
+    setsearchParam("")
   };
+
+  const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("handleSearchParam", event.target.value)
+    setPage(0);
+    setsearchParam(event.target.value);
+  };
+
+
   let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
 
+
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
+
+
+
   return (
     <>
       <Head>
@@ -249,13 +264,15 @@ export default function vendorListPage() {
           </Tabs>
           <Divider />
           <VendorTableToolbar
-            optionsRole={_searchParams}
+            searchParams={_searchParams}
+            searchParam={searchParam}
             isFiltered={isFiltered}
             searchValue={filterName}
             filterRole={filterRole}
             onSearchFilter={handleFilterName}
             onFilterRole={handleFilterRole}
             onResetFilter={handleResetFilter}
+            onSearchParam={handleSearchParam}
           />
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
