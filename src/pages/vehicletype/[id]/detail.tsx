@@ -60,7 +60,7 @@ export default function VehicletypeDetailPage() {
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading={'Vehicle type ID : ' + id}
+          heading={'Vehicle Segment ID : ' + id}
           links={[{ name: 'Vehicle types', href: PATH_VEHICLETYPE.root }, { name: 'Details' }]}
         />
 

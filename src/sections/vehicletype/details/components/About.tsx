@@ -26,7 +26,7 @@ export default function VehicletypeAboutDetail({ id, name, features }: IVehiclet
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction="row">
-          <StyledIcon icon="material-symbols:phone-enabled-sharp" />
+         
 
           <Typography variant="body2">
             <Link component="span" variant="subtitle2" color="text.primary">
