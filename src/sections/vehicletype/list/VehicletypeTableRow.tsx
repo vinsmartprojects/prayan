@@ -68,10 +68,10 @@ export default function VehicletypeTableRow({
         <TableCell padding="checkbox">
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
-        <TableCell   align="left">
+        <TableCell   align="left"  onClick={onDetailRow}>
           <Avatar alt={name} src={cdnPath(image)} />
         </TableCell>
-        <TableCell padding="checkbox" align="left">
+        <TableCell padding="checkbox" align="left"  onClick={onDetailRow}>
         <Typography variant="subtitle2" noWrap>
               {id}
             </Typography>
