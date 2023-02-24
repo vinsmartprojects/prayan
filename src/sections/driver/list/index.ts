@@ -1,2 +1,2 @@
-export { default as VendorTableRow } from './VendorTableRow';
-export { default as VendorTableToolbar } from './VendorTableToolbar';
+export { default as DriverTableRow } from './DriverTableRow';
+export { default as DriverTableToolbar } from './DriverTableToolbar';
