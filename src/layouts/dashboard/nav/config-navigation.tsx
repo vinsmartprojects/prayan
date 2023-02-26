@@ -90,10 +90,7 @@ const navConfig = [
         title: 'Vehicle Types',
         path: PATH_VEHICLETYPE.root,
         icon: ICONS.vehicle,
-        children: [
-          { title: 'List', path: PATH_VEHICLETYPE.list },
-          { title: 'New', path: PATH_VEHICLETYPE.new },
-        ],
+        
       },
       {
         title: 'Packages',
