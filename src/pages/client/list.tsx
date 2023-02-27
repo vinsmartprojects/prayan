@@ -179,14 +179,14 @@ export default function clientListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedVendor = await deletedVendor(id);
-    await deletedVendor;
+    const deletedClient = await deletedClient(id);
+    await deletedClient;
 
-    if (deletedVendor?.data.success) {
-      enqueueSnackbar('Vendor Deleted  Successfully');
-      getVendors(filter);
+    if (deletedClient?.data.success) {
+      enqueueSnackbar('Client Deleted  Successfully');
+      getClients(filter);
     } else {
-      enqueueSnackbar(' This Vendor Cant be Deleted');
+      enqueueSnackbar(' This Client Cant be Deleted');
     }
 
 
@@ -211,16 +211,16 @@ export default function clientListPage() {
 
   const onSearchSubmit = () => {
     const _query = buildClientWhereFilter(searchParam, searchQ, filterStatus)
-    getVendors({
+    getClients({
       ..._query
     });
   };
 
   const handleEditRow = (id: string) => {
-    push(PATH_VENDOR.edit(paramCase(id.toString())));
+    push(PATH_CLIENT.edit(paramCase(id.toString())));
   };
   const handleDetailRow = (id: string) => {
-    push(PATH_VENDOR.detail(paramCase(id.toString())));
+    push(PATH_CLIENT.detail(paramCase(id.toString())));
   };
   const handleResetFilter = () => {
     setFilterName('');
@@ -228,7 +228,7 @@ export default function clientListPage() {
     setFilterStatus('ALL');
     setsearchParam(undefined)
     setsearchQ('')
-    getVendors({});
+    getClients({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,7 +238,7 @@ export default function clientListPage() {
 
 
   let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
+  _filterStatus = [_filterStatus, ...Object.keys(ClientStatus)];
 
 
   let _searchParams: any[] = [];
@@ -246,8 +246,8 @@ export default function clientListPage() {
 
 
   useEffect(() => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
-    getVendors({
+    const _query = buildClientWhereFilter(searchParam, searchQ, filterStatus)
+    getClients({
       ..._query
     });
   }, [filterStatus])
@@ -255,21 +255,21 @@ export default function clientListPage() {
   return (
     <>
       <Head>
-        <title>Vendors: List  </title>
+        <title>Clients: List  </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vendors"
-          links={[{ name: 'All', href: PATH_VENDOR.root }, { name: 'List' }]}
+          heading="Clients"
+          links={[{ name: 'All', href: PATH_CLIENT.root }, { name: 'List' }]}
           action={
             <Button
               component={NextLink}
-              href={PATH_VENDOR.new}
+              href={PATH_CLIENT.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Vendor
+              New Client
             </Button>
           }
         />
@@ -287,7 +287,7 @@ export default function clientListPage() {
             ))}
           </Tabs>
           <Divider />
-          <VendorTableToolbar
+          <ClientTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
@@ -340,7 +340,7 @@ export default function clientListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <VendorTableRow
+                      <ClientTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -410,7 +410,7 @@ function applyFilter({
   filterStatus,
   filterRole,
 }: {
-  inputData: IVendor[];
+  inputData: IClient[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
@@ -428,7 +428,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vendor) => vendor.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (client) => client.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
