@@ -14,7 +14,7 @@ const ROOTS_BOOKING = '/booking';
 const ROOTS_PLAN = '/plan';
 const ROOTS_LOCATION = '/location';
 const ROOTS_CUSTOMER = '/customer';
-const ROOTS_TRIP="/trips";
+const ROOTS_TRIP="/trip";
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
