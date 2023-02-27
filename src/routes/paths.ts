@@ -13,7 +13,8 @@ const ROOTS_CLIENT = '/client';
 const ROOTS_BOOKING = '/booking';
 const ROOTS_PACKAGE = '/package';
 const ROOTS_LOCATION = '/location';
-const ROOT_TRIPS="/trips"
+const ROOTS_CUSTOMER = '/customer';
+const ROOTS_TRIPS="/trips";
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
@@ -66,7 +67,7 @@ export const PATH_CLIENT = {
   index: path(ROOTS_CLIENT, '/'),
   list: path(ROOTS_CLIENT, '/list'),
   new: path(ROOTS_CLIENT, '/new'),
-  detail: path(ROOTS_CLIENT, '/detail'),
+   detail: (name: string) => path(ROOTS_CLIENT, `/${name}/detail`),
   udpate: path(ROOTS_CLIENT, '/update'),
   edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
 };
@@ -75,19 +76,19 @@ export const PATH_BOOKING = {
   index: path(ROOTS_BOOKING, '/'),
   list: path(ROOTS_BOOKING, '/list'),
   new: path(ROOTS_BOOKING, '/new'),
-  detail: path(ROOTS_BOOKING, '/detail'),
+  detail: (name: string) => path(ROOTS_BOOKING, `/${name}/detail`),
   udpate: path(ROOTS_BOOKING, '/update'),
   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };
 
 export const PATH_TRIPS= {
-  root: ROOT_TRIPS,
-  index: path(ROOT_TRIPS, '/'),
-  list: path(ROOT_TRIPS, '/list'),
-  new: path(ROOT_TRIPS, '/new'),
-  detail: path(ROOT_TRIPS, '/detail'),
-  udpate: path(ROOT_TRIPS, '/update'),
-  edit: (name: string) => path(ROOT_TRIPS, `/${name}/edit`),
+  root: ROOTS_TRIPS,
+  index: path(ROOTS_TRIPS, '/'),
+  list: path(ROOTS_TRIPS, '/list'),
+  new: path(ROOTS_TRIPS, '/new'),
+  detail: (name: string) => path(ROOTS_TRIPS, `/${name}/detail`),
+  udpate: path(ROOTS_TRIPS, '/update'),
+  edit: (name: string) => path(ROOTS_TRIPS, `/${name}/edit`),
 };
 
 
@@ -96,7 +97,7 @@ export const PATH_PACKAGE = {
   index: path(ROOTS_PACKAGE, '/'),
   list: path(ROOTS_PACKAGE, '/list'),
   new: path(ROOTS_PACKAGE, '/new'),
-  detail: path(ROOTS_PACKAGE, '/detail'),
+  detail: (name: string) => path(ROOTS_PACKAGE, `/${name}/detail`),
   udpate: path(ROOTS_PACKAGE, '/update'),
   edit: (name: string) => path(ROOTS_PACKAGE, `/${name}/edit`),
 };
@@ -106,7 +107,17 @@ export const PATH_LOCATION = {
   index: path(ROOTS_LOCATION, '/'),
   list: path(ROOTS_LOCATION, '/list'),
   new: path(ROOTS_LOCATION, '/new'),
-  detail: path(ROOTS_LOCATION, '/detail'),
+ detail: (name: string) => path(ROOTS_LOCATION, `/${name}/detail`),
   udpate: path(ROOTS_LOCATION, '/update'),
   edit: (name: string) => path(ROOTS_LOCATION, `/${name}/edit`),
+};
+
+export const PATH_CUSTOMER = {
+  root: ROOTS_CUSTOMER,
+  index: path(ROOTS_CUSTOMER, '/'),
+  list: path(ROOTS_CUSTOMER, '/list'),
+  new: path(ROOTS_CUSTOMER, '/new'),
+  detail: (name: string) => path(ROOTS_CUSTOMER, `/${name}/detail`),
+  udpate: path(ROOTS_CUSTOMER, '/update'),
+  edit: (name: string) => path(ROOTS_CUSTOMER, `/${name}/edit`),
 };

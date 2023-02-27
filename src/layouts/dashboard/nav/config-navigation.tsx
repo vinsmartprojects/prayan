@@ -1,5 +1,5 @@
 // routes
-import { PATH_BOOKING, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PACKAGE, PATH_CLIENT, PATH_DRIVER, PATH_TRIPS } from '../../../routes/paths';
+import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PACKAGE, PATH_CLIENT, PATH_DRIVER, PATH_TRIPS } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -93,6 +93,15 @@ const navConfig = [
         children: [
           { title: 'List', path: PATH_VEHICLETYPE.list },
           { title: 'New', path: PATH_VEHICLETYPE.new },
+        ],
+      },
+       {
+        title: 'Customer',
+        path: PATH_CUSTOMER.root,
+       icon:  <Iconify icon="healthicons:man" />,
+        children: [
+          { title: 'List', path: PATH_CUSTOMER.list },
+          { title: 'New', path: PATH_CUSTOMER.new },
         ],
       },
       {
