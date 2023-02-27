@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_CLIENT } from '../../routes/paths';
 // @types
-import { IClient, ClientSearchParams, ClientStatus } from '../../@types/client';
+import { I, ClientSearchParams, ClientStatus } from '../../@types/client';
 // _mock_
 
 // layouts
@@ -179,7 +179,7 @@ export default function clientListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedClient = await deletedClient(id);
+    const deletedClient = await deleteClient(id);
     await deletedClient;
 
     if (deletedClient?.data.success) {
@@ -242,7 +242,7 @@ export default function clientListPage() {
 
 
   let _searchParams: any[] = [];
-  _searchParams = [_searchParams, ...Object.keys(_searchParams)];
+  _searchParams = [_searchParams, ...Object.keys(ClientSearchParams)];
 
 
   useEffect(() => {
