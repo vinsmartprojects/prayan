@@ -11,10 +11,10 @@ const ROOTS_VEHICLETYPE = '/vehicletype';
 const ROOTS_DRIVER = '/driver';
 const ROOTS_CLIENT = '/client';
 const ROOTS_BOOKING = '/booking';
-const ROOTS_PACKAGE = '/package';
+const ROOTS_PLAN = '/plan';
 const ROOTS_LOCATION = '/location';
 const ROOTS_CUSTOMER = '/customer';
-const ROOTS_TRIPS="/trips";
+const ROOTS_TRIP="/trips";
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
@@ -81,25 +81,25 @@ export const PATH_BOOKING = {
   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };
 
-export const PATH_TRIPS= {
-  root: ROOTS_TRIPS,
-  index: path(ROOTS_TRIPS, '/'),
-  list: path(ROOTS_TRIPS, '/list'),
-  new: path(ROOTS_TRIPS, '/new'),
-  detail: (name: string) => path(ROOTS_TRIPS, `/${name}/detail`),
-  udpate: path(ROOTS_TRIPS, '/update'),
-  edit: (name: string) => path(ROOTS_TRIPS, `/${name}/edit`),
+export const PATH_TRIP= {
+  root: ROOTS_TRIP,
+  index: path(ROOTS_TRIP, '/'),
+  list: path(ROOTS_TRIP, '/list'),
+  new: path(ROOTS_TRIP, '/new'),
+  detail: (name: string) => path(ROOTS_TRIP, `/${name}/detail`),
+  udpate: path(ROOTS_TRIP, '/update'),
+  edit: (name: string) => path(ROOTS_TRIP, `/${name}/edit`),
 };
 
 
-export const PATH_PACKAGE = {
-  root: ROOTS_PACKAGE,
-  index: path(ROOTS_PACKAGE, '/'),
-  list: path(ROOTS_PACKAGE, '/list'),
-  new: path(ROOTS_PACKAGE, '/new'),
-  detail: (name: string) => path(ROOTS_PACKAGE, `/${name}/detail`),
-  udpate: path(ROOTS_PACKAGE, '/update'),
-  edit: (name: string) => path(ROOTS_PACKAGE, `/${name}/edit`),
+export const PATH_PLAN = {
+  root: ROOTS_PLAN,
+  index: path(ROOTS_PLAN, '/'),
+  list: path(ROOTS_PLAN, '/list'),
+  new: path(ROOTS_PLAN, '/new'),
+  detail: (name: string) => path(ROOTS_PLAN, `/${name}/detail`),
+  udpate: path(ROOTS_PLAN, '/update'),
+  edit: (name: string) => path(ROOTS_PLAN, `/${name}/edit`),
 };
 
 export const PATH_LOCATION = {

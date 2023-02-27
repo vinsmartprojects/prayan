@@ -1,10 +1,10 @@
 import axios from 'src/utils/axios';
 
-export const usePackage = () => {
+export const usePlan = () => {
   async function create(params: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/packages', {
+      const response = await axios.post('/plans', {
         ...params,
       });
       await response;
@@ -22,7 +22,7 @@ export const usePackage = () => {
   async function update(id: any, data: any) {
     let result: any = null;
     try {
-      const response = await axios.patch('/packages/' + id, {
+      const response = await axios.patch('/plans/' + id, {
         ...data,
       });
       await response;
@@ -40,7 +40,7 @@ export const usePackage = () => {
   async function getMany() {
     let result: any = null;
     try {
-      const response = await axios.get('/packages');
+      const response = await axios.get('/plans');
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };
@@ -56,7 +56,7 @@ export const usePackage = () => {
   async function getManyWithFilters(filter: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/packages/filter', {
+      const response = await axios.post('/plans/filter', {
         ...filter
       });
       await response;
@@ -74,7 +74,7 @@ export const usePackage = () => {
   async function search(params: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/packages/search', {
+      const response = await axios.post('/plans/search', {
         ...params,
       });
       await response;
@@ -92,7 +92,7 @@ export const usePackage = () => {
   async function get(id: any) {
     let result: any = null;
     try {
-      const response = await axios.get('/packages/' + id);
+      const response = await axios.get('/plans/' + id);
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };
@@ -107,7 +107,7 @@ export const usePackage = () => {
   async function remove(id: any) {
     let result: any = null;
     try {
-      const response = await axios.delete('/packages/' + id, {});
+      const response = await axios.delete('/plans/' + id, {});
       await response;
       if (response?.data?.data) {
         result = { data: response?.data?.data };
@@ -123,7 +123,7 @@ export const usePackage = () => {
   async function deleteMany(ids: any) {
     let result: any = null;
     try {
-      const response = await axios.post('/packages/', {
+      const response = await axios.post('/plans/', {
         data: { ids: ids },
       });
       await response;

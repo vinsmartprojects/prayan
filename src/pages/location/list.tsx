@@ -19,7 +19,7 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_LOCATON } from '../../routes/paths';
+import { PATH_LOCATION } from '../../routes/paths';
 // @types
 import { ILocation, LocationSearchParams, LocationStatus } from '../../@types/location';
 // _mock_

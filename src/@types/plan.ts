@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 
-export type IPackageCreateInput = {
+export type IPlanCreateInput = {
   title: string;
   contactPerson: string;
   contactMobile: string;
@@ -12,7 +12,7 @@ export type IPackageCreateInput = {
   logo: string;
   city: string;
   pincode: string;
-  status: PackageStatus;
+  status: PlanStatus;
   state: string;
   country: string;
   gst: string;
@@ -27,7 +27,7 @@ export type IPackageCreateInput = {
   isActive: boolean;
   profileImage: any;
 };
-export type IPackageEdit = {
+export type IPlanEdit = {
   id: any;
   title: string;
   contactPerson: string;
@@ -40,7 +40,7 @@ export type IPackageEdit = {
   logo: string;
   city: string;
   pincode: string;
-  status: PackageStatus;
+  status: PlanStatus;
   state: string;
   country: string;
   gst: string;
@@ -57,7 +57,7 @@ export type IPackageEdit = {
   isVerified: boolean;
   isActive: boolean;
 };
-export type IPackage = {
+export type IPlan = {
   id: any;
   title: string;
   contactPerson: string;
@@ -65,7 +65,7 @@ export type IPackage = {
   contactEmail: string;
   address: Address;
   profileImage: any;
-  status: PackageStatus;
+  status: PlanStatus;
   estbtDoc: any;
   panDoc: any;
   gstDoc: any;
@@ -91,7 +91,7 @@ export type Address = {
   state: string;
 };
 
-export type PackageDoc = {
+export type PlanDoc = {
   addressLine1: string;
   addressLine2: string;
   area: string;
@@ -102,14 +102,14 @@ export type PackageDoc = {
   country: string;
 };
 
-export enum PackageStatus {
+export enum PlanStatus {
   ACTIVE = 'isActive',
   VERFIIED = 'isVerified',
   SUSPENDED = 'isBanned',
 }
 
 
-export enum PackageSearchParams {
+export enum PlanSearchParams {
   TITLE="TITLE" ,
   AREA="AREA",
   PINCODE="PINCODE",

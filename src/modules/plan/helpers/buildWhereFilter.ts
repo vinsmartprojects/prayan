@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { PackageSearchParams } from "src/@types/package";
+import { PlanSearchParams } from "src/@types/plan";
 
-export function buildPackageWhereFilter(param: any, searchQ: any, status: any) {
+export function buildPlanWhereFilter(param: any, searchQ: any, status: any) {
 
 
     var _statusQuery: any = undefined;

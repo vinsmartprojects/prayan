@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_CLIENT } from '../../routes/paths';
 // @types
-import { I, ClientSearchParams, ClientStatus } from '../../@types/client';
+import { ClientSearchParams, ClientStatus, IClient } from '../../@types/client';
 // _mock_
 
 // layouts

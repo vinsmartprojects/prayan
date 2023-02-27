@@ -43,10 +43,10 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { VendorTableToolbar, VendorTableRow } from '../../sections/vendor/list/index';
-import { useVendor } from 'src/modules/vendor/hooks/useVendor';
+import { DriverTableToolbar, DriverTableRow } from '../../sections/driver/list/index';
+import { useDriver } from 'src/modules/driver/hooks/useDriver';
 import { useSnackbar } from 'src/components/snackbar';
-import { buildVendorWhereFilter } from 'src/modules/vendor/helpers/buildWhereFilter';
+import { buildDriverWhereFilter } from 'src/modules/driver/helpers/buildWhereFilter';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
 
-  { id: 'title', label: 'Vendor', align: 'left' },
+  { id: 'title', label: 'Driver', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
   { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
@@ -66,11 +66,11 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-vendorListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+driverListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function vendorListPage() {
+export default function driverListPage() {
   const {
     dense,
     page,
@@ -95,7 +95,7 @@ export default function vendorListPage() {
 
   const [filter, setFilter] = useState({})
   const { push } = useRouter();
-  const { getManyWithFilters, remove: deleteVendor } = useVendor();
+  const { getManyWithFilters, remove: deleteDriver } = useDriver();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -106,12 +106,12 @@ export default function vendorListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(VendorSearchParams.TITLE)
+  const [searchParam, setsearchParam] = useState<any | undefined>(DriverSearchParams.TITLE)
   const [searchQ, setsearchQ] = useState("")
   const { enqueueSnackbar } = useSnackbar();
 
 
-  async function getVendors(filter: any, reload?: any) {
+  async function getDrivers(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
@@ -123,7 +123,7 @@ export default function vendorListPage() {
     }
   }
   useEffect(() => {
-    getVendors(filter);
+    getDrivers(filter);
   }, [
 
   ]);
@@ -179,14 +179,14 @@ export default function vendorListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedVendor = await deleteVendor(id);
-    await deletedVendor;
+    const deletedDriver = await deleteDriver(id);
+    await deletedDriver;
 
-    if (deletedVendor?.data.success) {
-      enqueueSnackbar('Vendor Deleted  Successfully');
-      getVendors(filter);
+    if (deletedDriver?.data.success) {
+      enqueueSnackbar('Driver Deleted  Successfully');
+      getDrivers(filter);
     } else {
-      enqueueSnackbar(' This Vendor Cant be Deleted');
+      enqueueSnackbar(' This Driver Cant be Deleted');
     }
 
 
@@ -210,17 +210,17 @@ export default function vendorListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
-    getVendors({
+    const _query = buildDriverWhereFilter(searchParam, searchQ, filterStatus)
+    getDrivers({
       ..._query
     });
   };
 
   const handleEditRow = (id: string) => {
-    push(PATH_VENDOR.edit(paramCase(id.toString())));
+    push(PATH_DRIVER.edit(paramCase(id.toString())));
   };
   const handleDetailRow = (id: string) => {
-    push(PATH_VENDOR.detail(paramCase(id.toString())));
+    push(PATH_DRIVER.detail(paramCase(id.toString())));
   };
   const handleResetFilter = () => {
     setFilterName('');
@@ -228,7 +228,7 @@ export default function vendorListPage() {
     setFilterStatus('ALL');
     setsearchParam(undefined)
     setsearchQ('')
-    getVendors({});
+    getDrivers({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,16 +238,16 @@ export default function vendorListPage() {
 
 
   let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
+  _filterStatus = [_filterStatus, ...Object.keys(DriverStatus)];
 
 
   let _searchParams: any[] = [];
-  _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
+  _searchParams = [_searchParams, ...Object.keys(DriverSearchParams)];
 
 
   useEffect(() => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
-    getVendors({
+    const _query = buildDriverWhereFilter(searchParam, searchQ, filterStatus)
+    getDrivers({
       ..._query
     });
   }, [filterStatus])
@@ -255,21 +255,21 @@ export default function vendorListPage() {
   return (
     <>
       <Head>
-        <title>Vendors: List  </title>
+        <title>Drivers: List  </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vendors"
-          links={[{ name: 'All', href: PATH_VENDOR.root }, { name: 'List' }]}
+          heading="Drivers"
+          links={[{ name: 'All', href: PATH_DRIVER.root }, { name: 'List' }]}
           action={
             <Button
               component={NextLink}
-              href={PATH_VENDOR.new}
+              href={PATH_DRIVER.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Vendor
+              New Driver
             </Button>
           }
         />
@@ -287,7 +287,7 @@ export default function vendorListPage() {
             ))}
           </Tabs>
           <Divider />
-          <VendorTableToolbar
+          <DriverTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
@@ -340,7 +340,7 @@ export default function vendorListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <VendorTableRow
+                      <DriverTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -410,7 +410,7 @@ function applyFilter({
   filterStatus,
   filterRole,
 }: {
-  inputData: IVendor[];
+  inputData: IDriver[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
@@ -428,7 +428,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vendor) => vendor.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (driver) => driver.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

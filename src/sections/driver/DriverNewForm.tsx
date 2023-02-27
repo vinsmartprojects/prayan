@@ -33,7 +33,7 @@ interface FormValuesProps extends Omit<IDriverEdit, 'avatarUrl'> {
 
 type Props = {
   isEdit?: boolean;
-  Driver?: IDriver;
+  driver?: IDriver;
 };
 
 export default function DriverEditForm({ isEdit = false, driver }: Props) {

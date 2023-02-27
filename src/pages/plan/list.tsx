@@ -19,9 +19,9 @@ import {
   TableContainer,
 } from '@mui/material';
 // routes
-import { PATH_PACKAGE } from '../../routes/paths';
+import { PATH_PLAN } from '../../routes/paths';
 // @types
-import { IPackage, PackageSearchParams, PackageStatus } from '../../@types/package';
+import { IPlan, PlanSearchParams, PlanStatus } from '../../@types/plan';
 // _mock_
 
 // layouts
@@ -43,10 +43,10 @@ import {
   TablePaginationCustom,
 } from '../../components/table';
 // sections
-import { PackageTableToolbar, PackageTableRow } from '../../sections/package/list/index';
-import { usePackage } from 'src/modules/package/hooks/usePackage';
+import { PlanTableToolbar, PlanTableRow } from '../../sections/plan/list/index';
+import { usePlan } from 'src/modules/plan/hooks/usePlan';
 import { useSnackbar } from 'src/components/snackbar';
-import { buildPackageWhereFilter } from 'src/modules/package/helpers/buildWhereFilter';
+import { buildPlanWhereFilter } from 'src/modules/plan/helpers/buildWhereFilter';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
 
-  { id: 'title', label: 'package', align: 'left' },
+  { id: 'title', label: 'plan', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
   { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
@@ -66,11 +66,11 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-packageListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+planListPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function packageListPage() {
+export default function planListPage() {
   const {
     dense,
     page,
@@ -95,7 +95,7 @@ export default function packageListPage() {
 
   const [filter, setFilter] = useState({})
   const { push } = useRouter();
-  const { getManyWithFilters, remove: deletePackage } = usePackage();
+  const { getManyWithFilters, remove: deletePlan } = usePlan();
   const [tableData, setTableData] = useState([]);
 
   const [filterName, setFilterName] = useState('');
@@ -106,12 +106,12 @@ export default function packageListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(PackageSearchParams.TITLE)
+  const [searchParam, setsearchParam] = useState<any | undefined>(PlanSearchParams.TITLE)
   const [searchQ, setsearchQ] = useState("")
   const { enqueueSnackbar } = useSnackbar();
 
 
-  async function getPackages(filter: any, reload?: any) {
+  async function getPlans(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
@@ -123,7 +123,7 @@ export default function packageListPage() {
     }
   }
   useEffect(() => {
-    getPackages(filter);
+    getPlans(filter);
   }, [
 
   ]);
@@ -179,14 +179,14 @@ export default function packageListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedPackage = await deletePackage(id);
-    await deletedPackage;
+    const deletedPlan = await deletePlan(id);
+    await deletedPlan;
 
-    if (deletedPackage?.data.success) {
-      enqueueSnackbar('Package Deleted  Successfully');
-      getPackages(filter);
+    if (deletedPlan?.data.success) {
+      enqueueSnackbar('Plan Deleted  Successfully');
+      getPlans(filter);
     } else {
-      enqueueSnackbar(' This Package Cant be Deleted');
+      enqueueSnackbar(' This Plan Cant be Deleted');
     }
 
 
@@ -210,17 +210,17 @@ export default function packageListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildPackageWhereFilter(searchParam, searchQ, filterStatus)
-    getPackages({
+    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus)
+    getPlans({
       ..._query
     });
   };
 
   const handleEditRow = (id: string) => {
-    push(PATH_PACKAGE.edit(paramCase(id.toString())));
+    push(PATH_PLAN.edit(paramCase(id.toString())));
   };
   const handleDetailRow = (id: string) => {
-    push(PATH_PACKAGE.detail(paramCase(id.toString())));
+    push(PATH_PLAN.detail(paramCase(id.toString())));
   };
   const handleResetFilter = () => {
     setFilterName('');
@@ -228,7 +228,7 @@ export default function packageListPage() {
     setFilterStatus('ALL');
     setsearchParam(undefined)
     setsearchQ('')
-    getPackages({});
+    getPlans({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,16 +238,16 @@ export default function packageListPage() {
 
 
   let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(PackageStatus)];
+  _filterStatus = [_filterStatus, ...Object.keys(PlanStatus)];
 
 
   let _searchParams: any[] = [];
-  _searchParams = [_searchParams, ...Object.keys(PackageSearchParams)];
+  _searchParams = [_searchParams, ...Object.keys(PlanSearchParams)];
 
 
   useEffect(() => {
-    const _query = buildPackageWhereFilter(searchParam, searchQ, filterStatus)
-    getPackages({
+    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus)
+    getPlans({
       ..._query
     });
   }, [filterStatus])
@@ -255,21 +255,21 @@ export default function packageListPage() {
   return (
     <>
       <Head>
-        <title>Packages: List  </title>
+        <title>Plans: List  </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Packages"
-          links={[{ name: 'All', href: PATH_PACKAGE.root }, { name: 'List' }]}
+          heading="Plans"
+          links={[{ name: 'All', href: PATH_PLAN.root }, { name: 'List' }]}
           action={
             <Button
               component={NextLink}
-              href={PATH_PACKAGE.new}
+              href={PATH_PLAN.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Package
+              New Plan
             </Button>
           }
         />
@@ -287,7 +287,7 @@ export default function packageListPage() {
             ))}
           </Tabs>
           <Divider />
-          <PackageTableToolbar
+          <PlanTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
@@ -340,7 +340,7 @@ export default function packageListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <PackageTableRow
+                      <PlanTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -410,7 +410,7 @@ function applyFilter({
   filterStatus,
   filterRole,
 }: {
-  inputData: IPackage[];
+  inputData: IPlan[];
   comparator: (a: any, b: any) => number;
   filterName: string;
   filterStatus: string;
@@ -428,7 +428,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (package) => package.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (plan:any) => plan.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

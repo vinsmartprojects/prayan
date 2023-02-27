@@ -1,5 +1,5 @@
 // routes
-import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PACKAGE, PATH_CLIENT, PATH_DRIVER, PATH_TRIPS } from '../../../routes/paths';
+import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PLAN, PATH_CLIENT, PATH_DRIVER, PATH_TRIP } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -32,11 +32,11 @@ const navConfig = [
     items: [
       {
         title: 'Trips',
-        path: PATH_TRIPS.root,
+        path: PATH_TRIP.root,
         icon: <Iconify icon="bx:trip" />,
         children: [
-          { title: 'List', path: PATH_TRIPS.list },
-          { title: 'New', path: PATH_TRIPS.new },
+          { title: 'List', path: PATH_TRIP.list },
+          { title: 'New', path: PATH_TRIP.new },
         ],
       },
       {
@@ -102,12 +102,12 @@ const navConfig = [
         ],
       },
       {
-        title: 'Packages',
-        path: PATH_PACKAGE.root,
+        title: 'Plans',
+        path: PATH_PLAN.root,
         icon: <Iconify icon="ic:twotone-local-offer" />,
         children: [
-          { title: 'List', path: PATH_PACKAGE.list },
-          { title: 'New', path: PATH_PACKAGE.new },
+          { title: 'List', path: PATH_PLAN.list },
+          { title: 'New', path: PATH_PLAN.new },
         ],
       },
       {

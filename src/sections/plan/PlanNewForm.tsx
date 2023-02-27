@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
-import { PATH_PACKAGE } from 'src/routes/paths';
+import { PATH_PLAN } from 'src/routes/paths';
 import { useSnackbar } from 'notistack';
 import { countries } from 'src/assets/data';
 
@@ -21,29 +21,29 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IPackage, IPackageCreateInput, IPackageEdit, PackageStatus } from 'src/@types/package';
-import { usePackage } from 'src/modules/package/hooks/usePackage';
+import { IPlan, IPlanCreateInput, IPlanEdit, PlanStatus } from 'src/@types/plan';
+import { usePlan } from 'src/modules/plan/hooks/usePlan';
 import { useUploader } from 'src/modules/cdn/useUploader';
 import { create } from 'lodash';
 // ----------------------------------------------------------------------
 
-interface FormValuesProps extends Omit<IPackageEdit, 'avatarUrl'> {
+interface FormValuesProps extends Omit<IPlanEdit, 'avatarUrl'> {
   avatarUrl: CustomFile | string | null;
 }
 
 type Props = {
   isEdit?: boolean;
-  package?: IPackage;
+  plan?: IPlan;
 };
 
-export default function PackageEditForm({ isEdit = false, package }: Props) {
+export default function PlanEditForm({ isEdit = false, plan }: Props) {
   const { push, reload } = useRouter();
-  const { create } = usePackage();
+  const { create } = usePlan();
   const { enqueueSnackbar } = useSnackbar();
   const { uploadFile, cdnPath } = useUploader();
 
 
-  const NewPackageSchema = Yup.object().shape({
+  const NewPlanSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
     contactMobile: Yup.string().required('Mobile No  is required'),
     contactPerson: Yup.string().required('Phone number is required'),
@@ -69,29 +69,29 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
       state: '',
 
       profileImage:
-        (package?.profileImage && { file: cdnPath(package?.profileImage), isNew: false }) ||
+        (plan?.profileImage && { file: cdnPath(plan?.profileImage), isNew: false }) ||
         undefined,
-      country: package?.country || 'India',
-      pan: package?.pan || '',
-      panDoc: (package?.panDoc && { file: cdnPath(package?.panDoc), isNew: false }) || undefined,
-      gst: package?.gst || '',
-      gstDoc: (package?.gstDoc && { file: cdnPath(package?.gstDoc), isNew: false }) || undefined,
-      estbId: package?.estbId || '',
+      country: plan?.country || 'India',
+      pan: plan?.pan || '',
+      panDoc: (plan?.panDoc && { file: cdnPath(plan?.panDoc), isNew: false }) || undefined,
+      gst: plan?.gst || '',
+      gstDoc: (plan?.gstDoc && { file: cdnPath(plan?.gstDoc), isNew: false }) || undefined,
+      estbId: plan?.estbId || '',
       estbtDoc:
-        (package?.estbtDoc && { file: cdnPath(package?.estbtDoc), isNew: false }) ||
+        (plan?.estbtDoc && { file: cdnPath(plan?.estbtDoc), isNew: false }) ||
         undefined,
-      cin: package?.cin || '',
-      cinDoc: (package?.cinDoc && { file: cdnPath(package?.cinDoc), isNew: false }) || undefined,
-      isVerified: package?.isVerified || false,
-      isActive: package?.isVerified || false,
-      username: package?.user?.username || '',
+      cin: plan?.cin || '',
+      cinDoc: (plan?.cinDoc && { file: cdnPath(plan?.cinDoc), isNew: false }) || undefined,
+      isVerified: plan?.isVerified || false,
+      isActive: plan?.isVerified || false,
+      username: plan?.user?.username || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [package]
+    [plan]
   );
 
   const methods = useForm<FormValuesProps>({
-    resolver: yupResolver(NewPackageSchema),
+    resolver: yupResolver(NewPlanSchema),
     defaultValues,
   });
 
@@ -107,30 +107,30 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
   const values = watch();
 
   useEffect(() => {
-    if (isEdit && package) {
+    if (isEdit && plan) {
       reset(defaultValues);
     }
     if (!isEdit) {
       reset(defaultValues);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, package]);
+  }, [isEdit, plan]);
 
   const onSubmit = async (data: FormValuesProps) => {
-    var _packageDocs: any = {};
+    var _planDocs: any = {};
     if (data?.profileImage?.isNew === true) {
       const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
       await _fileUploaded;
 
       if (_fileUploaded?.data?.filename) {
-        _packageDocs.profileImage = _fileUploaded?.data?.filename;
+        _planDocs.profileImage = _fileUploaded?.data?.filename;
       }
     }
     if (data?.panDoc?.isNew === true) {
       const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
       await _fileUploaded;
       if (_fileUploaded?.data?.filename) {
-        _packageDocs.panDoc = _fileUploaded?.data?.filename;
+        _planDocs.panDoc = _fileUploaded?.data?.filename;
       }
     }
     if (data?.gstDoc?.isNew === true) {
@@ -138,7 +138,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
       await _fileUploaded;
 
       if (_fileUploaded?.data?.filename) {
-        _packageDocs.gstDoc = _fileUploaded?.data?.filename;
+        _planDocs.gstDoc = _fileUploaded?.data?.filename;
       }
     }
     if (data?.estbtDoc?.isNew === true) {
@@ -146,7 +146,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
       await _fileUploaded;
 
       if (_fileUploaded?.data?.filename) {
-        _packageDocs.estbtDoc = _fileUploaded?.data?.filename;
+        _planDocs.estbtDoc = _fileUploaded?.data?.filename;
       }
     }
     if (data?.cinDoc?.isNew === true) {
@@ -154,7 +154,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
       await _fileUploaded;
 
       if (_fileUploaded?.data?.filename) {
-        _packageDocs.cinDoc = _fileUploaded?.data?.filename;
+        _planDocs.cinDoc = _fileUploaded?.data?.filename;
       }
     }
     const _communication = {
@@ -178,15 +178,15 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
       cin: data.cin,
       pan: data.pan,
     };
-    const _package = {
+    const _plan = {
       title: data.title,
       address: _address,
       communication: _communication,
-      docs: _packageDocs,
+      docs: _planDocs,
       ids: _ids,
     };
     try {
-      const _updatedItem = await create(_package);
+      const _updatedItem = await create(_plan);
       await _updatedItem;
       if (_updatedItem?.data) {
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -236,7 +236,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="package Title *" />
+              <RHFTextField name="title" label="plan Title *" />
               <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
               <RHFTextField name="contactMobile" label="Phone Number *" />
               <RHFTextField name="contactEmail" label="Email  Number " />
@@ -289,7 +289,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="gst" label="package's GST" />
+                <RHFTextField name="gst" label="plan's GST" />
                 <RHFUploadAvatar
                   name="gstDoc"
                   placeholder=" Upload GST Doc"
@@ -321,7 +321,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="pan" label="package's PAN" />
+                <RHFTextField name="pan" label="plan's PAN" />
                 <RHFUploadAvatar
                   name="panDoc"
                   placeholder=" Upload PAN Doc"
@@ -353,7 +353,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="cin" label="package's CIN" />
+                <RHFTextField name="cin" label="plan's CIN" />
                 <RHFUploadAvatar
                   name="cinDoc"
                   placeholder=" Upload CIN Doc"
@@ -386,7 +386,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="estbId" label="package's Establishment  Doc" />
+                <RHFTextField name="estbId" label="plan's Establishment  Doc" />
                 <RHFUploadAvatar
                   name="estbtDoc"
                   placeholder=" Upload Establishment Doc"
@@ -414,7 +414,7 @@ export default function PackageEditForm({ isEdit = false, package }: Props) {
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create package' : 'Save Changes'}
+                {!isEdit ? 'Create plan' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>

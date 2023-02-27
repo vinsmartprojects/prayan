@@ -10,7 +10,7 @@ type Props = {
 function LocationDrivers({ id }: Props) {
 
     const [_location, set_location] = useState<any>();
-    const { update, get } = useLocationr();
+    const { update, get } = useLocation();
     useEffect(() => {
         if (id) {
             locationGet(id);

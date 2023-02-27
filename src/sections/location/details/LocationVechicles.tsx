@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import EmptyContent from 'src/components/empty-content';
-import { useLocation } from 'src/modules/location/hooks/useLocationr';
+import { useLocation } from 'src/modules/location/hooks/useLocation';
 import LocationAboutDetail from './components/About';
 
 type Props = {

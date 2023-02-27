@@ -19,7 +19,7 @@ type Props = {
   onSearchSubmit: VoidFunction
 };
 
-export default function PackageTableToolbar({
+export default function PlanTableToolbar({
   isFiltered,
 
   searchParam,

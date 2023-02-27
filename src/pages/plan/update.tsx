@@ -9,13 +9,13 @@ import { useSettingsContext } from '../../components/settings';
 
 // ----------------------------------------------------------------------
 
-PackageUpdatePage.getLayout = (page: React.ReactElement) => (
+PlanUpdatePage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
 // ----------------------------------------------------------------------
 
-export default function PackageUpdatePage() {
+export default function PlanUpdatePage() {
   const { themeStretch } = useSettingsContext();
 
   return (

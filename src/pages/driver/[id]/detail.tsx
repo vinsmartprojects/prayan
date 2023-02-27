@@ -12,7 +12,7 @@ import { PATH_DRIVER } from 'src/routes/paths';
 import DriverBasicInfo from 'src/sections/driver/details/DriverBasicInfo';
 import DriverDrivers from 'src/sections/driver/details/DriverDrivers';
 import DriverTrips from 'src/sections/driver/details/DriverTrips';
-import DriverVechicles from 'src/sections/Driver/details/DriverVechicles';
+import DriverVechicles from 'src/sections/driver/details/DriverVechicles';
 
 
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import DashboardLayout from 'src/layouts/dashboard';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import { useSettingsContext } from 'src/components/settings';
-import { PATH_DASHBOARD, PATH_LOCATON } from 'src/routes/paths';
+import { PATH_DASHBOARD, PATH_LOCATION } from 'src/routes/paths';
 import LocationEditForm from 'src/sections/location/LocationEditForm';
 import { useLocation } from 'src/modules/location/hooks/useLocation';
 

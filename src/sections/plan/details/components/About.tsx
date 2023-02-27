@@ -2,7 +2,7 @@
 import { styled } from '@mui/material/styles';
 import { Link, Card, Typography, CardHeader, Stack } from '@mui/material';
 import Iconify from 'src/components/iconify';
-import { IPackage } from 'src/@types/package';
+import { IPlan } from 'src/@types/plan';
 // @types
 
 
@@ -21,9 +21,9 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function PackageAboutDetail({
+export default function PlanAboutDetail({
     title, contactEmail, contactMobile, contactPerson, address
-}: IPackage) {
+}: IPlan) {
     return (
         <Card>
             <CardHeader title={title} />

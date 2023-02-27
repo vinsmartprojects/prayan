@@ -7,21 +7,21 @@ import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import Iconify from 'src/components/iconify';
 import { useSettingsContext } from 'src/components/settings';
 import DashboardLayout from 'src/layouts/dashboard';
-import { usePackage } from 'src/modules/package/hooks/usePackage';
-import { PATH_PACKAGE } from 'src/routes/paths';
-import PackageBasicInfo from 'src/sections/package/details/PackageBasicInfo';
-import PackageDrivers from 'src/sections/package/details/PackageDrivers';
-import PackageTrips from 'src/sections/package/details/PackageTrips';
-import PackageVechicles from 'src/sections/package/details/PackageVechicles';
+import { usePlan } from 'src/modules/plan/hooks/usePlan';
+import { PATH_PLAN } from 'src/routes/paths';
+import PlanBasicInfo from 'src/sections/plan/details/PlanBasicInfo';
+import PlanDrivers from 'src/sections/plan/details/PlanDrivers';
+import PlanTrips from 'src/sections/plan/details/PlanTrips';
+import PlanVechicles from 'src/sections/plan/details/PlanVechicles';
 
 
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';
 
-PackageDetailPage.getLayout = (page: React.ReactElement) => (
+PlanDetailPage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
-export default function PackageDetailPage() {
+export default function PlanDetailPage() {
   const { themeStretch } = useSettingsContext();
 
   const {
@@ -37,26 +37,26 @@ export default function PackageDetailPage() {
       value: 'general',
       label: 'General',
       icon: <Iconify icon="ic:round-account-box" />,
-      component: <PackageBasicInfo id={id} />,
+      component: <PlanBasicInfo id={id} />,
     },
     {
       value: 'trips',
       label: 'Trips',
       icon: <Iconify icon="bx:trip" />,
-      component: <PackageTrips id={id} />,
+      component: <PlanTrips id={id} />,
     },
     {
       value: 'vehicles',
       label: 'Vehicles',
       icon: <Iconify icon="ic:baseline-directions-car" />,
-      component: <PackageVechicles id={id} />,
+      component: <PlanVechicles id={id} />,
     },
     {
       value: 'drivers',
       label: 'Drivers',
       icon: <Iconify icon="healthicons:truck-driver" />,
       component: (
-        <PackageDrivers id={id} />
+        <PlanDrivers id={id} />
       ),
     },
     {
@@ -64,7 +64,7 @@ export default function PackageDetailPage() {
       label: 'Serving Locations',
       icon: <Iconify icon="iconoir:stats-report" />,
       component: (
-        <PackageDrivers id={id} />
+        <PlanDrivers id={id} />
       ),
     },
     {
@@ -72,7 +72,7 @@ export default function PackageDetailPage() {
       label: 'Reports',
       icon: <Iconify icon="iconoir:stats-report" />,
       component: (
-        <PackageDrivers id={id} />
+        <PlanDrivers id={id} />
       ),
     },
     {
@@ -80,7 +80,7 @@ export default function PackageDetailPage() {
       label: 'Payments',
       icon: <Iconify icon="mdi:payment-settings" />,
       component: (
-        <PackageDrivers id={id} />
+        <PlanDrivers id={id} />
       ),
     },
 
@@ -95,9 +95,9 @@ export default function PackageDetailPage() {
 
     <Container maxWidth={themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={"Package ID : " + id}
+        heading={"Plan ID : " + id}
         links={[
-          { name: 'Packages', href: PATH_PACKAGE.root },
+          { name: 'Plans', href: PATH_PLAN.root },
 
           { name: 'Details' },
         ]}

@@ -7,7 +7,7 @@ type Props = {
     id: any
 }
 
-function BookingrVechicles({ id }: Props) {
+function BookingVechicles({ id }: Props) {
 
     const [_booking, set_booking] = useState<any>();
     const { update, get } = useBooking();

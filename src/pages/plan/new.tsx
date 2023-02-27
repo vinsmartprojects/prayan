@@ -7,40 +7,40 @@ import DashboardLayout from '../../layouts/dashboard';
 import { useSettingsContext } from '../../components/settings';
 import { APP_NAME } from 'src/assets/data/common';
 import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
-import { PATH_DASHBOARD, PATH_PACKAGE } from 'src/routes/paths';
-import PackageNewForm from 'src/sections/package/PackageNewForm';
+import { PATH_DASHBOARD, PATH_PLAN } from 'src/routes/paths';
+import PlanNewForm from 'src/sections/plan/PlanNewForm';
 
 // ----------------------------------------------------------------------
 
-PackageNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
+PlanNewPage.getLayout = (page: React.ReactElement) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function PackageNewPage() {
+export default function PlanNewPage() {
   const { themeStretch } = useSettingsContext();
 
   return (
     <>
       <Head>
-        <title>Package | Create - {APP_NAME}</title>      </Head>
+        <title>Plan | Create - {APP_NAME}</title>      </Head>
 
      
         <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create Package"
+          heading="Create Plan"
           links={[
             {
               name: 'Dashboard',
               href: PATH_DASHBOARD.root,
             },
             {
-              name: 'Packages',
-              href: PATH_PACKAGE.list,
+              name: 'Plans',
+              href: PATH_PLAN.list,
             },
             { name: 'New ' },
           ]}
         />
-        <PackageNewForm />
+        <PlanNewForm />
       </Container>
     </>
   );

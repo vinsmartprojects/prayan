@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 // @types
-import { IPackage } from '../../../@types/package';
+import { IPlan } from '../../../@types/plan';
 // components
 import Label from '../../../components/label';
 import Iconify from '../../../components/iconify';
@@ -22,7 +22,7 @@ import ConfirmDialog from '../../../components/confirm-dialog';
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: IPackage;
+  row: IPlan;
   selected: boolean;
   onEditRow: VoidFunction;
   onSelectRow: VoidFunction;
@@ -30,7 +30,7 @@ type Props = {
   onDetailRow: VoidFunction;
 };
 
-export default function PackageTableRow({
+export default function PlanTableRow({
   row,
   selected,
   onEditRow,
