@@ -179,7 +179,7 @@ export default function clientListPage() {
 
   const handleDeleteRow = async (id: string) => {
     handleCloseConfirm();
-    const deletedVendor = await deleteVendor(id);
+    const deletedVendor = await deletedVendor(id);
     await deletedVendor;
 
     if (deletedVendor?.data.success) {
@@ -210,7 +210,7 @@ export default function clientListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildClientWhereFilter(searchParam, searchQ, filterStatus)
     getVendors({
       ..._query
     });
@@ -242,7 +242,7 @@ export default function clientListPage() {
 
 
   let _searchParams: any[] = [];
-  _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
+  _searchParams = [_searchParams, ...Object.keys(_searchParams)];
 
 
   useEffect(() => {
