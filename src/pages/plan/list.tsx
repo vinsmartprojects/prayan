@@ -50,17 +50,11 @@ import { buildPlanWhereFilter } from 'src/modules/plan/helpers/buildWhereFilter'
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
 const TABLE_HEAD = [
-
   { id: 'title', label: 'plan', align: 'left' },
-  { id: 'address.area', label: 'Area', align: 'left' },
-  { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
-  { id: 'contactMobile', label: 'Mobile', align: 'left' },
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+  { id: 'planType', label: 'Rental Type', align: 'left' },
+  { id: 'pricing', label: 'Min Distance', align: 'left' },
+  { id: 'perkm', label: 'Rate Per KM', align: 'left' },
   { id: 'actions', label: '', align: 'center' },
 ];
 
@@ -92,8 +86,7 @@ export default function planListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deletePlan } = usePlan();
   const [tableData, setTableData] = useState([]);
@@ -106,33 +99,22 @@ export default function planListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(PlanSearchParams.TITLE)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(PlanSearchParams.TITLE);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getPlans(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getPlans(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -146,7 +128,11 @@ export default function planListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -165,8 +151,6 @@ export default function planListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -188,8 +172,6 @@ export default function planListPage() {
     } else {
       enqueueSnackbar(' This Plan Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -210,9 +192,9 @@ export default function planListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus);
     getPlans({
-      ..._query
+      ..._query,
     });
   };
 
@@ -226,41 +208,38 @@ export default function planListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getPlans({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
-
 
   let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(PlanStatus)];
 
-
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(PlanSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildPlanWhereFilter(searchParam, searchQ, filterStatus);
     getPlans({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Plans: List  </title>
+        <title>Pricing Plans : List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Plans"
+          heading="Car Rental Pricing"
           links={[{ name: 'All', href: PATH_PLAN.root }, { name: 'List' }]}
           action={
             <Button
@@ -269,25 +248,12 @@ export default function planListPage() {
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Plan
+              New
             </Button>
           }
         />
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: 'background.neutral',
-            }}
-          >
-            {_filterStatus.map((tab: any) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-          <Divider />
-          <PlanTableToolbar
+          {/* <PlanTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
@@ -298,7 +264,7 @@ export default function planListPage() {
             onResetFilter={handleResetFilter}
             onSearchParam={handleSearchParam}
             onSearchSubmit={onSearchSubmit}
-          />
+          /> */}
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
               dense={dense}
@@ -428,7 +394,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (plan:any) => plan.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (plan: any) => plan.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

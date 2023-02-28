@@ -38,7 +38,7 @@ export default function PlanTableRow({
   onDeleteRow,
   onDetailRow
 }: Props) {
-  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, isActive, address } = row;
+  const { id, name,code,type,minKM,PerKm,vechicleType,minDistance } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
