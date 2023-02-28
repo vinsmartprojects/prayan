@@ -28,10 +28,10 @@ export function buildLocationWhereFilter(param: any, searchQ: any, status: any) 
     }
 
 
-    if (param === "TITLE") {
+    if (param === "NAME") {
         searchQuery = {
 
-            title: {
+            name: {
                 startsWith: searchQ,
                 mode: 'insensitive',
 
@@ -39,10 +39,10 @@ export function buildLocationWhereFilter(param: any, searchQ: any, status: any) 
         }
 
     }
-    if (param === "MOBILE") {
+    if (param === "CODE") {
         searchQuery = {
 
-            contactMobile: {
+            code: {
                 startsWith: searchQ,
                 mode: 'insensitive',
 
@@ -50,45 +50,8 @@ export function buildLocationWhereFilter(param: any, searchQ: any, status: any) 
         }
 
     }
-    if (param === "EMAIL") {
-        searchQuery = {
-
-            contactEmail: {
-                startsWith: searchQ,
-                mode: 'insensitive',
-
-            }
-
-        }
-    }
-
-    if (param === "PINCODE") {
-        searchQuery = {
-            address: {
-
-                pincode: {
-                    startsWith: searchQ,
-                    mode: 'insensitive',
-
-                }
-            }
-        }
-
-    }
-
-    if (param === "AREA") {
-        searchQuery = {
-            address: {
-                area: {
-                    startsWith: searchQ,
-                    mode: 'insensitive',
-
-                }
-            }
-        }
-
-    }
-
+    
+    
     if (_statusQuery) {
         return {
             where: {

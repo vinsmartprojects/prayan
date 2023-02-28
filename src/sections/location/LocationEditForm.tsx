@@ -21,7 +21,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { ILocation, ILocationCreateInput, ILocationEdit, LocationStatus } from 'src/@types/location';
+import { ILocation, ILocationCreateInput, ILocationEdit,RentingType } from 'src/@types/location';
 import { useLocation } from 'src/modules/location/hooks/useLocation';
 import { useUploader } from 'src/modules/cdn/useUploader';
 // ----------------------------------------------------------------------
@@ -54,34 +54,13 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
   const defaultValues = useMemo(
     () => ({
       id: location?.id || undefined,
-      title: location?.title || '',
-      contactPerson: location?.contactPerson || '',
-      contactMobile: location?.contactMobile || '',
-      contactEmail: location?.contactEmail || '',
-      addressLine1: location?.address?.addressLine1 || '',
-      addressLine2: location?.address?.addressLine2 || '',
-      area: location?.address?.area || '',
-      landmark: location?.address?.landmark || '',
-      city: location?.address?.city || '',
-      pincode: location?.address?.pincode || '0',
-      state: location?.address?.state || '',
-      profileImage:
-        (location?.profileImage && { file: cdnPath(location?.profileImage), isNew: false }) ||
-        undefined,
-      country: location?.country || 'India',
-      pan: location?.pan || '',
-      panDoc: (location?.panDoc && { file: cdnPath(location?.panDoc), isNew: false }) || undefined,
-      gst: location?.gst || '',
-      gstDoc: (location?.gstDoc && { file: cdnPath(location?.gstDoc), isNew: false }) || undefined,
-      estbId: location?.estbId || '',
-      estbtDoc:
-        (location?.estbtDoc && { file: cdnPath(location?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: location?.cin || '',
-      cinDoc: (location?.cinDoc && { file: cdnPath(location?.cinDoc), isNew: false }) || undefined,
-      isVerified: location?.isVerified || false,
-      isActive: location?.isActive || false,
-      username: location?.user?.username || '',
+      name: location?.name || '',
+      code: location?.code || '',
+      pincode: location?.pincode || '',
+      longitude: location?.longitude || '',
+      latitude: location?.latitude || '',
+      
+      
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
@@ -101,7 +80,7 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
 
   const values = watch();
   useEffect(() => {
-    console.log("location ", location?.isVerified)
+    console.log("location ", location)
 
 
     if (isEdit && location) {
@@ -113,96 +92,7 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, location]);
 
-  const onSubmit = async (data: FormValuesProps) => {
-    var _locationUpdateParams: any = {};
-    if (data?.profileImage?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _locationUpdateParams.profileImage = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _locationUpdateParams.panDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.gstDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _locationUpdateParams.gstDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _locationUpdateParams.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _locationUpdateParams.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
-
-    const _communication = {
-      contactPerson: data.contactPerson,
-      contactMobile: data.contactMobile,
-      contactEmail: data.contactEmail,
-    };
-    const _address = {
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine1,
-      area: data.area,
-      landmark: data.landmark,
-      city: data.city,
-      pincode: data.pincode,
-      state: data.state,
-      country: data.country,
-    };
-
-    const _ids = {
-      gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
-    };
-
-    const _location: any = {
-      title: data.title,
-      isVerified: data?.isVerified,
-      isActive: data?.isActive,
-      address: _address,
-      ..._locationUpdateParams,
-      ..._ids,
-      ..._communication
-    };
-    try {
-      const _updatedItem = await update(location?.id, _location);
-      await _updatedItem;
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      reload();
-    } catch (error) {
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      enqueueSnackbar(error?.message, {
-        variant: "error"
-      });
-
-    };
-  }
+  
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -219,6 +109,8 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
     [setValue]
   );
 
+  function onSubmit(data:any){}
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
@@ -233,10 +125,11 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="location Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
+              <RHFTextField name="name" label="location name *" />
+              <RHFTextField name="code" label="code *" />
+              <RHFTextField name="pincode" label="pincode *" />
+              <RHFTextField name="longitude" label="longitude" />
+              <RHFTextField name="latitude" label="latitude" />
             </Box>
           </Card>
 
@@ -286,132 +179,16 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="gst" label="location's GST" />
-                <RHFUploadAvatar
-                  name="gstDoc"
-                  placeholder=" Upload GST Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'gstDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="pan" label="location's PAN" />
-                <RHFUploadAvatar
-                  name="panDoc"
-                  placeholder=" Upload PAN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'panDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="cin" label="location's CIN" />
-                <RHFUploadAvatar
-                  name="cinDoc"
-                  placeholder=" Upload CIN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'cinDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="estbId" label="location's Establishment  Doc" />
-                <RHFUploadAvatar
-                  name="estbtDoc"
-                  placeholder=" Upload Establishment Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'estbtDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
+                
+                
+                
               </Box>
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create location' : 'Save Changes'}
+                {!isEdit ? 'Create Location' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -420,10 +197,10 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isVerified ? 'success' : 'error'}
+                color={values.isActive ? 'success' : 'error'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isVerified}
+                {values.isActive}
               </Label>
             )}
 
@@ -459,7 +236,7 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
                     Account Status
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Driver's Account Status
+                    Location's Account Status
                   </Typography>
                 </>
               }
@@ -475,7 +252,7 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
                     Account Status
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Driver's Account Status
+                    Location's Account Status
                   </Typography>
                 </>
               }
@@ -493,7 +270,7 @@ export default function LocationEditForm({ isEdit = false, location }: Props) {
               }}
             >
               {' '}
-              <Typography> location Credentials</Typography>
+              <Typography> Location Credentials</Typography>
               <RHFTextField name="username" label=" Username" />
               <RHFTextField name="username" label="Password" type={'password'} />
             </Box>

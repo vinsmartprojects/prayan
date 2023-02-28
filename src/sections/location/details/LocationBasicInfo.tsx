@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'src/modules/location/hooks/useLocation';
 import LocationAboutDetail from './components/About';
-import LocationDocumentationDetail from './components/Documentation';
+
 
 type Props = {
     id: any
@@ -40,7 +40,7 @@ function LocationBasicInfo({ id }: Props) {
             sm: 'repeat(1, 1fr)',
         }}
     ><LocationAboutDetail {..._location} />
-        <LocationDocumentationDetail {..._location} /></Box>)
+        </Box>)
 }
 
 export default LocationBasicInfo

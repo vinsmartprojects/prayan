@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_LOCATION } from '../../routes/paths';
 // @types
-import { ILocation, LocationSearchParams, LocationStatus } from '../../@types/location';
+import { ILocation, LocationSearchParams } from '../../@types/location';
 // _mock_
 
 // layouts
@@ -50,18 +50,12 @@ import { buildLocationWhereFilter } from 'src/modules/location/helpers/buildWher
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
 const TABLE_HEAD = [
-
-  { id: 'title', label: 'Location', align: 'left' },
-  { id: 'address.area', label: 'Area', align: 'left' },
-  { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
-  { id: 'contactMobile', label: 'Mobile', align: 'left' },
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
-  { id: 'actions', label: '', align: 'center' },
+  { id: 'name', label: 'name', align: 'left' },
+  { id: 'code', label: 'code', align: 'left' },
+  { id: 'pincode', label: 'pincode', align: 'left' },
+  { id: 'longitude', label: 'longitude', align: 'left' },
+  { id: 'latitude', label: '', align: 'latitude' },
 ];
 
 // ----------------------------------------------------------------------
@@ -92,8 +86,7 @@ export default function locationListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deleteLocation } = useLocation();
   const [tableData, setTableData] = useState([]);
@@ -106,33 +99,22 @@ export default function locationListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(LocationSearchParams.TITLE)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(LocationSearchParams.NAME);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getLocations(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getLocations(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -146,7 +128,11 @@ export default function locationListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -165,8 +151,6 @@ export default function locationListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -188,8 +172,6 @@ export default function locationListPage() {
     } else {
       enqueueSnackbar(' This Location Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -210,9 +192,9 @@ export default function locationListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildLocationWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildLocationWhereFilter(searchParam, searchQ, filterStatus);
     getLocations({
-      ..._query
+      ..._query,
     });
   };
 
@@ -226,36 +208,32 @@ export default function locationListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getLocations({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
 
-
-  let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(LocationStatus)];
-
+  
 
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(LocationSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildLocationWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildLocationWhereFilter(searchParam, searchQ, filterStatus);
     getLocations({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Locations: List  </title>
+        <title>Pricing Locations : List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -269,25 +247,12 @@ export default function locationListPage() {
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Location
+              New
             </Button>
           }
         />
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: 'background.neutral',
-            }}
-          >
-            {_filterStatus.map((tab: any) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-          <Divider />
-          <LocationTableToolbar
+          {/* <LocationTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
             isFiltered={isFiltered}
@@ -298,7 +263,7 @@ export default function locationListPage() {
             onResetFilter={handleResetFilter}
             onSearchParam={handleSearchParam}
             onSearchSubmit={onSearchSubmit}
-          />
+          /> */}
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
               dense={dense}
@@ -428,7 +393,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (location) => location.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (location: any) => location.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
