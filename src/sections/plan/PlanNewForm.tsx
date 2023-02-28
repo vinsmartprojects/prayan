@@ -21,7 +21,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IPlan, IPlanCreateInput, IPlanEdit, PlanStatus } from 'src/@types/plan';
+import { IPlan, IPlanCreateInput, IPlanEdit, RentingType } from 'src/@types/plan';
 import { usePlan } from 'src/modules/plan/hooks/usePlan';
 import { useUploader } from 'src/modules/cdn/useUploader';
 import { create } from 'lodash';
@@ -36,58 +36,37 @@ type Props = {
   plan?: IPlan;
 };
 
-export default function PlanEditForm({ isEdit = false, plan }: Props) {
+export default function PlanNewForm( props: Props) {
   const { push, reload } = useRouter();
   const { create } = usePlan();
   const { enqueueSnackbar } = useSnackbar();
   const { uploadFile, cdnPath } = useUploader();
 
-
   const NewPlanSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    contactMobile: Yup.string().required('Mobile No  is required'),
-    contactPerson: Yup.string().required('Phone number is required'),
-    addressLine1: Yup.string().required('Address Line 1 is required'),
-    area: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    pincode: Yup.string().required('Role is required'),
+    name: Yup.string().required('Name is required'),
+    code: Yup.string().required('Code is required'),
+    type: Yup.string().required('Type is required'),
+    minKM: Yup.string().required('Minimum Kilometer is required'),
+    perKm: Yup.string().required('Rate Per Kilometer is required'),
+    vechicleType: Yup.string().required('Vechile type is required'),
+    minDistance: Yup.string().required('Minimum Distance is required'),
+    
   });
 
   const defaultValues = useMemo(
     () => ({
-      title: '',
-      contactPerson: '',
-      contactMobile: '',
-      contactEmail: '',
-      addressLine1: '',
-      addressLine2: '',
-      area: '',
-      landmark: '',
-      city: '',
-      pincode: '',
-      state: '',
+      name: '',
+      code: '',
+      type: RentingType.ONEWAY,
+      minKM: '',
+      perKm: '',
+      vechicleType: '',
+      minDistance: '',
 
-      profileImage:
-        (plan?.profileImage && { file: cdnPath(plan?.profileImage), isNew: false }) ||
-        undefined,
-      country: plan?.country || 'India',
-      pan: plan?.pan || '',
-      panDoc: (plan?.panDoc && { file: cdnPath(plan?.panDoc), isNew: false }) || undefined,
-      gst: plan?.gst || '',
-      gstDoc: (plan?.gstDoc && { file: cdnPath(plan?.gstDoc), isNew: false }) || undefined,
-      estbId: plan?.estbId || '',
-      estbtDoc:
-        (plan?.estbtDoc && { file: cdnPath(plan?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: plan?.cin || '',
-      cinDoc: (plan?.cinDoc && { file: cdnPath(plan?.cinDoc), isNew: false }) || undefined,
-      isVerified: plan?.isVerified || false,
-      isActive: plan?.isVerified || false,
-      username: plan?.user?.username || '',
+      isActive :false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [plan]
+    []
   );
 
   const methods = useForm<FormValuesProps>({
@@ -106,106 +85,9 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
 
   const values = watch();
 
-  useEffect(() => {
-    if (isEdit && plan) {
-      reset(defaultValues);
-    }
-    if (!isEdit) {
-      reset(defaultValues);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, plan]);
+  
 
-  const onSubmit = async (data: FormValuesProps) => {
-    var _planDocs: any = {};
-    if (data?.profileImage?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planDocs.profileImage = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _planDocs.panDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.gstDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planDocs.gstDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planDocs.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planDocs.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    const _communication = {
-      contactPerson: data.contactPerson,
-      contactMobile: data.contactMobile,
-      contactEmail: data.contactEmail,
-    };
-    const _address = {
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine1,
-      area: data.area,
-      landmark: data.landmark,
-      city: data.city,
-      pincode: data.pincode,
-      state: data.state,
-      country: data.country,
-    };
-    const _ids = {
-      gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
-    };
-    const _plan = {
-      title: data.title,
-      address: _address,
-      communication: _communication,
-      docs: _planDocs,
-      ids: _ids,
-    };
-    try {
-      const _updatedItem = await create(_plan);
-      await _updatedItem;
-      if (_updatedItem?.data) {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        reset();
-        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-        reload();
-      }
-      else {
-        enqueueSnackbar(_updatedItem?.error?.message, {
-          variant: "error"
-        });
-      }
-
-    } catch (error) {
-      enqueueSnackbar(error?.message, {
-        variant: "error"
-      });
-    }
-  };
+  const onSubmit = async (data: FormValuesProps) => {};
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -237,62 +119,24 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
               }}
             >
               <RHFTextField name="title" label="Plan Name *" />
+              <RHFTextField name="code" label="Code *" />
               <RHFTextField name="rentalType" label="Rental Type *" />
-              <RHFTextField name="minDistance" label="Minimum Distance *" />
+              <RHFTextField name="minKM" label="Minimum Kilometer *" />
               <RHFTextField name="perKm" label="Rate Per Kilometer " />
+              <RHFTextField name="vechicleType" label="Vehicle Type " />
+              <RHFTextField name="minDistance" label="Minimum Distance *" />
             </Box>
           </Card>
 
-          
-         
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create plan' : 'Save Changes'}
+                Create Plan 
               </LoadingButton>
             </Stack>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Card sx={{ pt: 10, pb: 5, px: 3 }}>
-            {isEdit && (
-              <Label
-                color={values.isVerified ? 'success' : 'error'}
-                sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
-              >
-                {values.isVerified}
-              </Label>
-            )}
-
-            <Box sx={{ mb: 5 }}>
-              <RHFUploadAvatar
-                name="profileImage"
-                maxSize={3145728}
-                onDrop={(data: any) => handleDocUpload(data, 'profileImage')}
-                helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary',
-                    }}
-                  >
-                    Allowed *.jpeg, *.jpg, *.png, *.gif
-                    <br /> max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-            </Box>
-
-
-
-
-          </Card>
-
-        </Grid>
+        
       </Grid>
     </FormProvider>
   );

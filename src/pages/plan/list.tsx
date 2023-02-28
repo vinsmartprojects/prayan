@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_PLAN } from '../../routes/paths';
 // @types
-import { IPlan, PlanSearchParams, PlanStatus } from '../../@types/plan';
+import { IPlan, PlanSearchParams } from '../../@types/plan';
 // _mock_
 
 // layouts
@@ -99,7 +99,7 @@ export default function planListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(PlanSearchParams.TITLE);
+  const [searchParam, setsearchParam] = useState<any | undefined>(PlanSearchParams.NAME);
   const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
 
@@ -218,8 +218,7 @@ export default function planListPage() {
     setsearchParam(event.target.value);
   };
 
-  let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(PlanStatus)];
+  
 
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(PlanSearchParams)];

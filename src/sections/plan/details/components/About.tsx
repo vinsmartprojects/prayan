@@ -22,51 +22,37 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function PlanAboutDetail({
-    title, contactEmail, contactMobile, contactPerson, address
+    name, code, type, minKM, perKm, vechicleType, minDistance
 }: IPlan) {
     return (
         <Card>
-            <CardHeader title={title} />
+            <CardHeader name={name} />
 
             <Stack spacing={2} sx={{ p: 3 }}>
                 <Stack direction="row">
                     <StyledIcon icon="eva:pin-fill" />
-                    <Typography variant="body2">{address?.addressLine1 + " " + address?.addressLine2 + " " + address?.area + " " + address?.city + " "}</Typography>
+                    <Typography variant="body2">{code}</Typography>
                 </Stack>
 
                 <Stack direction="row">
                     <StyledIcon icon="material-symbols:location-chip-outline" />
-                    <Typography variant="body2">{address?.pincode + " "}</Typography>
+                    <Typography variant="body2">{type}</Typography>
                 </Stack>
                 <Stack direction="row">
-                    <StyledIcon icon="material-symbols:person-2-outline" />
-
-                    <Typography variant="body2">
-
-                        <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactPerson}
-                        </Link>
-                    </Typography>
+                    <StyledIcon icon="material-symbols:location-chip-outline" />
+                    <Typography variant="body2">{minKM}</Typography>
                 </Stack>
                 <Stack direction="row">
-                    <StyledIcon icon="material-symbols:phone-enabled-sharp" />
-
-                    <Typography variant="body2">
-
-                        <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactMobile}
-                        </Link>
-                    </Typography>
+                    <StyledIcon icon="material-symbols:location-chip-outline" />
+                    <Typography variant="body2">{perKm}</Typography>
                 </Stack>
                 <Stack direction="row">
-                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
-
-                    <Typography variant="body2">
-
-                        <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactEmail}
-                        </Link>
-                    </Typography>
+                    <StyledIcon icon="material-symbols:location-chip-outline" />
+                    <Typography variant="body2">{vechicleType}</Typography>
+                </Stack>
+                 <Stack direction="row">
+                    <StyledIcon icon="material-symbols:location-chip-outline" />
+                    <Typography variant="body2">{minDistance}</Typography>
                 </Stack>
             </Stack>
         </Card>

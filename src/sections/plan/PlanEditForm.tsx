@@ -21,7 +21,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IPlan, IPlanCreateInput, IPlanEdit, PlanStatus } from 'src/@types/plan';
+import { IPlan, IPlanCreateInput, IPlanEdit,RentingType } from 'src/@types/plan';
 import { usePlan } from 'src/modules/plan/hooks/usePlan';
 import { useUploader } from 'src/modules/cdn/useUploader';
 // ----------------------------------------------------------------------
@@ -54,34 +54,15 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
   const defaultValues = useMemo(
     () => ({
       id: plan?.id || undefined,
-      title: plan?.title || '',
-      contactPerson: plan?.contactPerson || '',
-      contactMobile: plan?.contactMobile || '',
-      contactEmail: plan?.contactEmail || '',
-      addressLine1: plan?.address?.addressLine1 || '',
-      addressLine2: plan?.address?.addressLine2 || '',
-      area: plan?.address?.area || '',
-      landmark: plan?.address?.landmark || '',
-      city: plan?.address?.city || '',
-      pincode: plan?.address?.pincode || '0',
-      state: plan?.address?.state || '',
-      profileImage:
-        (plan?.profileImage && { file: cdnPath(plan?.profileImage), isNew: false }) ||
-        undefined,
-      country: plan?.country || 'India',
-      pan: plan?.pan || '',
-      panDoc: (plan?.panDoc && { file: cdnPath(plan?.panDoc), isNew: false }) || undefined,
-      gst: plan?.gst || '',
-      gstDoc: (plan?.gstDoc && { file: cdnPath(plan?.gstDoc), isNew: false }) || undefined,
-      estbId: plan?.estbId || '',
-      estbtDoc:
-        (plan?.estbtDoc && { file: cdnPath(plan?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: plan?.cin || '',
-      cinDoc: (plan?.cinDoc && { file: cdnPath(plan?.cinDoc), isNew: false }) || undefined,
-      isVerified: plan?.isVerified || false,
-      isActive: plan?.isActive || false,
-      username: plan?.user?.username || '',
+      name: plan?.name || '',
+      code: plan?.code || '',
+      type: plan?.type || RentingType.ONEDAY,
+      minKM: plan?.minKM || '',
+      perKm: plan?.perKm || '',
+      vechicleType: plan?.vechicleType || '',
+      minDistance: plan?.minDistance ,
+      
+      
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [plan]
@@ -101,7 +82,7 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
 
   const values = watch();
   useEffect(() => {
-    console.log("plan ", plan?.isVerified)
+    console.log("plan ", plan)
 
 
     if (isEdit && plan) {
@@ -113,96 +94,7 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, plan]);
 
-  const onSubmit = async (data: FormValuesProps) => {
-    var _planUpdateParams: any = {};
-    if (data?.profileImage?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _planUpdateParams.profileImage = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _planUpdateParams.panDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.gstDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planUpdateParams.gstDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planUpdateParams.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _planUpdateParams.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
-
-    const _communication = {
-      contactPerson: data.contactPerson,
-      contactMobile: data.contactMobile,
-      contactEmail: data.contactEmail,
-    };
-    const _address = {
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine1,
-      area: data.area,
-      landmark: data.landmark,
-      city: data.city,
-      pincode: data.pincode,
-      state: data.state,
-      country: data.country,
-    };
-
-    const _ids = {
-      gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
-    };
-
-    const _plan: any = {
-      title: data.title,
-      isVerified: data?.isVerified,
-      isActive: data?.isActive,
-      address: _address,
-      ..._planUpdateParams,
-      ..._ids,
-      ..._communication
-    };
-    try {
-      const _updatedItem = await update(plan?.id, _plan);
-      await _updatedItem;
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      reload();
-    } catch (error) {
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      enqueueSnackbar(error?.message, {
-        variant: "error"
-      });
-
-    };
-  }
+  
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -218,6 +110,8 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
     },
     [setValue]
   );
+
+  function onSubmit(data:any){}
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -420,10 +314,10 @@ export default function PlanEditForm({ isEdit = false, plan }: Props) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isVerified ? 'success' : 'error'}
+                color={values.isActive ? 'success' : 'error'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isVerified}
+                {values.isActive}
               </Label>
             )}
 

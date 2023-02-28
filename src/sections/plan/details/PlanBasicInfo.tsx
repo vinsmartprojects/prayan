@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { usePlan } from 'src/modules/plan/hooks/usePlan';
 import PlanAboutDetail from './components/About';
-import PlanDocumentationDetail from './components/Documentation';
+
 
 type Props = {
     id: any
@@ -40,7 +40,7 @@ function PlanBasicInfo({ id }: Props) {
             sm: 'repeat(1, 1fr)',
         }}
     ><PlanAboutDetail {..._plan} />
-        <PlanDocumentationDetail {..._plan} /></Box>)
+        </Box>)
 }
 
 export default PlanBasicInfo
