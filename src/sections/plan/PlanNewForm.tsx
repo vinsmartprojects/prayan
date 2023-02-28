@@ -36,7 +36,7 @@ type Props = {
   plan?: IPlan;
 };
 
-export default function PlanNewForm( props: Props) {
+export default function PlanNewForm(props: Props) {
   const { push, reload } = useRouter();
   const { create } = usePlan();
   const { enqueueSnackbar } = useSnackbar();
@@ -50,7 +50,6 @@ export default function PlanNewForm( props: Props) {
     perKm: Yup.string().required('Rate Per Kilometer is required'),
     vechicleType: Yup.string().required('Vechile type is required'),
     minDistance: Yup.string().required('Minimum Distance is required'),
-    
   });
 
   const defaultValues = useMemo(
@@ -63,7 +62,7 @@ export default function PlanNewForm( props: Props) {
       vechicleType: '',
       minDistance: '',
 
-      isActive :false,
+      isActive: false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -84,8 +83,6 @@ export default function PlanNewForm( props: Props) {
   } = methods;
 
   const values = watch();
-
-  
 
   const onSubmit = async (data: FormValuesProps) => {};
 
@@ -120,7 +117,15 @@ export default function PlanNewForm( props: Props) {
             >
               <RHFTextField name="title" label="Plan Name *" />
               <RHFTextField name="code" label="Code *" />
-              <RHFTextField name="rentalType" label="Rental Type *" />
+              <RHFSelect native name="rentalType" label="Rental Type" placeholder="Rental Type">
+                <option value="" />
+                {Object.values(RentingType).map((type:any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+
               <RHFTextField name="minKM" label="Minimum Kilometer *" />
               <RHFTextField name="perKm" label="Rate Per Kilometer " />
               <RHFTextField name="vechicleType" label="Vehicle Type " />
@@ -131,12 +136,11 @@ export default function PlanNewForm( props: Props) {
           <Card sx={{ p: 3, m: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                Create Plan 
+                Create Plan
               </LoadingButton>
             </Stack>
           </Card>
         </Grid>
-        
       </Grid>
     </FormProvider>
   );
