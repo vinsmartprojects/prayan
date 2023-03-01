@@ -1,119 +1,134 @@
 import { Suspense } from 'react';
 
 export type IVehicleCreateInput = {
-  title: string;
-  contactPerson: string;
-  contactMobile: string;
-  contactEmail: string;
-  addressLine1: string;
-  addressLine2: string;
-  area: string;
-  landmark: string;
-  logo: string;
-  city: string;
-  pincode: string;
-  status: VehicleStatus;
-  state: string;
-  country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
-  isVerified: boolean;
-  isActive: boolean;
-  profileImage: any;
+  registerNo: string;
+  registrationType: RegistrationType;
+  permitType: PermitType;
+  permitNo?: string;
+  make?: string;
+  model?: string;
+  year?: string;
+  color?: string;
+  vin?: string;
+  trNo?: string;
+  chassiNo?: string;
+  engineNo?: string;
+  seatingCapacity?: string;
+  rcBookDoc?: string;
+  rcNo?: string;
+  rcExpritationDate:any;        
+  insuranceDoc?: string;
+  insuranceNo?:string;
+  insurationExpritationDate:any;         
+  emissionDoc?:string;
+  emissionNo?:string;
+  emissionExpritationDate:any;
+  taxDoc?:string;
+  taxno?:string;
+  taxExpritationDate:any;         
+  fcExpritationDate:any;
+  remarks?:string;
+  fuelType: FuelType;         
+  type:any;    
+  vendor:any;          
+  gpsBox: boolean;         
+  mobileDevice: boolean;          
+  isAc:boolean;    
 };
+
 export type IVehicleEdit = {
-  id: any;
-  title: string;
-  contactPerson: string;
-  contactMobile: string;
-  contactEmail: string;
-  addressLine1: string;
-  addressLine2: string;
-  area: string;
-  landmark: string;
-  logo: string;
-  city: string;
-  pincode: string;
-  status: VehicleStatus;
-  state: string;
-  country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
-
-  user?: any;
-  profileImage?: any;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
-  isVerified: boolean;
-  isActive: boolean;
+id: any;
+ registerNo: string;
+ registrationType: RegistrationType;
+ permitType: PermitType;
+  permitNo?: string;
+  make?: string;
+  model?: string;
+  year?: string;
+  color?: string;
+  vin?: string;
+  trNo?: string;
+  chassiNo?: string;
+  engineNo?: string;
+  seatingCapacity?: string;
+  rcBookDoc?: string;
+  rcNo?: string;
+  rcExpritationDate:any;        
+  insuranceDoc?: string;
+  insuranceNo?:string;
+  insurationExpritationDate:any;         
+  emissionDoc?:string;
+  emissionNo?:string;
+  emissionExpritationDate:any;
+  taxDoc?:string;
+  taxno?:string;
+  taxExpritationDate:any;         
+  fcExpritationDate:any;
+  remarks?:string;
+  fuelType: FuelType;         
+  type:any;    
+  vendor:any;          
+  gpsBox: boolean;         
+  mobileDevice: boolean;          
+  isAc:boolean;   
 };
+
 export type IVehicle = {
-  id: any;
-  title: string;
-  contactPerson: string;
-  contactMobile: string;
-  contactEmail: string;
-  address: Address;
-  profileImage: any;
-  status: VehicleStatus;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
-  state: string;
-  country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
-  isVerified: boolean;
-  isActive: boolean;
-  user?: any;
+ id: any;
+ registerNo: string;
+ registrationType: RegistrationType;
+ permitType: PermitType;
+  permitNo?: string;
+  make?: string;
+  model?: string;
+  year?: string;
+  color?: string;
+  vin?: string;
+  trNo?: string;
+  chassiNo?: string;
+  engineNo?: string;
+  seatingCapacity?: string;
+  rcBookDoc?: string;
+  rcNo?: string;
+  rcExpritationDate:any;        
+  insuranceDoc?: string;
+  insuranceNo?:string;
+  insurationExpritationDate:any;         
+  emissionDoc?:string;
+  emissionNo?:string;
+  emissionExpritationDate:any;
+  taxDoc?:string;
+  taxno?:string;
+  taxExpritationDate:any;         
+  fcExpritationDate:any;
+  remarks?:string;
+  fuelType: FuelType;         
+  type:any;    
+  vendor:any;          
+  gpsBox: boolean;         
+  mobileDevice: boolean;          
+  isAc:boolean;       
+  createdAt: any;
+  updatedAt: any;
 };
-
-export type Address = {
-  addressLine1: string;
-  addressLine2: string;
-  area: string;
-  landmark: string;
-  city: string;
-  pincode: string;
-  state: string;
+export enum RegistrationType{
+  YELLOWBOARD="YELLOWBOARD",
+  BLACKBOARD="BLACKBOARD",
+  WHITEBOARD="WHITEBOARD",
+  GREENBOARD="GREENBOARD",
 };
-
-export type VehicleDoc = {
-  addressLine1: string;
-  addressLine2: string;
-  area: string;
-  landmark: string;
-  city: string;
-  pincode: string;
-  state: string;
-  country: string;
-};
-
-export enum VehicleStatus {
-  ACTIVE = 'isActive',
-  VERFIIED = 'isVerified',
-  SUSPENDED = 'isBanned',
+export enum FuelType{
+  DIESEL="DIESEL",
+  PETROL="PETROL",
+  GASOLINE="GASOLINE",
+  ELECTRIC="ELECTRIC",
+  HYBRID="HYBRID",
 }
-
+export enum PermitType {
+STATEPERMIT="STATEPERMIT",
+ALLINDIA="ALLINDIA",
+};
 
 export enum VehicleSearchParams {
-  TITLE="TITLE" ,
-  AREA="AREA",
-  PINCODE="PINCODE",
-  MOBILE="MOBILE",
-  EMAIL="EMAIL",
-   
+ REGISTERNO="REGISTERNO",  
 }

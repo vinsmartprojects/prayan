@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_VEHICLE } from '../../routes/paths';
 // @types
-import { IVehicle, VehicleSearchParams, VehicleStatus } from '../../@types/vehicle';
+import { IVehicle, VehicleSearchParams } from '../../@types/vehicle';
 // _mock_
 
 // layouts
@@ -54,14 +54,46 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
 
-  { id: 'title', label: 'Vehicle', align: 'left' },
-  { id: 'address.area', label: 'Area', align: 'left' },
-  { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
-  { id: 'contactMobile', label: 'Mobile', align: 'left' },
+  { id: 'registerNo', label: 'Registration Number', align: 'left' },
+  { id: 'registrationType', label: 'Registration Type', align: 'left' },
+  { id: 'permitType', label: 'Permit Type', align: 'left' },
+  { id: 'permitNo', label: 'Permit Number', align: 'left' },
+  { id: 'make', label: 'Make', align: 'left' },
+  { id: 'model', label: 'Model', align: 'left' },
+  { id: 'year', label: 'Year', align: 'left' },
+  { id: 'color', label: 'Color', align: 'left' },
+  { id: 'vin', label: 'Vin', align: 'left' },
+  { id: 'trNo', label: 'Tr Number', align: 'left' },
+  { id: 'chassiNo', label: 'Chassi Number', align: 'left' },
+  { id: 'engineNo', label: 'Engine Number', align: 'left' },
+  { id: 'seatingCapacity', label: 'Seating Capacity', align: 'left' },
+  { id: 'rcBookDoc', label: 'RC Book Document', align: 'left' },
+  { id: 'rcNo', label: 'RC Number', align: 'left' },
+  { id: 'rcExpritationDate', label: 'RC Expritation Date', align: 'left' },
+  { id: 'insuranceDoc', label: 'Insurance Document', align: 'left' },
+  { id: 'insuranceNo', label: 'Insurance Number', align: 'left' },
+  { id: 'insurationExpritationDate', label: 'Insurance Expritation Date', align: 'left' },
+  { id: 'emissionDoc', label: 'Emission Document', align: 'left' },
+  { id: 'emissionNo', label: 'Emission Number', align: 'left' },
+  { id: 'emissionExpritationDate', label: 'Emission Expritation Date', align: 'left' },
+  { id: 'taxDoc', label: 'Tax Document', align: 'left' },
+  { id: 'taxno', label: 'Tax Number', align: 'left' },
+  { id: 'taxExpritationDate', label: 'Tax Expritation Date', align: 'left' },
+  { id: 'fcExpritationDate', label: 'FC Expritation Date', align: 'left' },
+  { id: 'remarks', label: 'Remarks', align: 'left' },
+  { id: 'fuelType', label: 'Fuel Type', align: 'left' },
+  { id: 'type', label: 'Type', align: 'left' },
+  { id: 'vendor', label: 'Vendor', align: 'left' },
+  { id: 'gpsBox', label: 'GPS Box', align: 'left' },
+  { id: ' mobileDevice', label: 'Mobile Device', align: 'left' },
+  { id: 'isAc', label: 'Is Ac Available', align: 'left' },
+  
+  
+  
   { id: 'isActive', label: 'Active', align: 'center' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
   { id: 'actions', label: '', align: 'center' },
+ 
 ];
 
 // ----------------------------------------------------------------------
@@ -106,7 +138,7 @@ export default function vehicleListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(VehicleSearchParams.TITLE)
+  const [searchParam, setsearchParam] = useState<any | undefined>(VehicleSearchParams.REGISTERNO)
   const [searchQ, setsearchQ] = useState("")
   const { enqueueSnackbar } = useSnackbar();
 
@@ -237,8 +269,7 @@ export default function vehicleListPage() {
   };
 
 
-  let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(VehicleStatus)];
+  
 
 
   let _searchParams: any[] = [];
@@ -282,7 +313,7 @@ export default function vehicleListPage() {
               bgcolor: 'background.neutral',
             }}
           >
-            {_filterStatus.map((tab: any) => (
+            {filterStatus.map((tab: any) => (
               <Tab key={tab} label={tab} value={tab} />
             ))}
           </Tabs>
@@ -428,7 +459,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (vehicle) => vehicle.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+       (vehicle) => vehicle.registerNo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

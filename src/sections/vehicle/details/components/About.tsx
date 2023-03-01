@@ -22,21 +22,21 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function VehicleAboutDetail({
-    title, contactEmail, contactMobile, contactPerson, address
+    registerNo, registrationType, permitType, permitNo, make, model,year,color,vin,trNo,chassiNo,engineNo,seatingCapacity
 }: IVehicle) {
     return (
         <Card>
-            <CardHeader title={title} />
+            <CardHeader registerNo={registerNo} />
 
             <Stack spacing={2} sx={{ p: 3 }}>
                 <Stack direction="row">
                     <StyledIcon icon="eva:pin-fill" />
-                    <Typography variant="body2">{address?.addressLine1 + " " + address?.addressLine2 + " " + address?.area + " " + address?.city + " "}</Typography>
+                    <Typography variant="body2">{registerNo}</Typography>
                 </Stack>
 
                 <Stack direction="row">
                     <StyledIcon icon="material-symbols:location-chip-outline" />
-                    <Typography variant="body2">{address?.pincode + " "}</Typography>
+                    <Typography variant="body2">{registrationType}</Typography>
                 </Stack>
                 <Stack direction="row">
                     <StyledIcon icon="material-symbols:person-2-outline" />
@@ -44,7 +44,7 @@ export default function VehicleAboutDetail({
                     <Typography variant="body2">
 
                         <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactPerson}
+                            {permitType}
                         </Link>
                     </Typography>
                 </Stack>
@@ -54,7 +54,7 @@ export default function VehicleAboutDetail({
                     <Typography variant="body2">
 
                         <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactMobile}
+                            {permitNo}
                         </Link>
                     </Typography>
                 </Stack>
@@ -64,7 +64,87 @@ export default function VehicleAboutDetail({
                     <Typography variant="body2">
 
                         <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactEmail}
+                            {make}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {model}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {year}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {color}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {vin}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {trNo}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {chassiNo}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {engineNo}
+                        </Link>
+                    </Typography>
+                </Stack>
+                <Stack direction="row">
+                    <StyledIcon icon="material-symbols:alternate-email-sharp" />
+
+                    <Typography variant="body2">
+
+                        <Link component="span" variant="subtitle2" color="text.primary">
+                            {seatingCapacity}
                         </Link>
                     </Typography>
                 </Stack>

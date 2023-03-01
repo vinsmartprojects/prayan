@@ -28,10 +28,10 @@ export function buildVehicleWhereFilter(param: any, searchQ: any, status: any) {
     }
 
 
-    if (param === "TITLE") {
+    if (param === "REGISTRATIONNO") {
         searchQuery = {
 
-            title: {
+            registerNo: {
                 startsWith: searchQ,
                 mode: 'insensitive',
 
@@ -39,55 +39,10 @@ export function buildVehicleWhereFilter(param: any, searchQ: any, status: any) {
         }
 
     }
-    if (param === "MOBILE") {
-        searchQuery = {
+   
+    
 
-            contactMobile: {
-                startsWith: searchQ,
-                mode: 'insensitive',
-
-            }
-        }
-
-    }
-    if (param === "EMAIL") {
-        searchQuery = {
-
-            contactEmail: {
-                startsWith: searchQ,
-                mode: 'insensitive',
-
-            }
-
-        }
-    }
-
-    if (param === "PINCODE") {
-        searchQuery = {
-            address: {
-
-                pincode: {
-                    startsWith: searchQ,
-                    mode: 'insensitive',
-
-                }
-            }
-        }
-
-    }
-
-    if (param === "AREA") {
-        searchQuery = {
-            address: {
-                area: {
-                    startsWith: searchQ,
-                    mode: 'insensitive',
-
-                }
-            }
-        }
-
-    }
+   
 
     if (_statusQuery) {
         return {

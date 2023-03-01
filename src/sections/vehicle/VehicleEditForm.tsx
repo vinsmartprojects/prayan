@@ -54,34 +54,44 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
   const defaultValues = useMemo(
     () => ({
       id: vehicle?.id || undefined,
-      title: vehicle?.title || '',
-      contactPerson: vehicle?.contactPerson || '',
-      contactMobile: vehicle?.contactMobile || '',
-      contactEmail: vehicle?.contactEmail || '',
-      addressLine1: vehicle?.address?.addressLine1 || '',
-      addressLine2: vehicle?.address?.addressLine2 || '',
-      area: vehicle?.address?.area || '',
-      landmark: vehicle?.address?.landmark || '',
-      city: vehicle?.address?.city || '',
-      pincode: vehicle?.address?.pincode || '0',
-      state: vehicle?.address?.state || '',
-      profileImage:
-        (vehicle?.profileImage && { file: cdnPath(vehicle?.profileImage), isNew: false }) ||
+      registerNo: vehicle?.registerNo || '',
+      registrationType: vehicle?.registrationType || '',
+      permitType: vehicle?.permitType || '',
+      permitNo: vehicle?.permitNo || '',
+      make: vehicle?.make || '',
+      model: vehicle?.model || '',
+      year: vehicle?.year || '',
+      color: vehicle?.color || '',
+      vin: vehicle?.vin || '',
+      trNo: vehicle?.trNo || '',
+      chassiNo: vehicle?.chassiNo || '',
+      engineNo: vehicle?.engineNo || '',
+      seatingCapacity: vehicle?.seatingCapacity || '',
+      rcBookDoc: (vehicle?.rcBookDoc && { file: cdnPath(vehicle?.rcBookDoc), isNew: false }) || undefined,
+      rcNo: vehicle?.rcNo || '',
+      rcExpritationDate: vehicle?.rcExpritationDate || '',
+      insuranceDoc: (vehicle?.insuranceDoc && { file: cdnPath(vehicle?.insuranceDoc), isNew: false }) || undefined,
+      insuranceNo: vehicle?.insuranceNo || '',
+      insurationExpritationDate: vehicle?.insurationExpritationDate || '',
+      emissionDoc:
+        (vehicle?.emissionDoc && { file: cdnPath(vehicle?.emissionDoc), isNew: false }) ||
         undefined,
-      country: vehicle?.country || 'India',
-      pan: vehicle?.pan || '',
-      panDoc: (vehicle?.panDoc && { file: cdnPath(vehicle?.panDoc), isNew: false }) || undefined,
-      gst: vehicle?.gst || '',
-      gstDoc: (vehicle?.gstDoc && { file: cdnPath(vehicle?.gstDoc), isNew: false }) || undefined,
-      estbId: vehicle?.estbId || '',
-      estbtDoc:
-        (vehicle?.estbtDoc && { file: cdnPath(vehicle?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: vehicle?.cin || '',
-      cinDoc: (vehicle?.cinDoc && { file: cdnPath(vehicle?.cinDoc), isNew: false }) || undefined,
-      isVerified: vehicle?.isVerified || false,
-      isActive: vehicle?.isActive || false,
-      username: vehicle?.user?.username || '',
+      emissionNo: vehicle?.emissionNo || '',
+      emissionExpritationDate: vehicle?.emissionExpritationDate || '',
+      taxDoc: (vehicle?.taxDoc && { file: cdnPath(vehicle?.taxDoc), isNew: false }) || undefined,
+      taxno: vehicle?.taxno || '',
+      taxExpritationDate: vehicle?.taxExpritationDate || '',
+      fcExpritationDate: vehicle?.fcExpritationDate || '',
+      remarks: vehicle?.remarks || '',
+      fuelType: vehicle?.fuelType || '',
+      type: vehicle?.type || '',
+      vendor: vehicle?.vendor || '',
+      gpsBox: vehicle?.gpsBox || '',
+       mobileDevice: vehicle?.mobileDevice || '',
+       isAc: vehicle?.isAc || '',
+
+
+      
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vehicle]
@@ -101,7 +111,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
 
   const values = watch();
   useEffect(() => {
-    console.log("vehicle ", vehicle?.isVerified)
+    console.log("vehicle ", vehicle)
 
 
     if (isEdit && vehicle) {
@@ -113,96 +123,6 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, vehicle]);
 
-  const onSubmit = async (data: FormValuesProps) => {
-    var _vehicleUpdateParams: any = {};
-    if (data?.profileImage?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.profileImage?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _vehicleUpdateParams.profileImage = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _vehicleUpdateParams.panDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.gstDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _vehicleUpdateParams.gstDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _vehicleUpdateParams.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _vehicleUpdateParams.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
-
-    const _communication = {
-      contactPerson: data.contactPerson,
-      contactMobile: data.contactMobile,
-      contactEmail: data.contactEmail,
-    };
-    const _address = {
-      addressLine1: data.addressLine1,
-      addressLine2: data.addressLine1,
-      area: data.area,
-      landmark: data.landmark,
-      city: data.city,
-      pincode: data.pincode,
-      state: data.state,
-      country: data.country,
-    };
-
-    const _ids = {
-      gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
-    };
-
-    const _vehicle: any = {
-      title: data.title,
-      isVerified: data?.isVerified,
-      isActive: data?.isActive,
-      address: _address,
-      ..._vehicleUpdateParams,
-      ..._ids,
-      ..._communication
-    };
-    try {
-      const _updatedItem = await update(vehicle?.id, _vehicle);
-      await _updatedItem;
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      reload();
-    } catch (error) {
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      enqueueSnackbar(error?.message, {
-        variant: "error"
-      });
-
-    };
-  }
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -233,40 +153,23 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="Vehicle Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
-              <RHFTextField name="contactMobile" label="Phone Number *" />
-              <RHFTextField name="contactEmail" label="Email  Number " />
+              <RHFTextField name="registerNo" label="Registration Number *" />
+              <RHFTextField name="registrationType" label="Registration Type *" />
+              <RHFTextField name="permitType" label="Permit Type *" />
+              <RHFTextField name="permitNo" label="Permit No " />
+              <RHFTextField name="make" label="Make " />
+              <RHFTextField name="model" label="Model" />
+              <RHFTextField name="year" label="Year " />
+              <RHFTextField name="color" label="Color " />
+              <RHFTextField name="vin" label="vin " />
+              <RHFTextField name="trNo" label="Tr Number " />
+              <RHFTextField name="chassiNo" label="Chassi Number " />
+              <RHFTextField name="engineNo" label="Engine Number " />
+              <RHFTextField name="seatingCapacity" label="Seating Capacity " />
             </Box>
           </Card>
 
-          <Card sx={{ p: 3, m: 2 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="addressLine1" label="Address Line 1*" />
-              <RHFTextField name="addressLine2" label="Address Line 2" />
-              <RHFTextField name="area" label="Area / Location " />
-              <RHFTextField name="landmark" label="Landmark / Nearby" />
-              <RHFTextField name="pincode" label="Pincode*" />
-              <RHFTextField name="city" label="City* " />
-              <RHFTextField name="state" label="State" />
-              <RHFSelect native name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {countries.map((country) => (
-                  <option key={country.code} value={country.label}>
-                    {country.label}
-                  </option>
-                ))}
-              </RHFSelect>
-            </Box>
-          </Card>
+          
           <Card sx={{ p: 3, m: 2 }}>
             <Box
               rowGap={3}
@@ -286,12 +189,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="gst" label="Vehicle's GST" />
+                <RHFTextField name="rcNo" label="Vehicle's RC No" />
                 <RHFUploadAvatar
-                  name="gstDoc"
-                  placeholder=" Upload GST Doc"
+                  name="rcBookDoc"
+                  placeholder=" Upload RC Doc"
                   maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'gstDoc')}
+                  onDrop={(data: any) => handleDocUpload(data, 'rcBookDoc')}
                   helperText={
                     <Typography
                       variant="caption"
@@ -308,6 +211,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                     </Typography>
                   }
                 />
+                <RHFTextField name="rcExpritationDate" label="RC Expritation Date " />
               </Box>
               <Box
                 rowGap={3}
@@ -318,12 +222,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="pan" label="Vehicle's PAN" />
+                <RHFTextField name="insuranceNo" label="Insurance Number" />
                 <RHFUploadAvatar
-                  name="panDoc"
-                  placeholder=" Upload PAN Doc"
+                  name="insuranceDoc"
+                  placeholder=" Upload Insurance Doc"
                   maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'panDoc')}
+                  onDrop={(data: any) => handleDocUpload(data, 'insuranceDoc')}
                   helperText={
                     <Typography
                       variant="caption"
@@ -339,7 +243,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                       <br /> max size of {fData(3145728)}
                     </Typography>
                   }
+                  
                 />
+                <RHFTextField name="insurationExpritationDate" label="Insurance Expritation Date " />
               </Box>
               <Box
                 rowGap={3}
@@ -350,12 +256,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="cin" label="Vehicle's CIN" />
+                <RHFTextField name="emissionNo" label="Emission Number" />
                 <RHFUploadAvatar
-                  name="cinDoc"
-                  placeholder=" Upload CIN Doc"
+                  name="emissionDoc"
+                  placeholder=" Upload Emission Doc"
                   maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'cinDoc')}
+                  onDrop={(data: any) => handleDocUpload(data, 'emissionDoc')}
                   helperText={
                     <Typography
                       variant="caption"
@@ -372,6 +278,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                     </Typography>
                   }
                 />
+                <RHFTextField name="emissionExpritationDate" label="Emission Expritation Date " />
               </Box>
 
               <Box
@@ -383,12 +290,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="estbId" label="Vehicle's Establishment  Doc" />
+                <RHFTextField name="taxno" label="Tax Number" />
                 <RHFUploadAvatar
-                  name="estbtDoc"
-                  placeholder=" Upload Establishment Doc"
+                  name="taxDoc"
+                  placeholder=" Upload Tax Doc"
                   maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'estbtDoc')}
+                  onDrop={(data: any) => handleDocUpload(data, 'taxDoc')}
                   helperText={
                     <Typography
                       variant="caption"
@@ -405,6 +312,15 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                     </Typography>
                   }
                 />
+                <RHFTextField name="taxExpritationDate" label="Tax Expritation Date " />
+                <RHFTextField name="fcExpritationDate" label="FC Expritation Date " />
+                <RHFTextField name="remarks" label="Remarks " />
+                <RHFTextField name="fuelType" label="Fuel Type " />
+                <RHFTextField name="type" label="Type " />
+                <RHFTextField name="vendor" label="Vendor Name " />
+                <RHFTextField name="gpsBox" label="GPS Box " />
+                <RHFTextField name="mobileDevice" label="Mobile Device " />
+                <RHFTextField name="isAc" label="Is AC Available " />
               </Box>
             </Box>
           </Card>
