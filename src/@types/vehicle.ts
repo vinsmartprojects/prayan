@@ -139,7 +139,7 @@ export enum VehicleSearchParams {
 }
 
 export enum VehicleFilter {
-  AVAILABLE = 'REGISTERNO',
+  AVAILABLE = 'AVAILABLE',
   RESERVED = 'RESERVED',
   SERVICING = 'SERVICING',
   LEASED = 'LEASED',
@@ -154,12 +154,20 @@ export enum Makers {
   FORD = 'FORD',
   NISSAN = 'NISSAN',
   KIA = 'KIA',
-  MAHENDRA= 'MAHENDRA',
-  FORCE= "FORCE",
-  TOYATA= "TOYATA",
-  RENUALT="RENUALT",
-  VOLKSWAGEN= "VOLKSWAGEN",
-  MG="MG",
-  DATSUN="DATSUN",
-  AUDI="AUDI",
+  MAHENDRA = 'MAHENDRA',
+  FORCE = 'FORCE',
+  TOYATA = 'TOYATA',
+  RENUALT = 'RENUALT',
+  VOLKSWAGEN = 'VOLKSWAGEN',
+  MG = 'MG',
+  DATSUN = 'DATSUN',
+  AUDI = 'AUDI',
+}
+
+export enum VehicleSegmentEnum {
+  HATCHBACK = 'HATCHBACK',
+  SEDAN = 'SEDAN',
+  SUV = 'SUV',
+  MUV = 'MUV',
+  CSUV = 'CSUV',
 }

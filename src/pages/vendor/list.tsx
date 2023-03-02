@@ -274,19 +274,7 @@ export default function vendorListPage() {
           }
         />
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: 'background.neutral',
-            }}
-          >
-            {_filterStatus.map((tab: any) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-          <Divider />
+         
           <VendorTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}

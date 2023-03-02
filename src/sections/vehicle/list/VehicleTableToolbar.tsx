@@ -1,5 +1,6 @@
 // @mui
 import { Stack, InputAdornment, TextField, MenuItem, Button } from '@mui/material';
+import { Makers, VehicleFilter, VehicleSegmentEnum } from 'src/@types/vehicle';
 // components
 import Iconify from '../../../components/iconify';
 
@@ -9,19 +10,18 @@ type Props = {
   searchValue: string;
   filterRole: string;
   isFiltered: boolean;
-  searchParams: any,
-  searchParam: any,
+  searchParams: any;
+  searchParam: any;
   onResetFilter: VoidFunction;
 
   onFilterRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchParam: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchSubmit: VoidFunction
+  onSearchSubmit: VoidFunction;
 };
 
 export default function VehicleTableToolbar({
   isFiltered,
-
   searchParam,
   filterRole,
   searchParams,
@@ -30,7 +30,7 @@ export default function VehicleTableToolbar({
   onResetFilter,
   onSearchValue,
   onSearchParam,
-  onSearchSubmit
+  onSearchSubmit,
 }: Props) {
   return (
     <Stack
@@ -45,7 +45,183 @@ export default function VehicleTableToolbar({
       <TextField
         fullWidth
         select
-        label="Search By"
+        label="Status"
+        value={searchParam?.staus}
+        onChange={onSearchParam}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {Object.values(VehicleFilter).map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        fullWidth
+        select
+        label="Maker"
+        value={searchParam?.maker}
+        onChange={onSearchParam}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {Object.values(Makers).map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <TextField
+        fullWidth
+        select
+        label="Segment"
+        value={searchParam?.segment}
+        onChange={onSearchParam}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {Object.values(VehicleSegmentEnum).map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        fullWidth
+        select
+        label="Seating"
+        value={searchParam?.seating}
+        onChange={onSearchParam}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {Object.values(Makers).map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        fullWidth
+        select
+        label="Vendor"
+        value={searchParam?.Vendor}
+        onChange={onSearchParam}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              sx: {
+                maxHeight: 260,
+              },
+            },
+          },
+        }}
+        sx={{
+          maxWidth: { sm: 240 },
+          textTransform: 'capitalize',
+        }}
+      >
+        {Object.values(Makers).map((option: any) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        fullWidth
+        select
+        label="Reg No"
         value={searchParam}
         onChange={onSearchParam}
         SelectProps={{
