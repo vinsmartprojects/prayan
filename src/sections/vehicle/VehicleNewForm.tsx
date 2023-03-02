@@ -7,7 +7,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel } from '@mui/material';
+import {
+  Box,
+  Card,
+  Grid,
+  Stack,
+  Switch,
+  Typography,
+  FormControlLabel,
+  Divider,
+} from '@mui/material';
 import { PATH_VEHICLE } from 'src/routes/paths';
 import { useSnackbar } from 'notistack';
 import { countries } from 'src/assets/data';
@@ -21,7 +30,13 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IVehicle, IVehicleCreateInput, IVehicleEdit, VehicleStatus } from 'src/@types/vehicle';
+import {
+  FuelType,
+  IVehicle,
+  IVehicleCreateInput,
+  IVehicleEdit,
+  PermitType,
+} from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
 import { create } from 'lodash';
@@ -42,7 +57,6 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
   const { enqueueSnackbar } = useSnackbar();
   const { uploadFile, cdnPath } = useUploader();
 
-
   const NewVehicleSchema = Yup.object().shape({
     registerNo: Yup.string().required('Registration Number is required'),
     registrationType: Yup.string().required('Registration Type No  is required'),
@@ -50,17 +64,16 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     permitNo: Yup.string().required('Permit Number is required'),
     make: Yup.string().required('Make is required'),
     model: Yup.string().required('Model is required'),
-    
   });
 
   const defaultValues = useMemo(
     () => ({
-       registerNo: '',
-      registrationType:  '',
-      permitType:  '',
-      permitNo:  '',
-      make:  '',
-      model:'',
+      registerNo: '',
+      registrationType: undefined,
+      permitType: undefined,
+      permitNo: '',
+      make: '',
+      model: '',
       year: '',
       color: '',
       vin: '',
@@ -69,34 +82,28 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
       engineNo: '',
       seatingCapacity: '',
 
-      rcBookDoc:
-        (vehicle?.rcBookDoc && { file: cdnPath(vehicle?.rcBookDoc), isNew: false }) ||
-        undefined,
-      rcNo: vehicle?.rcNo || '',
-      rcExpritationDate: vehicle?.rcExpritationDate || '',
-      insuranceDoc: (vehicle?.insuranceDoc && { file: cdnPath(vehicle?.insuranceDoc), isNew: false }) || undefined,
-      insuranceNo: vehicle?.insuranceNo || '',
-      insurationExpritationDate: vehicle?.insurationExpritationDate || '',
-      emissionDoc: (vehicle?.emissionDoc && { file: cdnPath(vehicle?.emissionDoc), isNew: false }) || undefined,
-      emissionNo: vehicle?.emissionNo || '',
-      emissionExpritationDate: vehicle?.emissionExpritationDate || '',
-      taxDoc:
-        (vehicle?.taxDoc && { file: cdnPath(vehicle?.taxDoc), isNew: false }) ||
-        undefined,
-      taxno: vehicle?.taxno || '',
-      taxExpritationDate: vehicle?.taxExpritationDate || '',
-       fcExpritationDate: vehicle?.fcExpritationDate || '',
-       remarks: vehicle?.remarks || '',
-       fuelType: vehicle?.fuelType || '',
-       type: vehicle?.type || '',
-       vendor: vehicle?.vendor || '',
-       gpsBox: vehicle?.gpsBox || '',
-       mobileDevice: vehicle?.mobileDevice || '',
-       isAc: vehicle?.isAc || '',
-     
-      isVerified: vehicle?.isVerified || false,
-      isActive: vehicle?.isVerified || false,
-      
+      rcBookDoc: undefined,
+      rcNo: '',
+      rcExpritationDate: '',
+      insuranceDoc: undefined,
+      insuranceNo: '',
+      insurationExpritationDate: '',
+      emissionDoc: undefined,
+      emissionNo: '',
+      emissionExpritationDate: '',
+      taxDoc: undefined,
+      taxno: '',
+      taxExpritationDate: '',
+      fcExpritationDate: '',
+      remarks: '',
+      fuelType: undefined,
+      type: undefined,
+      vendor: undefined,
+      gpsBox: false,
+      mobileDevice: false,
+      isAc: false,
+
+      isActive: false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vehicle]
@@ -106,7 +113,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     resolver: yupResolver(NewVehicleSchema),
     defaultValues,
   });
-
+  function onSubmit(data: any) {}
   const {
     reset,
     watch,
@@ -127,8 +134,6 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, vehicle]);
-
-
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -159,23 +164,37 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-         <RHFTextField name="registerNo" label="Registration Number *" />
+              <RHFTextField name="registerNo" label="Registration Number *" />
               <RHFTextField name="registrationType" label="Registration Type *" />
-              <RHFTextField name="permitType" label="Permit Type *" />
+              <RHFSelect native name="permitType" label="Permit Type" placeholder="Rental Type">
+                <option value="" />
+                {Object.values(PermitType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="permitNo" label="Permit No " />
+              <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Rental Type">
+                <option value="" />
+                {Object.values(FuelType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="make" label="Make " />
               <RHFTextField name="model" label="Model" />
               <RHFTextField name="year" label="Year " />
               <RHFTextField name="color" label="Color " />
-              <RHFTextField name="vin" label="vin " />
-              <RHFTextField name="trNo" label="Tr Number " />
+              <RHFTextField name="vin" label="VIN No " />
+              <RHFTextField name="trNo" label="TR Number " />
               <RHFTextField name="chassiNo" label="Chassi Number " />
               <RHFTextField name="engineNo" label="Engine Number " />
               <RHFTextField name="seatingCapacity" label="Seating Capacity " />
             </Box>
           </Card>
 
-          
           <Card sx={{ p: 3, m: 2 }}>
             <Box
               rowGap={3}
@@ -249,9 +268,11 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                       <br /> max size of {fData(3145728)}
                     </Typography>
                   }
-                  
                 />
-                <RHFTextField name="insurationExpritationDate" label="Insurance Expritation Date " />
+                <RHFTextField
+                  name="insurationExpritationDate"
+                  label="Insurance Expritation Date "
+                />
               </Box>
               <Box
                 rowGap={3}
@@ -321,7 +342,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 <RHFTextField name="taxExpritationDate" label="Tax Expritation Date " />
                 <RHFTextField name="fcExpritationDate" label="FC Expritation Date " />
                 <RHFTextField name="remarks" label="Remarks " />
-                <RHFTextField name="fuelType" label="Fuel Type " />
+
                 <RHFTextField name="type" label="Type " />
                 <RHFTextField name="vendor" label="Vendor Name " />
                 <RHFTextField name="gpsBox" label="GPS Box " />
@@ -342,13 +363,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isVerified ? 'success' : 'error'}
+                color={values.isActive ? 'success' : 'error'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isVerified}
+                {values.isActive}
               </Label>
             )}
-
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
                 name="profileImage"
@@ -371,12 +391,47 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 }
               />
             </Box>
+            <Divider />
 
-
-
-
+            <Box sx={{ mb: 5, mt: 5 }}>
+              <RHFSwitch
+                name="isAc"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      AC{' '}
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+              <RHFSwitch
+                name="gpsBox"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      GPS Box{' '}
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+              <RHFSwitch
+                name="mobileDevice"
+                labelPlacement="start"
+                label={
+                  <>
+                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                      Mobile Device{' '}
+                    </Typography>
+                  </>
+                }
+                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
+              />
+            </Box>
           </Card>
-
         </Grid>
       </Grid>
     </FormProvider>

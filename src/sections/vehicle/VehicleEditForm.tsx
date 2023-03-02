@@ -21,7 +21,7 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from '../../components/hook-form';
-import { IVehicle, IVehicleCreateInput, IVehicleEdit, VehicleStatus } from 'src/@types/vehicle';
+import { FuelType, IVehicle, IVehicleEdit } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
 // ----------------------------------------------------------------------
@@ -43,20 +43,15 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
 
   const [profileImageToBeUpload, setProfileImageToBeUpload] = useState<File>();
   const NewVehicleSchema = Yup.object().shape({
-    id: Yup.string().required('Id is required'),
-    title: Yup.string().required('Id is required'),
-    contactPerson: Yup.string().required("Contact Person Name is required"),
-    contactMobile: Yup.string().required("Contact Person Mobile is required")
-    ,
-
+    registerNo: Yup.string().required('Registration No is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
       id: vehicle?.id || undefined,
       registerNo: vehicle?.registerNo || '',
-      registrationType: vehicle?.registrationType || '',
-      permitType: vehicle?.permitType || '',
+      registrationType: vehicle?.registrationType || undefined,
+      permitType: vehicle?.permitType || undefined,
       permitNo: vehicle?.permitNo || '',
       make: vehicle?.make || '',
       model: vehicle?.model || '',
@@ -67,10 +62,13 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
       chassiNo: vehicle?.chassiNo || '',
       engineNo: vehicle?.engineNo || '',
       seatingCapacity: vehicle?.seatingCapacity || '',
-      rcBookDoc: (vehicle?.rcBookDoc && { file: cdnPath(vehicle?.rcBookDoc), isNew: false }) || undefined,
+      rcBookDoc:
+        (vehicle?.rcBookDoc && { file: cdnPath(vehicle?.rcBookDoc), isNew: false }) || undefined,
       rcNo: vehicle?.rcNo || '',
       rcExpritationDate: vehicle?.rcExpritationDate || '',
-      insuranceDoc: (vehicle?.insuranceDoc && { file: cdnPath(vehicle?.insuranceDoc), isNew: false }) || undefined,
+      insuranceDoc:
+        (vehicle?.insuranceDoc && { file: cdnPath(vehicle?.insuranceDoc), isNew: false }) ||
+        undefined,
       insuranceNo: vehicle?.insuranceNo || '',
       insurationExpritationDate: vehicle?.insurationExpritationDate || '',
       emissionDoc:
@@ -83,15 +81,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
       taxExpritationDate: vehicle?.taxExpritationDate || '',
       fcExpritationDate: vehicle?.fcExpritationDate || '',
       remarks: vehicle?.remarks || '',
-      fuelType: vehicle?.fuelType || '',
-      type: vehicle?.type || '',
-      vendor: vehicle?.vendor || '',
-      gpsBox: vehicle?.gpsBox || '',
-       mobileDevice: vehicle?.mobileDevice || '',
-       isAc: vehicle?.isAc || '',
-
-
-      
+      fuelType: vehicle?.fuelType || FuelType.DIESEL,
+      type: vehicle?.type || undefined,
+      vendor: vehicle?.vendor || undefined,
+      gpsBox: vehicle?.gpsBox || false,
+      mobileDevice: vehicle?.mobileDevice || false,
+      isAc: vehicle?.isAc || false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [vehicle]
@@ -111,8 +106,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
 
   const values = watch();
   useEffect(() => {
-    console.log("vehicle ", vehicle)
-
+    console.log('vehicle ', vehicle);
 
     if (isEdit && vehicle) {
       reset(defaultValues);
@@ -122,7 +116,6 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, vehicle]);
-
 
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
@@ -138,6 +131,8 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     },
     [setValue]
   );
+
+  function onSubmit(data: any) {}
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -169,7 +164,6 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
             </Box>
           </Card>
 
-          
           <Card sx={{ p: 3, m: 2 }}>
             <Box
               rowGap={3}
@@ -243,9 +237,11 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                       <br /> max size of {fData(3145728)}
                     </Typography>
                   }
-                  
                 />
-                <RHFTextField name="insurationExpritationDate" label="Insurance Expritation Date " />
+                <RHFTextField
+                  name="insurationExpritationDate"
+                  label="Insurance Expritation Date "
+                />
               </Box>
               <Box
                 rowGap={3}
@@ -336,10 +332,10 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
-                color={values.isVerified ? 'success' : 'error'}
+                color={values.isActive ? 'success' : 'error'}
                 sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
               >
-                {values.isVerified}
+                {values.isActive}
               </Label>
             )}
 
