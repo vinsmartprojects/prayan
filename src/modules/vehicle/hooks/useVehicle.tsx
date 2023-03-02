@@ -57,7 +57,7 @@ export const useVehicle = () => {
     let result: any = null;
     try {
       const response = await axios.post('/vehicles/filter', {
-        ...filter
+        ...filter,
       });
       await response;
       if (response?.data?.data) {

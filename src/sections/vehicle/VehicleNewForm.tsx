@@ -31,6 +31,7 @@ import FormProvider, {
   RHFUploadAvatar,
 } from '../../components/hook-form';
 import {
+  CarSeating,
   FuelType,
   IVehicle,
   IVehicleCreateInput,
@@ -38,10 +39,12 @@ import {
   Makers,
   PermitType,
   RegistrationType,
+  TransmissionType,
 } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
 import { create } from 'lodash';
+import { VehicleSegment } from 'src/config-global';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleEdit, 'avatarUrl'> {
@@ -115,7 +118,36 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     resolver: yupResolver(NewVehicleSchema),
     defaultValues,
   });
-  function onSubmit(data: any) { }
+  async function onSubmit(data: any) {
+    const { rcBookDoc, ..._data }: any = data;
+    var _vehicleData: any = {};
+    if (rcBookDoc?.isNew === true) {
+      const _fileUploaded: any = await uploadFile(rcBookDoc?.file);
+      await _fileUploaded;
+      if (_fileUploaded?.data?.filename) {
+        _vehicleData.rcBookDoc = _fileUploaded?.data?.filename;
+      }
+    }
+    const vehicleData = { ..._vehicleData, ..._data };
+    try {
+      const _newVehicleData = await create(vehicleData);
+      await _newVehicleData;
+      if (_newVehicleData?.data) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        reset();
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+        reload();
+      } else {
+        enqueueSnackbar(_newVehicleData?.error?.message, {
+          variant: 'error',
+        });
+      }
+    } catch (error) {
+      enqueueSnackbar(error?.message, {
+        variant: 'error',
+      });
+    }
+  }
   const {
     reset,
     watch,
@@ -156,7 +188,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 2 }}>
+          <Card sx={{ p: 3, m: 0 }}>
             <Box
               rowGap={3}
               columnGap={3}
@@ -167,10 +199,30 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               }}
             >
               <RHFTextField name="registerNo" label="Registration Number *" />
-
+              <RHFSelect native name="segment" label="Segment" placeholder="Segment">
+                <option value="" />
+                {Object.values(VehicleSegment).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Rental Type">
                 <option value="" />
                 {Object.values(FuelType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect
+                native
+                name="transType"
+                label=" Transmission Type"
+                placeholder="Transmission Type"
+              >
+                <option value="" />
+                {Object.values(TransmissionType).map((type: any) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -187,15 +239,17 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               <RHFTextField name="model" label="Model" />
               <RHFTextField name="year" label="Year " />
               <RHFTextField name="color" label="Color " />
-              <RHFTextField
-                name="seatingCapacity"
-                label="Seating Capacity "
-                type="number"
-                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-              />
+              <RHFSelect native name="seating" label="Car Seating" placeholder="Car Seatingr">
+                <option value="" />
+                {Object.values(CarSeating).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
               <Divider />
 
-              <RHFSelect native name="regType" label="Registration Type" placeholder="Rental Type">
+              <RHFSelect native name="regType" label="Reg Type" placeholder="Rental Type">
                 <option value="" />
                 {Object.values(RegistrationType).map((type: any) => (
                   <option key={type} value={type}>
@@ -219,56 +273,42 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               <RHFTextField name="engineNo" label="Engine Number " />
             </Box>
           </Card>
-          <Card sx={{ p: 3, m: 2 }}>
+          <Card sx={{ p: 3, my: 2 }}>
             <Box
-              rowGap={3}
-              columnGap={3}
               display="grid"
               gridTemplateColumns={{
                 xs: 'repeat(1, 1fr)',
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="rcNo" label="Vehicle's RC No" />
-                <RHFUploadAvatar
-                  name="rcBookDoc"
-                  placeholder=" Upload RC Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'rcBookDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-               
-              </Box>
-  
+              <RHFTextField name="rcNo" label="Vehicle's RC No" />
+              <RHFUploadAvatar
+                name="rcBookDoc"
+                placeholder=" Upload RC Doc"
+                maxSize={3145728}
+                onDrop={(data: any) => handleDocUpload(data, 'rcBookDoc')}
+                helperText={
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      mt: 2,
+                      mx: 'auto',
+                      display: 'block',
+                      textAlign: 'center',
+                      color: 'text.secondary',
+                    }}
+                  >
+                    Allowed *.jpeg, *.jpg, *.png, *.gif
+                    <br /> max size of {fData(3145728)}
+                  </Typography>
+                }
+              />
             </Box>
           </Card>
-          <Card sx={{ p: 3, m: 2 }}>
+          <Card sx={{ p: 3, my: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Create vehicle type' : 'Save Changes'}
+                {!isEdit ? 'Add Vehicle' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>
@@ -305,8 +345,12 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 }
               />
             </Box>
-            <Divider />
 
+            <Box sx={{ mb: 1, mt: 1 }}>
+              <Typography gutterBottom> Vehicle Features</Typography>
+            </Box>
+
+            <Divider />
             <Box sx={{ mb: 5, mt: 5 }}>
               <RHFSwitch
                 name="isAc"

@@ -1,6 +1,7 @@
 // @mui
 import { Stack, InputAdornment, TextField, MenuItem, Button } from '@mui/material';
-import { Makers, VehicleFilter, VehicleSegmentEnum } from 'src/@types/vehicle';
+import { CarSeating, Makers, TransmissionType, VehicleFilter } from 'src/@types/vehicle';
+import { VehicleSegment } from 'src/config-global';
 // components
 import Iconify from '../../../components/iconify';
 
@@ -133,7 +134,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(VehicleSegmentEnum).map((option: any) => (
+        {Object.values(VehicleSegment).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
@@ -168,7 +169,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(Makers).map((option: any) => (
+        {Object.values(CarSeating).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
@@ -221,8 +222,9 @@ export default function VehicleTableToolbar({
       <TextField
         fullWidth
         select
-        label="Reg No"
-        value={searchParam}
+        label="Transmission"
+
+        value={searchParam?.transmission}
         onChange={onSearchParam}
         SelectProps={{
           MenuProps: {
@@ -238,7 +240,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {searchParams.map((option: any) => (
+        {Object.values(TransmissionType).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
@@ -258,7 +260,7 @@ export default function VehicleTableToolbar({
         fullWidth
         value={searchValue}
         onChange={onSearchValue}
-        placeholder="Search..."
+        placeholder="Search Reg No"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

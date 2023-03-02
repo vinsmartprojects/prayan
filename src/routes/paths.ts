@@ -14,7 +14,7 @@ const ROOTS_BOOKING = '/booking';
 const ROOTS_PLAN = '/plan';
 const ROOTS_LOCATION = '/location';
 const ROOTS_CUSTOMER = '/customer';
-const ROOTS_TRIP="/trip";
+const ROOTS_TRIP = '/trip';
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
@@ -53,21 +53,13 @@ export const PATH_DRIVER = {
   udpate: path(ROOTS_DRIVER, '/update'),
   edit: (name: string) => path(ROOTS_DRIVER, `/${name}/edit`),
 };
-export const PATH_VEHICLETYPE = {
-  root: ROOTS_VEHICLETYPE,
-  index: path(ROOTS_VEHICLETYPE, '/'),
-  list: path(ROOTS_VEHICLETYPE, '/list'),
-  new: path(ROOTS_VEHICLETYPE, '/new'),
-  detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
-  udpate: path(ROOTS_VEHICLETYPE, '/update'),
-  edit: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/edit`),
-};
+
 export const PATH_CLIENT = {
   root: ROOTS_CLIENT,
   index: path(ROOTS_CLIENT, '/'),
   list: path(ROOTS_CLIENT, '/list'),
   new: path(ROOTS_CLIENT, '/new'),
-   detail: (name: string) => path(ROOTS_CLIENT, `/${name}/detail`),
+  detail: (name: string) => path(ROOTS_CLIENT, `/${name}/detail`),
   udpate: path(ROOTS_CLIENT, '/update'),
   edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
 };
@@ -81,7 +73,7 @@ export const PATH_BOOKING = {
   edit: (name: string) => path(ROOTS_BOOKING, `/${name}/edit`),
 };
 
-export const PATH_TRIP= {
+export const PATH_TRIP = {
   root: ROOTS_TRIP,
   index: path(ROOTS_TRIP, '/'),
   list: path(ROOTS_TRIP, '/list'),
@@ -90,7 +82,6 @@ export const PATH_TRIP= {
   udpate: path(ROOTS_TRIP, '/update'),
   edit: (name: string) => path(ROOTS_TRIP, `/${name}/edit`),
 };
-
 
 export const PATH_PLAN = {
   root: ROOTS_PLAN,
@@ -107,7 +98,7 @@ export const PATH_LOCATION = {
   index: path(ROOTS_LOCATION, '/'),
   list: path(ROOTS_LOCATION, '/list'),
   new: path(ROOTS_LOCATION, '/new'),
- detail: (name: string) => path(ROOTS_LOCATION, `/${name}/detail`),
+  detail: (name: string) => path(ROOTS_LOCATION, `/${name}/detail`),
   udpate: path(ROOTS_LOCATION, '/update'),
   edit: (name: string) => path(ROOTS_LOCATION, `/${name}/edit`),
 };

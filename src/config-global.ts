@@ -57,3 +57,10 @@ export const ICON = {
   NAV_ITEM_HORIZONTAL: 22,
   NAV_ITEM_MINI: 22,
 };
+export enum VehicleSegment {
+  HATCHBACK = 'HATCHBACK',
+  SEDAN = 'SEDAN',
+  SUV = 'SUV',
+  MUV = 'MUV',
+  CSUV = 'CSUV',
+}

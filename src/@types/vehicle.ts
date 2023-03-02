@@ -130,7 +130,7 @@ export enum FuelType {
 }
 export enum PermitType {
   STATE_PERMIT = 'STATE PERMIT',
-  ALLINDIA = 'ALL INDIA',
+  ALL_INDIA = 'ALL INDIA',
 }
 
 export enum VehicleSearchParams {
@@ -164,10 +164,24 @@ export enum Makers {
   AUDI = 'AUDI',
 }
 
-export enum VehicleSegmentEnum {
+export enum CarSeating {
+  TWO = '2',
+  Four = '4',
+  FIVE = '5',
+  SIX = '6',
+  SEVEN = '7',
+  EIGHT = '8',
+  EIGHT_PLUS = '8+',
+}
+
+export enum TransmissionType {
+  MANUAL = 'MANUAL',
+  AUTOMATIC = 'AUTOMATIC',
+  ClUTCHLESS = 'ClUTCHLESS',
+}
+
+export enum BodySegment {
   HATCHBACK = 'HATCHBACK',
-  SEDAN = 'SEDAN',
   SUV = 'SUV',
-  MUV = 'MUV',
-  CSUV = 'CSUV',
+  SEDAN = 'SEDAN',
 }

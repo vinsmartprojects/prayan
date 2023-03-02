@@ -1,5 +1,5 @@
 // routes
-import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE, PATH_VEHICLETYPE, PATH_VENDOR, PATH_LOCATION, PATH_PLAN, PATH_CLIENT, PATH_DRIVER, PATH_TRIP } from '../../../routes/paths';
+import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE,  PATH_VENDOR, PATH_LOCATION, PATH_PLAN, PATH_CLIENT, PATH_DRIVER, PATH_TRIP } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -86,12 +86,7 @@ const navConfig = [
           { title: 'New', path: PATH_VENDOR.new },
         ],
       },
-      {
-        title: 'Vehicle Types',
-        path: PATH_VEHICLETYPE.root,
-        icon: ICONS.vehicle,
-        
-      },
+       
        {
         title: 'Customer',
         path: PATH_CUSTOMER.root,
