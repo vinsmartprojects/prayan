@@ -116,10 +116,10 @@ export type IVehicle = {
   isActive: any;
 };
 export enum RegistrationType {
-  YELLOWBOARD = 'YELLOWBOARD',
-  BLACKBOARD = 'BLACKBOARD',
-  WHITEBOARD = 'WHITEBOARD',
-  GREENBOARD = 'GREENBOARD',
+  YELLOWBOARD = 'YELLOW BOARD',
+  BLACKBOARD = 'BLACK BOARD',
+  WHITEBOARD = 'WHITE BOARD',
+  GREENBOARD = 'GREEN BOARD',
 }
 export enum FuelType {
   DIESEL = 'DIESEL',
@@ -135,4 +135,31 @@ export enum PermitType {
 
 export enum VehicleSearchParams {
   REGISTERNO = 'REGISTERNO',
+  SEGMENT = 'SEGMENT',
+}
+
+export enum VehicleFilter {
+  AVAILABLE = 'REGISTERNO',
+  RESERVED = 'RESERVED',
+  SERVICING = 'SERVICING',
+  LEASED = 'LEASED',
+  REMOVED = 'REMOVED',
+}
+
+export enum Makers {
+  HONDA = 'HONDA',
+  MARUTI_SUZUKI = 'MARUTI SUZUKI',
+  TATA = 'TATA',
+  HOUNDAI = 'HOUNDAI',
+  FORD = 'FORD',
+  NISSAN = 'NISSAN',
+  KIA = 'KIA',
+  MAHENDRA= 'MAHENDRA',
+  FORCE= "FORCE",
+  TOYATA= "TOYATA",
+  RENUALT="RENUALT",
+  VOLKSWAGEN= "VOLKSWAGEN",
+  MG="MG",
+  DATSUN="DATSUN",
+  AUDI="AUDI",
 }

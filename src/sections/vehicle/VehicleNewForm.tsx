@@ -35,7 +35,9 @@ import {
   IVehicle,
   IVehicleCreateInput,
   IVehicleEdit,
+  Makers,
   PermitType,
+  RegistrationType,
 } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
@@ -113,7 +115,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     resolver: yupResolver(NewVehicleSchema),
     defaultValues,
   });
-  function onSubmit(data: any) {}
+  function onSubmit(data: any) { }
   const {
     reset,
     watch,
@@ -165,16 +167,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               }}
             >
               <RHFTextField name="registerNo" label="Registration Number *" />
-              <RHFTextField name="registrationType" label="Registration Type *" />
-              <RHFSelect native name="permitType" label="Permit Type" placeholder="Rental Type">
-                <option value="" />
-                {Object.values(PermitType).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFTextField name="permitNo" label="Permit No " />
+
               <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Rental Type">
                 <option value="" />
                 {Object.values(FuelType).map((type: any) => (
@@ -183,18 +176,49 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                   </option>
                 ))}
               </RHFSelect>
-              <RHFTextField name="make" label="Make " />
+              <RHFSelect native name="make" label="Maker" placeholder="Maker">
+                <option value="" />
+                {Object.values(Makers).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="model" label="Model" />
               <RHFTextField name="year" label="Year " />
               <RHFTextField name="color" label="Color " />
+              <RHFTextField
+                name="seatingCapacity"
+                label="Seating Capacity "
+                type="number"
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+              />
+              <Divider />
+
+              <RHFSelect native name="regType" label="Registration Type" placeholder="Rental Type">
+                <option value="" />
+                {Object.values(RegistrationType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="permitType" label="Permit Type" placeholder="Rental Type">
+                <option value="" />
+                {Object.values(PermitType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+
+              <RHFTextField name="permitNo" label="Permit No " />
               <RHFTextField name="vin" label="VIN No " />
               <RHFTextField name="trNo" label="TR Number " />
               <RHFTextField name="chassiNo" label="Chassi Number " />
               <RHFTextField name="engineNo" label="Engine Number " />
-              <RHFTextField name="seatingCapacity" label="Seating Capacity " />
             </Box>
           </Card>
-
           <Card sx={{ p: 3, m: 2 }}>
             <Box
               rowGap={3}
@@ -236,119 +260,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                     </Typography>
                   }
                 />
-                <RHFTextField name="rcExpritationDate" label="RC Expritation Date " />
+               
               </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="insuranceNo" label="Insurance Number" />
-                <RHFUploadAvatar
-                  name="insuranceDoc"
-                  placeholder=" Upload Insurance Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'insuranceDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-                <RHFTextField
-                  name="insurationExpritationDate"
-                  label="Insurance Expritation Date "
-                />
-              </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="emissionNo" label="Emission Number" />
-                <RHFUploadAvatar
-                  name="emissionDoc"
-                  placeholder=" Upload Emission Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'emissionDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-                <RHFTextField name="emissionExpritationDate" label="Emission Expritation Date " />
-              </Box>
-
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="taxno" label="Tax Number" />
-                <RHFUploadAvatar
-                  name="taxDoc"
-                  placeholder=" Upload Tax Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'taxDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-                <RHFTextField name="taxExpritationDate" label="Tax Expritation Date " />
-                <RHFTextField name="fcExpritationDate" label="FC Expritation Date " />
-                <RHFTextField name="remarks" label="Remarks " />
-
-                <RHFTextField name="type" label="Type " />
-                <RHFTextField name="vendor" label="Vendor Name " />
-                <RHFTextField name="gpsBox" label="GPS Box " />
-                <RHFTextField name="mobileDevice" label="Mobile Device " />
-                <RHFTextField name="isAc" label="Is AC Available " />
-              </Box>
+  
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
