@@ -16,31 +16,31 @@ export type IVehicleCreateInput = {
   seatingCapacity?: string;
   rcBookDoc?: string;
   rcNo?: string;
-  rcExpritationDate:any;        
+  rcExpritationDate: any;
   insuranceDoc?: string;
-  insuranceNo?:string;
-  insurationExpritationDate:any;         
-  emissionDoc?:string;
-  emissionNo?:string;
-  emissionExpritationDate:any;
-  taxDoc?:string;
-  taxno?:string;
-  taxExpritationDate:any;         
-  fcExpritationDate:any;
-  remarks?:string;
-  fuelType: FuelType;         
-  type:any;    
-  vendor:any;          
-  gpsBox: boolean;         
-  mobileDevice: boolean;          
-  isAc:boolean;    
+  insuranceNo?: string;
+  insurationExpritationDate: any;
+  emissionDoc?: string;
+  emissionNo?: string;
+  emissionExpritationDate: any;
+  taxDoc?: string;
+  taxno?: string;
+  taxExpritationDate: any;
+  fcExpritationDate: any;
+  remarks?: string;
+  fuelType: FuelType;
+  type: any;
+  vendor: any;
+  gpsBox: boolean;
+  mobileDevice: boolean;
+  isAc: boolean;
 };
 
 export type IVehicleEdit = {
-id: any;
- registerNo: string;
- registrationType: RegistrationType;
- permitType: PermitType;
+  id: any;
+  registerNo: string;
+  registrationType: RegistrationType;
+  permitType: PermitType;
   permitNo?: string;
   make?: string;
   model?: string;
@@ -51,33 +51,36 @@ id: any;
   chassiNo?: string;
   engineNo?: string;
   seatingCapacity?: string;
-  rcBookDoc?: string;
+  rcBookDoc?: any;
   rcNo?: string;
-  rcExpritationDate:any;        
-  insuranceDoc?: string;
-  insuranceNo?:string;
-  insurationExpritationDate:any;         
-  emissionDoc?:string;
-  emissionNo?:string;
-  emissionExpritationDate:any;
-  taxDoc?:string;
-  taxno?:string;
-  taxExpritationDate:any;         
-  fcExpritationDate:any;
-  remarks?:string;
-  fuelType: FuelType;         
-  type:any;    
-  vendor:any;          
-  gpsBox: boolean;         
-  mobileDevice: boolean;          
-  isAc:boolean;   
+  rcExpritationDate: any;
+  insuranceDoc?: any;
+  insuranceNo?: string;
+  insurationExpritationDate: any;
+  emissionDoc?: any;
+  emissionNo?: string;
+  emissionExpritationDate: any;
+  taxDoc?: any;
+  taxno?: string;
+  taxExpritationDate: any;
+  fcExpritationDate: any;
+  remarks?: string;
+  fuelType: FuelType;
+  type: any;
+  vendor: any;
+  gpsBox: boolean;
+  mobileDevice: boolean;
+  isAc: boolean;
+  createdAt: any;
+  updatedAt: any;
+  isActive: any;
 };
 
 export type IVehicle = {
- id: any;
- registerNo: string;
- registrationType: RegistrationType;
- permitType: PermitType;
+  id: any;
+  registerNo: string;
+  registrationType: RegistrationType;
+  permitType: PermitType;
   permitNo?: string;
   make?: string;
   model?: string;
@@ -88,47 +91,97 @@ export type IVehicle = {
   chassiNo?: string;
   engineNo?: string;
   seatingCapacity?: string;
-  rcBookDoc?: string;
+  rcBookDoc?: any;
   rcNo?: string;
-  rcExpritationDate:any;        
-  insuranceDoc?: string;
-  insuranceNo?:string;
-  insurationExpritationDate:any;         
-  emissionDoc?:string;
-  emissionNo?:string;
-  emissionExpritationDate:any;
-  taxDoc?:string;
-  taxno?:string;
-  taxExpritationDate:any;         
-  fcExpritationDate:any;
-  remarks?:string;
-  fuelType: FuelType;         
-  type:any;    
-  vendor:any;          
-  gpsBox: boolean;         
-  mobileDevice: boolean;          
-  isAc:boolean;       
+  rcExpritationDate: any;
+  insuranceDoc?: any;
+  insuranceNo?: string;
+  insurationExpritationDate: any;
+  emissionDoc?: any;
+  emissionNo?: string;
+  emissionExpritationDate: any;
+  taxDoc?: any;
+  taxno?: string;
+  taxExpritationDate: any;
+  fcExpritationDate: any;
+  remarks?: string;
+  fuelType: FuelType;
+  type: any;
+  vendor: any;
+  gpsBox: boolean;
+  mobileDevice: boolean;
+  isAc: boolean;
   createdAt: any;
   updatedAt: any;
+  isActive: any;
 };
-export enum RegistrationType{
-  YELLOWBOARD="YELLOWBOARD",
-  BLACKBOARD="BLACKBOARD",
-  WHITEBOARD="WHITEBOARD",
-  GREENBOARD="GREENBOARD",
-};
-export enum FuelType{
-  DIESEL="DIESEL",
-  PETROL="PETROL",
-  GASOLINE="GASOLINE",
-  ELECTRIC="ELECTRIC",
-  HYBRID="HYBRID",
+export enum RegistrationType {
+  YELLOWBOARD = 'YELLOW BOARD',
+  BLACKBOARD = 'BLACK BOARD',
+  WHITEBOARD = 'WHITE BOARD',
+  GREENBOARD = 'GREEN BOARD',
+}
+export enum FuelType {
+  DIESEL = 'DIESEL',
+  PETROL = 'PETROL',
+  GASOLINE = 'GASOLINE',
+  ELECTRIC = 'ELECTRIC',
+  HYBRID = 'HYBRID',
 }
 export enum PermitType {
-STATEPERMIT="STATEPERMIT",
-ALLINDIA="ALLINDIA",
-};
+  STATE_PERMIT = 'STATE PERMIT',
+  ALL_INDIA = 'ALL INDIA',
+}
 
 export enum VehicleSearchParams {
- REGISTERNO="REGISTERNO",  
+  REGISTERNO = 'REGISTERNO',
+  SEGMENT = 'SEGMENT',
+}
+
+export enum VehicleFilter {
+  AVAILABLE = 'AVAILABLE',
+  RESERVED = 'RESERVED',
+  SERVICING = 'SERVICING',
+  LEASED = 'LEASED',
+  REMOVED = 'REMOVED',
+}
+
+export enum Makers {
+  HONDA = 'HONDA',
+  MARUTI_SUZUKI = 'MARUTI SUZUKI',
+  TATA = 'TATA',
+  HOUNDAI = 'HOUNDAI',
+  FORD = 'FORD',
+  NISSAN = 'NISSAN',
+  KIA = 'KIA',
+  MAHENDRA = 'MAHENDRA',
+  FORCE = 'FORCE',
+  TOYATA = 'TOYATA',
+  RENUALT = 'RENUALT',
+  VOLKSWAGEN = 'VOLKSWAGEN',
+  MG = 'MG',
+  DATSUN = 'DATSUN',
+  AUDI = 'AUDI',
+}
+
+export enum CarSeating {
+  TWO = '2',
+  Four = '4',
+  FIVE = '5',
+  SIX = '6',
+  SEVEN = '7',
+  EIGHT = '8',
+  EIGHT_PLUS = '8+',
+}
+
+export enum TransmissionType {
+  MANUAL = 'MANUAL',
+  AUTOMATIC = 'AUTOMATIC',
+  ClUTCHLESS = 'ClUTCHLESS',
+}
+
+export enum BodySegment {
+  HATCHBACK = 'HATCHBACK',
+  SUV = 'SUV',
+  SEDAN = 'SEDAN',
 }

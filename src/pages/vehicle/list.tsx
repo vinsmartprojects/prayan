@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_VEHICLE } from '../../routes/paths';
 // @types
-import { IVehicle, VehicleSearchParams } from '../../@types/vehicle';
+import { IVehicle, VehicleFilter, VehicleSearchParams } from '../../@types/vehicle';
 // _mock_
 
 // layouts
@@ -53,47 +53,21 @@ import { buildVehicleWhereFilter } from 'src/modules/vehicle/helpers/buildWhereF
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
+  { id: 'registerNo', label: 'REG No', align: 'left' },
 
-  { id: 'registerNo', label: 'Registration Number', align: 'left' },
-  { id: 'registrationType', label: 'Registration Type', align: 'left' },
-  { id: 'permitType', label: 'Permit Type', align: 'left' },
-  { id: 'permitNo', label: 'Permit Number', align: 'left' },
+  { id: 'type', label: 'Segment', align: 'left' },
+  { id: 'permitType', label: 'Permit', align: 'left' },
+
   { id: 'make', label: 'Make', align: 'left' },
   { id: 'model', label: 'Model', align: 'left' },
   { id: 'year', label: 'Year', align: 'left' },
   { id: 'color', label: 'Color', align: 'left' },
-  { id: 'vin', label: 'Vin', align: 'left' },
-  { id: 'trNo', label: 'Tr Number', align: 'left' },
-  { id: 'chassiNo', label: 'Chassi Number', align: 'left' },
-  { id: 'engineNo', label: 'Engine Number', align: 'left' },
-  { id: 'seatingCapacity', label: 'Seating Capacity', align: 'left' },
-  { id: 'rcBookDoc', label: 'RC Book Document', align: 'left' },
-  { id: 'rcNo', label: 'RC Number', align: 'left' },
-  { id: 'rcExpritationDate', label: 'RC Expritation Date', align: 'left' },
-  { id: 'insuranceDoc', label: 'Insurance Document', align: 'left' },
-  { id: 'insuranceNo', label: 'Insurance Number', align: 'left' },
-  { id: 'insurationExpritationDate', label: 'Insurance Expritation Date', align: 'left' },
-  { id: 'emissionDoc', label: 'Emission Document', align: 'left' },
-  { id: 'emissionNo', label: 'Emission Number', align: 'left' },
-  { id: 'emissionExpritationDate', label: 'Emission Expritation Date', align: 'left' },
-  { id: 'taxDoc', label: 'Tax Document', align: 'left' },
-  { id: 'taxno', label: 'Tax Number', align: 'left' },
-  { id: 'taxExpritationDate', label: 'Tax Expritation Date', align: 'left' },
-  { id: 'fcExpritationDate', label: 'FC Expritation Date', align: 'left' },
-  { id: 'remarks', label: 'Remarks', align: 'left' },
-  { id: 'fuelType', label: 'Fuel Type', align: 'left' },
-  { id: 'type', label: 'Type', align: 'left' },
+
+  { id: 'seatcing', label: 'Seating', align: 'left' },
+
   { id: 'vendor', label: 'Vendor', align: 'left' },
-  { id: 'gpsBox', label: 'GPS Box', align: 'left' },
-  { id: ' mobileDevice', label: 'Mobile Device', align: 'left' },
-  { id: 'isAc', label: 'Is Ac Available', align: 'left' },
-  
-  
-  
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+
   { id: 'actions', label: '', align: 'center' },
- 
 ];
 
 // ----------------------------------------------------------------------
@@ -124,8 +98,7 @@ export default function vehicleListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deleteVehicle } = useVehicle();
   const [tableData, setTableData] = useState([]);
@@ -138,33 +111,22 @@ export default function vehicleListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(VehicleSearchParams.REGISTERNO)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(VehicleSearchParams.REGISTERNO);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getVehicles(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getVehicles(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -178,7 +140,11 @@ export default function vehicleListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -197,8 +163,6 @@ export default function vehicleListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -220,8 +184,6 @@ export default function vehicleListPage() {
     } else {
       enqueueSnackbar(' This Vehicle Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -242,9 +204,9 @@ export default function vehicleListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus);
     getVehicles({
-      ..._query
+      ..._query,
     });
   };
 
@@ -258,41 +220,39 @@ export default function vehicleListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getVehicles({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
 
-
-  
-
+  let _filterStatus: any[] = ['ALL'];
+  _filterStatus = [_filterStatus, ...Object.keys(VehicleFilter)];
 
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(VehicleSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus);
     getVehicles({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Vehicle types: List  </title>
+        <title>Vehicles </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Vehicle types"
-          links={[{ name: 'All', href: PATH_VEHICLE.root }, { name: 'List' }]}
+          heading="Vehicles"
+          links={[{ name: '', href: PATH_VEHICLE.root }]}
           action={
             <Button
               component={NextLink}
@@ -300,24 +260,12 @@ export default function vehicleListPage() {
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New Vehicle type
+              Vehicle{' '}
             </Button>
           }
         />
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: 'background.neutral',
-            }}
-          >
-            {filterStatus.map((tab: any) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-          <Divider />
+          
           <VehicleTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}
@@ -459,7 +407,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-       (vehicle) => vehicle.registerNo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (vehicle) => vehicle.registerNo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
