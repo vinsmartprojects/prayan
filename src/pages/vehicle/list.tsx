@@ -63,7 +63,6 @@ const TABLE_HEAD = [
   { id: 'seatcing', label: 'Seating', align: 'left' },
   { id: 'fuelType', label: 'Fuel Type', align: 'left' },
   { id: 'vendor', label: 'Vendor', align: 'left' },
-  
 ];
 
 // ----------------------------------------------------------------------
@@ -174,7 +173,7 @@ export default function vehicleListPage() {
     const deletedVehicle = await deleteVehicle(id);
     await deletedVehicle;
 
-    if (deletedVehicle?.data.success) {
+    if (deletedVehicle?.data&&deletedVehicle?.data.success) {
       enqueueSnackbar('Vehicle Deleted  Successfully');
       getVehicles(filter);
     } else {
@@ -261,7 +260,6 @@ export default function vehicleListPage() {
           }
         />
         <Card>
-          
           <VehicleTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}

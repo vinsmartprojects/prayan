@@ -1,7 +1,9 @@
 // @mui
 import { Stack, InputAdornment, TextField, MenuItem, Button } from '@mui/material';
+import { useState, useEffect } from 'react';
 import { CarSeating, Maker, TransmissionType, VehicleFilter } from 'src/@types/vehicle';
 import { VehicleSegment } from 'src/config-global';
+import { useVendor } from 'src/modules/vendor/hooks/useVendor';
 // components
 import Iconify from '../../../components/iconify';
 
@@ -33,6 +35,23 @@ export default function VehicleTableToolbar({
   onSearchParam,
   onSearchSubmit,
 }: Props) {
+  const { getMany } = useVendor();
+  const [vendors, setvendors] = useState<any>([]);
+
+  useEffect(() => {
+    loadVendors();
+  }, []);
+
+  async function loadVendors() {
+    const { data } = await getMany();
+
+    await data;
+    console.log(data);
+
+    if (data && data.length > 0) {
+      setvendors(data);
+    }
+  }
   return (
     <Stack
       spacing={2}
@@ -204,10 +223,10 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(Maker).map((option: any) => (
+        {vendors.map((option: any) => (
           <MenuItem
-            key={option}
-            value={option}
+            key={option?.id}
+            value={option?.id}
             sx={{
               mx: 1,
               borderRadius: 0.75,
@@ -215,7 +234,7 @@ export default function VehicleTableToolbar({
               textTransform: 'capitalize',
             }}
           >
-            {option}
+            {option?.title}
           </MenuItem>
         ))}
       </TextField>
@@ -223,7 +242,6 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Transmission"
-
         value={searchParam?.transmission}
         onChange={onSearchParam}
         SelectProps={{
