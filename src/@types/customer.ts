@@ -1,85 +1,60 @@
 import { Suspense } from 'react';
 
 export type ICustomerCreateInput = {
-  title: string;
-  contactPerson: string;
+  name: string;
+  
   contactMobile: string;
   contactEmail: string;
   addressLine1: string;
   addressLine2: string;
   area: string;
   landmark: string;
-  logo: string;
   city: string;
   pincode: string;
   status: CustomerStatus;
   state: string;
   country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
+  identyCardNo: string;
+  identyCardDoc: any;
   isVerified: boolean;
   isActive: boolean;
   profileImage: any;
 };
 export type ICustomerEdit = {
   id: any;
-  title: string;
-  contactPerson: string;
+  name: string;
+  profileImage: any;
   contactMobile: string;
   contactEmail: string;
   addressLine1: string;
   addressLine2: string;
   area: string;
   landmark: string;
-  logo: string;
   city: string;
   pincode: string;
   status: CustomerStatus;
   state: string;
   country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
-
-  user?: any;
-  profileImage?: any;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
+  identyCardNo: string;
+  identyCardDoc: any;
   isVerified: boolean;
   isActive: boolean;
 };
 export type ICustomer = {
   id: any;
-  title: string;
-  contactPerson: string;
+  name: string;
+  profileImage: any;
   contactMobile: string;
   contactEmail: string;
   address: Address;
-  profileImage: any;
   status: CustomerStatus;
-  estbtDoc: any;
-  panDoc: any;
-  gstDoc: any;
-  cinDoc: any;
   state: string;
   country: string;
-  gst: string;
-  pan: string;
-  estbId: string;
-  cin: string;
+  identyCardNo: string;
+  identyCardDoc: any;
   isVerified: boolean;
   isActive: boolean;
-  user?: any;
-};
+  };
 
 export type Address = {
   addressLine1: string;

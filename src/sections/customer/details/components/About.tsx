@@ -22,11 +22,11 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CustomerAboutDetail({
-    title, contactEmail, contactMobile, contactPerson, address
+    name, contactEmail, contactMobile, address
 }: ICustomer) {
     return (
         <Card>
-            <CardHeader title={title} />
+            <CardHeader name={name} />
 
             <Stack spacing={2} sx={{ p: 3 }}>
                 <Stack direction="row">
@@ -38,16 +38,7 @@ export default function CustomerAboutDetail({
                     <StyledIcon icon="material-symbols:location-chip-outline" />
                     <Typography variant="body2">{address?.pincode + " "}</Typography>
                 </Stack>
-                <Stack direction="row">
-                    <StyledIcon icon="material-symbols:person-2-outline" />
-
-                    <Typography variant="body2">
-
-                        <Link component="span" variant="subtitle2" color="text.primary">
-                            {contactPerson}
-                        </Link>
-                    </Typography>
-                </Stack>
+                
                 <Stack direction="row">
                     <StyledIcon icon="material-symbols:phone-enabled-sharp" />
 
