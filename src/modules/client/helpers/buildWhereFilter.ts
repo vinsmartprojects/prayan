@@ -28,10 +28,10 @@ export function buildClientWhereFilter(param: any, searchQ: any, status: any) {
     }
 
 
-    if (param === "TITLE") {
+    if (param === "NAME") {
         searchQuery = {
 
-            title: {
+            name: {
                 startsWith: searchQ,
                 mode: 'insensitive',
 

@@ -44,9 +44,8 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
 
 
   const NewClientSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
+    name: Yup.string().required('Name is required'),
     contactMobile: Yup.string().required('Mobile No  is required'),
-    contactPerson: Yup.string().required('Phone number is required'),
     addressLine1: Yup.string().required('Address Line 1 is required'),
     area: Yup.string().required('Company is required'),
     state: Yup.string().required('State is required'),
@@ -56,8 +55,7 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      title: '',
-      contactPerson: '',
+      name: '',
       contactMobile: '',
       contactEmail: '',
       addressLine1: '',
@@ -72,16 +70,8 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
         (client?.profileImage && { file: cdnPath(client?.profileImage), isNew: false }) ||
         undefined,
       country: client?.country || 'India',
-      pan: client?.pan || '',
-      panDoc: (client?.panDoc && { file: cdnPath(client?.panDoc), isNew: false }) || undefined,
       gst: client?.gst || '',
       gstDoc: (client?.gstDoc && { file: cdnPath(client?.gstDoc), isNew: false }) || undefined,
-      estbId: client?.estbId || '',
-      estbtDoc:
-        (client?.estbtDoc && { file: cdnPath(client?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: client?.cin || '',
-      cinDoc: (client?.cinDoc && { file: cdnPath(client?.cinDoc), isNew: false }) || undefined,
       isVerified: client?.isVerified || false,
       isActive: client?.isVerified || false,
       username: client?.user?.username || '',
@@ -126,13 +116,7 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
         _clientDocs.profileImage = _fileUploaded?.data?.filename;
       }
     }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
-      await _fileUploaded;
-      if (_fileUploaded?.data?.filename) {
-        _clientDocs.panDoc = _fileUploaded?.data?.filename;
-      }
-    }
+    
     if (data?.gstDoc?.isNew === true) {
       const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
       await _fileUploaded;
@@ -141,24 +125,8 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
         _clientDocs.gstDoc = _fileUploaded?.data?.filename;
       }
     }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _clientDocs.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _clientDocs.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
+   
     const _communication = {
-      contactPerson: data.contactPerson,
       contactMobile: data.contactMobile,
       contactEmail: data.contactEmail,
     };
@@ -174,12 +142,9 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
     };
     const _ids = {
       gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
     };
     const _client = {
-      title: data.title,
+      name: data.name,
       address: _address,
       communication: _communication,
       docs: _clientDocs,
@@ -236,8 +201,7 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="Client Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
+              <RHFTextField name="name" label="Client Name *" />
               <RHFTextField name="contactMobile" label="Phone Number *" />
               <RHFTextField name="contactEmail" label="Email  Number " />
             </Box>
@@ -312,103 +276,6 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
                   }
                 />
               </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="pan" label="Client's PAN" />
-                <RHFUploadAvatar
-                  name="panDoc"
-                  placeholder=" Upload PAN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'panDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="cin" label="Client's CIN" />
-                <RHFUploadAvatar
-                  name="cinDoc"
-                  placeholder=" Upload CIN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'cinDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="estbId" label="Client's Establishment  Doc" />
-                <RHFUploadAvatar
-                  name="estbtDoc"
-                  placeholder=" Upload Establishment Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'estbtDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
@@ -452,12 +319,7 @@ export default function ClientEditForm({ isEdit = false, client }: Props) {
                 }
               />
             </Box>
-
-
-
-
           </Card>
-
         </Grid>
       </Grid>
     </FormProvider>
