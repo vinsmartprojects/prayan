@@ -44,8 +44,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
   const [profileImageToBeUpload, setProfileImageToBeUpload] = useState<File>();
   const NewCustomerSchema = Yup.object().shape({
     id: Yup.string().required('Id is required'),
-    title: Yup.string().required('Id is required'),
-    contactPerson: Yup.string().required("Contact Person Name is required"),
+    name: Yup.string().required('name is required'),
     contactMobile: Yup.string().required("Contact Person Mobile is required")
     ,
 
@@ -54,8 +53,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
   const defaultValues = useMemo(
     () => ({
       id: customer?.id || undefined,
-      title: customer?.title || '',
-      contactPerson: customer?.contactPerson || '',
+      name: customer?.name || '',
       contactMobile: customer?.contactMobile || '',
       contactEmail: customer?.contactEmail || '',
       addressLine1: customer?.address?.addressLine1 || '',
@@ -69,19 +67,11 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
         (customer?.profileImage && { file: cdnPath(customer?.profileImage), isNew: false }) ||
         undefined,
       country: customer?.country || 'India',
-      pan: customer?.pan || '',
-      panDoc: (customer?.panDoc && { file: cdnPath(customer?.panDoc), isNew: false }) || undefined,
-      gst: customer?.gst || '',
-      gstDoc: (customer?.gstDoc && { file: cdnPath(customer?.gstDoc), isNew: false }) || undefined,
-      estbId: customer?.estbId || '',
-      estbtDoc:
-        (customer?.estbtDoc && { file: cdnPath(customer?.estbtDoc), isNew: false }) ||
-        undefined,
-      cin: customer?.cin || '',
-      cinDoc: (customer?.cinDoc && { file: cdnPath(customer?.cinDoc), isNew: false }) || undefined,
+      identyCardNo: customer?.identyCardNo || '',
+      identyCardDoc: (customer?.identyCardDoc && { file: cdnPath(customer?.identyCardDoc), isNew: false }) || undefined,
       isVerified: customer?.isVerified || false,
       isActive: customer?.isActive || false,
-      username: customer?.user?.username || '',
+      
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [customer]
@@ -122,40 +112,17 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
         _customerUpdateParams.profileImage = _fileUploaded?.data?.filename;
       }
     }
-    if (data?.panDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.panDoc?.file);
+    if (data?.identyCardDoc?.isNew === true) {
+      const _fileUploaded: any = await uploadFile(data?.identyCardDoc?.file);
       await _fileUploaded;
       if (_fileUploaded?.data?.filename) {
         _customerUpdateParams.panDoc = _fileUploaded?.data?.filename;
       }
     }
-    if (data?.gstDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.gstDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _customerUpdateParams.gstDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.estbtDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.estbtDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _customerUpdateParams.estbtDoc = _fileUploaded?.data?.filename;
-      }
-    }
-    if (data?.cinDoc?.isNew === true) {
-      const _fileUploaded: any = await uploadFile(data?.cinDoc?.file);
-      await _fileUploaded;
-
-      if (_fileUploaded?.data?.filename) {
-        _customerUpdateParams.cinDoc = _fileUploaded?.data?.filename;
-      }
-    }
+    
 
     const _communication = {
-      contactPerson: data.contactPerson,
+    
       contactMobile: data.contactMobile,
       contactEmail: data.contactEmail,
     };
@@ -171,14 +138,11 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
     };
 
     const _ids = {
-      gst: data.gst,
-      estbId: data.estbId,
-      cin: data.cin,
-      pan: data.pan,
+      identyCardNo: data.identyCardNo,
     };
 
     const _customer: any = {
-      title: data.title,
+      name: data.name,
       isVerified: data?.isVerified,
       isActive: data?.isActive,
       address: _address,
@@ -233,8 +197,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
-              <RHFTextField name="title" label="customer Title *" />
-              <RHFTextField name="contactPerson" label="Owner/ Auth Person *" />
+              <RHFTextField name="name" label="customer name *" />
               <RHFTextField name="contactMobile" label="Phone Number *" />
               <RHFTextField name="contactEmail" label="Email  Number " />
             </Box>
@@ -277,6 +240,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
+              
               <Box
                 rowGap={3}
                 columnGap={3}
@@ -286,12 +250,12 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
                   sm: 'repeat(1, 1fr)',
                 }}
               >
-                <RHFTextField name="gst" label="customer's GST" />
+                <RHFTextField name="identyCardNo" label="Identy Card Number" />
                 <RHFUploadAvatar
-                  name="gstDoc"
-                  placeholder=" Upload GST Doc"
+                  name="identyCardDoc"
+                  placeholder=" Upload identy Card Document"
                   maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'gstDoc')}
+                  onDrop={(data: any) => handleDocUpload(data, 'identyCardDoc')}
                   helperText={
                     <Typography
                       variant="caption"
@@ -309,103 +273,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
                   }
                 />
               </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="pan" label="customer's PAN" />
-                <RHFUploadAvatar
-                  name="panDoc"
-                  placeholder=" Upload PAN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'panDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="cin" label="customer's CIN" />
-                <RHFUploadAvatar
-                  name="cinDoc"
-                  placeholder=" Upload CIN Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'cinDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
-
-              <Box
-                rowGap={3}
-                columnGap={3}
-                display="grid"
-                gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
-                  sm: 'repeat(1, 1fr)',
-                }}
-              >
-                <RHFTextField name="estbId" label="customer's Establishment  Doc" />
-                <RHFUploadAvatar
-                  name="estbtDoc"
-                  placeholder=" Upload Establishment Doc"
-                  maxSize={3145728}
-                  onDrop={(data: any) => handleDocUpload(data, 'estbtDoc')}
-                  helperText={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary',
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
-                    </Typography>
-                  }
-                />
-              </Box>
+              
             </Box>
           </Card>
           <Card sx={{ p: 3, m: 2 }}>
@@ -482,22 +350,7 @@ export default function CustomerEditForm({ isEdit = false, customer }: Props) {
               sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
             />
           </Card>
-          <Card sx={{ mt: 3, pt: 2, pb: 2, px: 3 }}>
-            <Box
-              rowGap={3}
-              columnGap={3}
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              {' '}
-              <Typography> Customer Credentials</Typography>
-              <RHFTextField name="username" label=" Username" />
-              <RHFTextField name="username" label="Password" type={'password'} />
-            </Box>
-          </Card>
+          
         </Grid>
       </Grid>
     </FormProvider>

@@ -22,22 +22,14 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function CustomerDocumentationDetail({
-    cin, pan, gst
+    identyCardNo
 }: ICustomer) {
     return (
         <Card>
-
-
             <Stack spacing={2} sx={{ p: 3 }}>
                 <Stack direction="row">
-                     
-                    <Typography variant="body2">GST NO : {gst}</Typography>
+                    <Typography variant="body2">Identy Card NO : {identyCardNo}</Typography>
                 </Stack>
-                <Stack direction="row">
-                     
-                    <Typography variant="body2">PAN NO : {pan}</Typography>
-                </Stack>
-                 
             </Stack>
         </Card>
     );
