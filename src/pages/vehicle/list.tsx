@@ -54,20 +54,16 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
   { id: 'registerNo', label: 'REG No', align: 'left' },
-
   { id: 'type', label: 'Segment', align: 'left' },
   { id: 'permitType', label: 'Permit', align: 'left' },
-
   { id: 'make', label: 'Make', align: 'left' },
   { id: 'model', label: 'Model', align: 'left' },
   { id: 'year', label: 'Year', align: 'left' },
   { id: 'color', label: 'Color', align: 'left' },
-
   { id: 'seatcing', label: 'Seating', align: 'left' },
-
+  { id: 'fuelType', label: 'Fuel Type', align: 'left' },
   { id: 'vendor', label: 'Vendor', align: 'left' },
-
-  { id: 'actions', label: '', align: 'center' },
+  
 ];
 
 // ----------------------------------------------------------------------

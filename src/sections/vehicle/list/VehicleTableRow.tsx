@@ -2,7 +2,6 @@ import { useState } from 'react';
 // @mui
 import {
   Stack,
-  Avatar,
   Button,
   Checkbox,
   TableRow,
@@ -14,7 +13,6 @@ import {
 // @types
 import { IVehicle } from '../../../@types/vehicle';
 // components
-import Label from '../../../components/label';
 import Iconify from '../../../components/iconify';
 import MenuPopover from '../../../components/menu-popover';
 import ConfirmDialog from '../../../components/confirm-dialog';
@@ -36,9 +34,46 @@ export default function VehicleTableRow({
   onEditRow,
   onSelectRow,
   onDeleteRow,
-  onDetailRow
+  onDetailRow,
 }: Props) {
-  const { id,  registerNo, registrationType, permitType, permitNo, make, model,year,color,vin,trNo,chassiNo,engineNo,seatingCapacity,rcBookDoc, rcNo, rcExpritationDate,insuranceDoc,insuranceNo,insurationExpritationDate,emissionDoc,emissionNo,emissionExpritationDate,taxDoc,taxno,taxExpritationDate,fcExpritationDate,remarks,fuelType,type,vendor,gpsBox,mobileDevice,isAc, isVerified, isActive } = row;
+  const {
+    id,
+    registerNo,
+    bodySegment,
+    registrationType,
+    permitType,
+    permitNo,
+    make,
+    model,
+    year,
+    color,
+    vin,
+    trNo,
+    chassiNo,
+    engineNo,
+    seatingCapacity,
+    rcBookDoc,
+    rcNo,
+    rcExpritationDate,
+    insuranceDoc,
+    insuranceNo,
+    insurationExpritationDate,
+    emissionDoc,
+    emissionNo,
+    emissionExpritationDate,
+    taxDoc,
+    taxno,
+    taxExpritationDate,
+    fcExpritationDate,
+    remarks,
+    fuelType,
+    type,
+    vendor,
+    gpsBox,
+    mobileDevice,
+    isAc,
+    isActive,
+  } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -67,8 +102,7 @@ export default function VehicleTableRow({
           <Checkbox checked={selected} onClick={onSelectRow} />
         </TableCell>
 
-        <TableCell onClick={onDetailRow} sx={{ cursor: "pointer" }}
-        >
+        <TableCell onClick={onDetailRow} sx={{ cursor: 'pointer' }}>
           <Stack direction="row" alignItems="center" spacing={2}>
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
@@ -77,69 +111,19 @@ export default function VehicleTableRow({
             </Typography>
           </Stack>
         </TableCell>
-        <TableCell align="left">{registrationType}</TableCell>
+        <TableCell align="left">{bodySegment}</TableCell>
         <TableCell align="left">{permitType}</TableCell>
-        <TableCell align="left">{permitNo}</TableCell>
-        <TableCell align="left">{make}</TableCell>
+    <TableCell align="left">{make}</TableCell>
         <TableCell align="left">{model}</TableCell>
         <TableCell align="left">{year}</TableCell>
         <TableCell align="left">{color}</TableCell>
-        <TableCell align="left">{vin}</TableCell>
-        <TableCell align="left">{trNo}</TableCell>
-        <TableCell align="left">{chassiNo}</TableCell>
-        <TableCell align="left">{engineNo}</TableCell>
+
         <TableCell align="left">{seatingCapacity}</TableCell>
-        <TableCell align="left">{rcBookDoc}</TableCell>
-        <TableCell align="left">{rcNo}</TableCell>
-        <TableCell align="left">{rcExpritationDate}</TableCell>
-        <TableCell align="left">{insuranceDoc}</TableCell>
-        <TableCell align="left">{insuranceNo}</TableCell>
-        <TableCell align="left">{insurationExpritationDate}</TableCell>
-        <TableCell align="left">{emissionDoc}</TableCell>
-        <TableCell align="left">{emissionNo}</TableCell>
-        <TableCell align="left">{emissionExpritationDate}</TableCell>
-        <TableCell align="left">{taxDoc}</TableCell>
-        <TableCell align="left">{taxno}</TableCell>
-        <TableCell align="left">{taxExpritationDate}</TableCell>
-        <TableCell align="left">{fcExpritationDate}</TableCell>
-        <TableCell align="left">{remarks}</TableCell>
+
         <TableCell align="left">{fuelType}</TableCell>
-        <TableCell align="left">{type}</TableCell>
-        <TableCell align="left">{vendor}</TableCell>
-        <TableCell align="left">{gpsBox}</TableCell>
-        <TableCell align="left">{mobileDevice}</TableCell>
-        <TableCell align="left">{isAc}</TableCell>
-        <TableCell align="center">
-          <Iconify
-            icon={isActive ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-            sx={{
-              width: 20,
-              height: 20,
-              color: 'success.main',
-              ...(!isActive && { color: 'warning.main' }),
-            }}
-          />
-        </TableCell>
-        <TableCell align="center">
-          <Iconify
-            icon={isVerified ? 'eva:checkmark-circle-fill' : 'eva:clock-outline'}
-            sx={{
-              width: 20,
-              height: 20,
-              color: 'success.main',
-              ...(!isVerified && { color: 'warning.main' }),
-            }}
-          />
-        </TableCell>
-        {/* <TableCell align="left">
-          <Label
-            variant="soft"
-            color={(isVerified === false && 'error') || 'success'}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            {isVerified}
-          </Label>
-        </TableCell> */}
+       
+        <TableCell align="left">{vendor?.title}</TableCell>
+       
 
         <TableCell align="right">
           <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>
