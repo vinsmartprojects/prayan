@@ -1,73 +1,69 @@
-import _ from "lodash";
-import { VehicleSearchParams } from "src/@types/vehicle";
+import _ from 'lodash';
+import { VehicleSearchParams, FilterType } from 'src/@types/vehicle';
 
-export function buildVehicleWhereFilter(param: any, searchQ: any, status: any) {
+export function buildVehicleWhereFilter(
+  param: VehicleSearchParams,
+  searchQ: any,
+  filters?: FilterType
+) {
+  var _filters: any = undefined;
+  var searchQuery = {};
 
+  if (filters?.status) {
+    _filters = {
+      status: filters?.status,
+    };
+  }
+  if (filters?.make) {
+    _filters = {
+      make: filters?.make,
+    };
+  }
+  if (filters?.seatingCapacity) {
+    _filters = {
+      seatingCapacity: filters?.seatingCapacity,
+    };
+  }
+  if (filters?.bodySegment) {
+    _filters = {
+      bodySegment: filters?.bodySegment,
+    };
+  }
+  if (filters?.vendor) {
+    _filters = {
+      vendor: {
+        id: filters?.vendor,
+      },
+    };
+  }
+  if (filters?.transmissionType) {
+    _filters = {
+      transmissionType: filters?.transmissionType,
+    };
+  }
+  console.log(JSON.stringify(_filters));
 
-    var _statusQuery: any = undefined;
-    var searchQuery = {};
-
-    if (status == "ACTIVE") {
-
-        _statusQuery = {
-            isActive: true
-        }
-    }
-    if (status == "VERFIIED") {
-
-        _statusQuery = {
-            isVerified: true
-        }
-    }
-
-    if (status == "SUSPENDED") {
-
-        _statusQuery = {
-            isBanneed: true
-        }
-    }
-
-
-    if (param === "REGISTRATIONNO") {
-        searchQuery = {
-
-            registerNo: {
-                startsWith: searchQ,
-                mode: 'insensitive',
-
-            }
-        }
-
-    }
-   
-    
-
-   
-
-    if (_statusQuery) {
-        return {
-            where: {
-                AND: [
-                    searchQuery,
-                    _statusQuery
-                ]
-
-            }
-        }
-
-    }
-    if (!_statusQuery) {
-        return {
-            where: {
-
-                ...searchQuery,
-
-
-            }
-        }
-
-    }
-    return {}
-
-
+  if (param === 'REGISTERNO') {
+    searchQuery = {
+      registerNo: {
+        contains: searchQ,
+        mode: 'insensitive',
+      },
+    };
+  }
+  if (_filters) {
+    return {
+      where: {
+        AND: [searchQuery, _filters],
+      },
+    };
+  }
+  if (!_filters) {
+    return {
+      where: {
+        ...searchQuery,
+      },
+    };
+  }
+  return {};
 }

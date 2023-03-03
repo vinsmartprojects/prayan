@@ -50,17 +50,19 @@ import { buildBookingWhereFilter } from 'src/modules/booking/helpers/buildWhereF
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
+const STATUS_OPTIONS = ['all', 'active', 'cancelled', 'completed'];
+
 
 const TABLE_HEAD = [
-
-  { id: 'title', label: 'Booking', align: 'left' },
+  { id: 'id', label: 'Booking Id', align: 'left' },
+  { id: 'client', label: 'Customer name', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
-  { id: 'contactMobile', label: 'Mobile', align: 'left' },
+  { id: 'contactPerson', label: 'Contact No', align: 'left' },
+  { id: 'contactMobile', label: 'Pickup Loc', align: 'left' },
+  { id: 'contactMobile', label: 'Drop Loc', align: 'left' },
   { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
+
   { id: 'actions', label: '', align: 'center' },
 ];
 
@@ -92,8 +94,7 @@ export default function bookingListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deleteBooking } = useBooking();
   const [tableData, setTableData] = useState([]);
@@ -106,33 +107,22 @@ export default function bookingListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(BookingSearchParams.TITLE)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(BookingSearchParams.CUSTOMER_CONTACT);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getBookings(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getBookings(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -146,7 +136,11 @@ export default function bookingListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -165,8 +159,6 @@ export default function bookingListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -188,8 +180,6 @@ export default function bookingListPage() {
     } else {
       enqueueSnackbar(' This Booking Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -210,9 +200,9 @@ export default function bookingListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildBookingWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildBookingWhereFilter(searchParam, searchQ, filterStatus);
     getBookings({
-      ..._query
+      ..._query,
     });
   };
 
@@ -226,36 +216,33 @@ export default function bookingListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getBookings({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
-
 
   let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(BookingStatus)];
 
-
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(BookingSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildBookingWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildBookingWhereFilter(searchParam, searchQ, filterStatus);
     getBookings({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Bookings: List  </title>
+        <title>Bookings: List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>

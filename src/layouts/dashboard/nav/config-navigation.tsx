@@ -35,8 +35,8 @@ const navConfig = [
         path: PATH_TRIP.root,
         icon: <Iconify icon="bx:trip" />,
         children: [
-          { title: 'List', path: PATH_TRIP.list },
-          { title: 'New', path: PATH_TRIP.new },
+          { title: 'List', path: "#" },
+          { title: 'New', path: '#' },
         ],
       },
       {

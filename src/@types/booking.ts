@@ -103,17 +103,21 @@ export type BookingDoc = {
 };
 
 export enum BookingStatus {
-  ACTIVE = 'isActive',
-  VERFIIED = 'isVerified',
-  SUSPENDED = 'isBanned',
+  NEW = 'NEW',
+  TRIP_ASSIGNED = 'TRIP_ASSIGNED',
+  CANCELLED = 'CANCELLED',
+ 
+ 
 }
 
 
 export enum BookingSearchParams {
-  TITLE="TITLE" ,
-  AREA="AREA",
-  PINCODE="PINCODE",
-  MOBILE="MOBILE",
-  EMAIL="EMAIL",
+  CUSTOMER_CONTACT="CUSTOMER_CONTACT" ,
+  BOOKING_ID="BOOKING_ID",
+  TRIP_ID="TRIP_ID",
+  CUSTOMER_NAME="CUSTOMER_NAME",
+
+
+  
    
 }

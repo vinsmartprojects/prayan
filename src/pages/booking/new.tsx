@@ -40,7 +40,7 @@ export default function BookingNewPage() {
             { name: 'New ' },
           ]}
         />
-        <BookingNewForm />
+      {/*   <BookingNewForm /> */}
       </Container>
     </>
   );

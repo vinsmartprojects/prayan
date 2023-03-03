@@ -8,9 +8,9 @@ export default function Index() {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.pathname === '/booking') {
+   /*  if (router.pathname === '/booking') {
       router.push(PATH_BOOKING.list);
-    }
+    } */
   });
 
   return null;

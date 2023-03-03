@@ -53,7 +53,6 @@ import { buildVendorWhereFilter } from 'src/modules/vendor/helpers/buildWhereFil
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
-
   { id: 'title', label: 'Vendor', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
@@ -92,8 +91,7 @@ export default function vendorListPage() {
 
   const { themeStretch } = useSettingsContext();
 
-
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
   const { push } = useRouter();
   const { getManyWithFilters, remove: deleteVendor } = useVendor();
   const [tableData, setTableData] = useState([]);
@@ -106,33 +104,22 @@ export default function vendorListPage() {
 
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const [searchParam, setsearchParam] = useState<any | undefined>(VendorSearchParams.TITLE)
-  const [searchQ, setsearchQ] = useState("")
+  const [searchParam, setsearchParam] = useState<any | undefined>(VendorSearchParams.TITLE);
+  const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
-
 
   async function getVendors(filter: any, reload?: any) {
     const _result: any = await getManyWithFilters(filter);
     await _result;
     if (_result?.data) {
-
       setTableData(_result?.data);
     } else {
-
       setTableData([]);
     }
   }
   useEffect(() => {
     getVendors(filter);
-  }, [
-
-  ]);
-
-
-
-
-
-
+  }, []);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
@@ -146,7 +133,11 @@ export default function vendorListPage() {
 
   const denseHeight = dense ? 52 : 72;
 
-  const isFiltered = searchParam !== undefined || filterName !== '' || filterRole !== 'all' || filterStatus !== 'all';
+  const isFiltered =
+    searchParam !== undefined ||
+    filterName !== '' ||
+    filterRole !== 'all' ||
+    filterStatus !== 'all';
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
@@ -165,8 +156,6 @@ export default function vendorListPage() {
     setPage(0);
     setFilterStatus(newValue);
   };
-
-
 
   const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
@@ -188,8 +177,6 @@ export default function vendorListPage() {
     } else {
       enqueueSnackbar(' This Vendor Cant be Deleted');
     }
-
-
   };
 
   const handleDeleteRows = (selectedRows: string[]) => {
@@ -210,9 +197,9 @@ export default function vendorListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus);
     getVendors({
-      ..._query
+      ..._query,
     });
   };
 
@@ -226,36 +213,33 @@ export default function vendorListPage() {
     setFilterName('');
 
     setFilterStatus('ALL');
-    setsearchParam(undefined)
-    setsearchQ('')
+    setsearchParam(undefined);
+    setsearchQ('');
     getVendors({});
   };
 
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
-    setsearchParam(event.target.value)
+    setsearchParam(event.target.value);
   };
-
 
   let _filterStatus: any[] = ['ALL'];
   _filterStatus = [_filterStatus, ...Object.keys(VendorStatus)];
 
-
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(VendorSearchParams)];
 
-
   useEffect(() => {
-    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus)
+    const _query = buildVendorWhereFilter(searchParam, searchQ, filterStatus);
     getVendors({
-      ..._query
+      ..._query,
     });
-  }, [filterStatus])
+  }, [filterStatus]);
 
   return (
     <>
       <Head>
-        <title>Vendors: List  </title>
+        <title>Vendors: List </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -274,7 +258,6 @@ export default function vendorListPage() {
           }
         />
         <Card>
-         
           <VendorTableToolbar
             searchParams={_searchParams}
             searchParam={searchParam}

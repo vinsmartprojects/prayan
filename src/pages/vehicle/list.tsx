@@ -21,7 +21,7 @@ import {
 // routes
 import { PATH_VEHICLE } from '../../routes/paths';
 // @types
-import { IVehicle, VehicleFilter, VehicleSearchParams } from '../../@types/vehicle';
+import { FilterType, IVehicle, VehicleStatus, VehicleSearchParams } from '../../@types/vehicle';
 // _mock_
 
 // layouts
@@ -105,7 +105,7 @@ export default function vehicleListPage() {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [filterStatus, setFilterStatus] = useState('all');
-
+  const [filters, setfilters] = useState<FilterType | undefined>();
   const [searchParam, setsearchParam] = useState<any | undefined>(VehicleSearchParams.REGISTERNO);
   const [searchQ, setsearchQ] = useState('');
   const { enqueueSnackbar } = useSnackbar();
@@ -173,7 +173,7 @@ export default function vehicleListPage() {
     const deletedVehicle = await deleteVehicle(id);
     await deletedVehicle;
 
-    if (deletedVehicle?.data&&deletedVehicle?.data.success) {
+    if (deletedVehicle?.data && deletedVehicle?.data.success) {
       enqueueSnackbar('Vehicle Deleted  Successfully');
       getVehicles(filter);
     } else {
@@ -199,7 +199,9 @@ export default function vehicleListPage() {
   };
 
   const onSearchSubmit = () => {
-    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus);
+    const _query = buildVehicleWhereFilter(searchParam, searchQ, filters);
+    console.log('_query', _query);
+
     getVehicles({
       ..._query,
     });
@@ -213,30 +215,35 @@ export default function vehicleListPage() {
   };
   const handleResetFilter = () => {
     setFilterName('');
-
+    setfilters({
+      status: undefined,
+    });
     setFilterStatus('ALL');
     setsearchParam(undefined);
     setsearchQ('');
     getVehicles({});
   };
 
+  const onFilterChange = (key: any, event: React.ChangeEvent<HTMLInputElement>) => {
+    const _filters: any = { ...filters, [key]: event.target.value };
+    setfilters(_filters);
+  };
   const handleSearchParam = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPage(0);
+
     setsearchParam(event.target.value);
   };
-
-  let _filterStatus: any[] = ['ALL'];
-  _filterStatus = [_filterStatus, ...Object.keys(VehicleFilter)];
 
   let _searchParams: any[] = [];
   _searchParams = [_searchParams, ...Object.keys(VehicleSearchParams)];
 
   useEffect(() => {
-    const _query = buildVehicleWhereFilter(searchParam, searchQ, filterStatus);
+    const _query = buildVehicleWhereFilter(searchParam, searchQ, filters);
     getVehicles({
       ..._query,
     });
   }, [filterStatus]);
+  useEffect(() => {}, [filters]);
 
   return (
     <>
@@ -261,7 +268,8 @@ export default function vehicleListPage() {
         />
         <Card>
           <VehicleTableToolbar
-            searchParams={_searchParams}
+            filters={filters}
+            onFilterChange={onFilterChange}
             searchParam={searchParam}
             isFiltered={isFiltered}
             searchValue={searchQ}

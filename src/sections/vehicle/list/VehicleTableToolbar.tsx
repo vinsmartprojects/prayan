@@ -1,7 +1,7 @@
 // @mui
 import { Stack, InputAdornment, TextField, MenuItem, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { CarSeating, Maker, TransmissionType, VehicleFilter } from 'src/@types/vehicle';
+import { CarSeating, Maker, TransmissionType, VehicleStatus, FilterType } from 'src/@types/vehicle';
 import { VehicleSegment } from 'src/config-global';
 import { useVendor } from 'src/modules/vendor/hooks/useVendor';
 // components
@@ -13,10 +13,10 @@ type Props = {
   searchValue: string;
   filterRole: string;
   isFiltered: boolean;
-  searchParams: any;
+  filters: any;
   searchParam: any;
   onResetFilter: VoidFunction;
-
+  onFilterChange: (key: any, event: React.ChangeEvent<HTMLInputElement>) => void;
   onFilterRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchParam: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSearchValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,9 +25,9 @@ type Props = {
 
 export default function VehicleTableToolbar({
   isFiltered,
-  searchParam,
+  filters,
   filterRole,
-  searchParams,
+  onFilterChange,
   searchValue,
   onFilterRole,
   onResetFilter,
@@ -37,6 +37,7 @@ export default function VehicleTableToolbar({
 }: Props) {
   const { getMany } = useVendor();
   const [vendors, setvendors] = useState<any>([]);
+  useEffect(() => {}, [filters]);
 
   useEffect(() => {
     loadVendors();
@@ -66,8 +67,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Status"
-        value={searchParam?.staus}
-        onChange={onSearchParam}
+        value={filters?.status}
+        onChange={(e: any) => {
+          onFilterChange('status', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -82,7 +85,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(VehicleFilter).map((option: any) => (
+        {Object.values(VehicleStatus).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
@@ -101,8 +104,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Maker"
-        value={searchParam?.maker}
-        onChange={onSearchParam}
+        value={filters?.make}
+        onChange={(e: any) => {
+          onFilterChange('make', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -137,8 +142,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Segment"
-        value={searchParam?.segment}
-        onChange={onSearchParam}
+        value={filters?.bodySegment}
+        onChange={(e: any) => {
+          onFilterChange('bodySegment', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -172,8 +179,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Seating"
-        value={searchParam?.seating}
-        onChange={onSearchParam}
+        value={filters?.seatingCapacity}
+        onChange={(e: any) => {
+          onFilterChange('seatingCapacity', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -207,8 +216,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Vendor"
-        value={searchParam?.Vendor}
-        onChange={onSearchParam}
+        value={filters?.vendor}
+        onChange={(e: any) => {
+          onFilterChange('vendor', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {
@@ -242,8 +253,10 @@ export default function VehicleTableToolbar({
         fullWidth
         select
         label="Transmission"
-        value={searchParam?.transmission}
-        onChange={onSearchParam}
+        value={filters?.transmissionType}
+        onChange={(e: any) => {
+          onFilterChange('transmissionType', e);
+        }}
         SelectProps={{
           MenuProps: {
             PaperProps: {

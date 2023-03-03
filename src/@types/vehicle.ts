@@ -1,5 +1,13 @@
 import { Suspense } from 'react';
 
+export type FilterType = {
+  status?: VehicleStatus | undefined;
+  make?: Maker | undefined;
+  seatingCapacity?: CarSeating | undefined;
+  bodySegment?: BodySegment | undefined;
+  vendor?: string | undefined;
+  transmissionType?: number | undefined;
+};
 export type IVehicleCreateInput = {
   registerNo: string;
   registrationType: RegistrationType;
@@ -79,7 +87,7 @@ export type IVehicleEdit = {
 export type IVehicle = {
   id: any;
   registerNo: string;
-  bodySegment:BodySegment;
+  bodySegment: BodySegment;
   registrationType: RegistrationType;
   permitType: PermitType;
   permitNo?: string;
@@ -137,10 +145,10 @@ export enum PermitType {
 
 export enum VehicleSearchParams {
   REGISTERNO = 'REGISTERNO',
-  SEGMENT = 'SEGMENT',
+   
 }
 
-export enum VehicleFilter {
+export enum VehicleStatus {
   AVAILABLE = 'AVAILABLE',
   RESERVED = 'RESERVED',
   SERVICING = 'SERVICING',
