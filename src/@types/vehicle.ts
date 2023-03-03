@@ -79,6 +79,7 @@ export type IVehicleEdit = {
 export type IVehicle = {
   id: any;
   registerNo: string;
+  bodySegment:BodySegment;
   registrationType: RegistrationType;
   permitType: PermitType;
   permitNo?: string;
@@ -90,7 +91,8 @@ export type IVehicle = {
   trNo?: string;
   chassiNo?: string;
   engineNo?: string;
-  seatingCapacity?: string;
+  seatingCapacity?: CarSeating;
+  transmissionType?: TransmissionType;
   rcBookDoc?: any;
   rcNo?: string;
   rcExpritationDate: any;
@@ -116,10 +118,10 @@ export type IVehicle = {
   isActive: any;
 };
 export enum RegistrationType {
-  YELLOWBOARD = 'YELLOW BOARD',
-  BLACKBOARD = 'BLACK BOARD',
-  WHITEBOARD = 'WHITE BOARD',
-  GREENBOARD = 'GREEN BOARD',
+  YELLOW_BOARD = 'YELLOW_BOARD',
+  BLACK_BOARD = 'BLACK_BOARD',
+  WHITE_BOARD = 'WHITE_BOARD',
+  GREEN_BOARD = 'GREEN_BOARD',
 }
 export enum FuelType {
   DIESEL = 'DIESEL',
@@ -129,8 +131,8 @@ export enum FuelType {
   HYBRID = 'HYBRID',
 }
 export enum PermitType {
-  STATE_PERMIT = 'STATE PERMIT',
-  ALL_INDIA = 'ALL INDIA',
+  STATE_PERMIT = 'STATE_PERMIT',
+  ALL_INDIA = 'ALL_INDIA',
 }
 
 export enum VehicleSearchParams {
@@ -146,9 +148,9 @@ export enum VehicleFilter {
   REMOVED = 'REMOVED',
 }
 
-export enum Makers {
+export enum Maker {
   HONDA = 'HONDA',
-  MARUTI_SUZUKI = 'MARUTI SUZUKI',
+  MARUTI_SUZUKI = 'MARUTI_SUZUKI',
   TATA = 'TATA',
   HOUNDAI = 'HOUNDAI',
   FORD = 'FORD',

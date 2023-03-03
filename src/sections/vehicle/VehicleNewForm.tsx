@@ -1,25 +1,14 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 // next
 import { useRouter } from 'next/router';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import {
-  Box,
-  Card,
-  Grid,
-  Stack,
-  Switch,
-  Typography,
-  FormControlLabel,
-  Divider,
-} from '@mui/material';
-import { PATH_VEHICLE } from 'src/routes/paths';
+import { Box, Card, Grid, Stack, Typography, Divider } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { countries } from 'src/assets/data';
 
 import Label from 'src/components/label';
 import { CustomFile } from 'src/components/upload';
@@ -31,20 +20,18 @@ import FormProvider, {
   RHFUploadAvatar,
 } from '../../components/hook-form';
 import {
+  BodySegment,
   CarSeating,
   FuelType,
   IVehicle,
-  IVehicleCreateInput,
   IVehicleEdit,
-  Makers,
+  Maker,
   PermitType,
   RegistrationType,
   TransmissionType,
 } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
-import { create } from 'lodash';
-import { VehicleSegment } from 'src/config-global';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleEdit, 'avatarUrl'> {
@@ -75,39 +62,39 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     () => ({
       registerNo: '',
       registrationType: undefined,
-      permitType: undefined,
+      bodySegment:undefined,
+      permitType:undefined,
       permitNo: '',
-      make: '',
+      make:undefined,
       model: '',
       year: '',
       color: '',
       vin: '',
       trNo: '',
       chassiNo: '',
+      transmissionType: undefined,
       engineNo: '',
-      seatingCapacity: '',
-
+      seatingCapacity: undefined,
       rcBookDoc: undefined,
       rcNo: '',
-      rcExpritationDate: '',
+      rcExpritationDate: undefined,
       insuranceDoc: undefined,
+      vehicleImage: undefined,
       insuranceNo: '',
-      insurationExpritationDate: '',
+      insurationExpritationDate: undefined,
       emissionDoc: undefined,
       emissionNo: '',
-      emissionExpritationDate: '',
+      emissionExpritationDate: undefined,
       taxDoc: undefined,
       taxno: '',
-      taxExpritationDate: '',
-      fcExpritationDate: '',
+      taxExpritationDate: undefined,
+      fcExpritationDate: undefined,
       remarks: '',
       fuelType: undefined,
-      type: undefined,
       vendor: undefined,
       gpsBox: false,
       mobileDevice: false,
       isAc: false,
-
       isActive: false,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +106,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     defaultValues,
   });
   async function onSubmit(data: any) {
-    const { rcBookDoc, ..._data }: any = data;
+    const { rcBookDoc, vehicleImage, vendor,..._data }: any = data;
     var _vehicleData: any = {};
     if (rcBookDoc?.isNew === true) {
       const _fileUploaded: any = await uploadFile(rcBookDoc?.file);
@@ -128,7 +115,14 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
         _vehicleData.rcBookDoc = _fileUploaded?.data?.filename;
       }
     }
-    const vehicleData = { ..._vehicleData, ..._data };
+    if (vehicleImage?.isNew === true) {
+      const _fileUploaded: any = await uploadFile(rcBookDoc?.file);
+      await _fileUploaded;
+      if (_fileUploaded?.data?.filename) {
+        _vehicleData.vehicleImage = _fileUploaded?.data?.filename;
+      }
+    }
+    const vehicleData = { vendor: 24, ..._vehicleData, ..._data };
     try {
       const _newVehicleData = await create(vehicleData);
       await _newVehicleData;
@@ -172,11 +166,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
   const handleDocUpload = useCallback(
     async (acceptedFiles: File[], type: any) => {
       const file = acceptedFiles[0];
-
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
-
       if (file) {
         setValue(type, { file: newFile, isNew: true }, { shouldValidate: true });
       }
@@ -186,9 +178,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
-          <Card sx={{ p: 3, m: 0 }}>
+      <Grid container spacing={12}>
+        <Grid item xs={12} md={5}>
+          <Card sx={{ p: 3, my: 2 }}>
             <Box
               rowGap={3}
               columnGap={3}
@@ -199,89 +191,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               }}
             >
               <RHFTextField name="registerNo" label="Registration Number *" />
-              <RHFSelect native name="segment" label="Segment" placeholder="Segment">
-                <option value="" />
-                {Object.values(VehicleSegment).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Rental Type">
-                <option value="" />
-                {Object.values(FuelType).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect
-                native
-                name="transType"
-                label=" Transmission Type"
-                placeholder="Transmission Type"
-              >
-                <option value="" />
-                {Object.values(TransmissionType).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect native name="make" label="Maker" placeholder="Maker">
-                <option value="" />
-                {Object.values(Makers).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFTextField name="model" label="Model" />
-              <RHFTextField name="year" label="Year " />
-              <RHFTextField name="color" label="Color " />
-              <RHFSelect native name="seating" label="Car Seating" placeholder="Car Seatingr">
-                <option value="" />
-                {Object.values(CarSeating).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <Divider />
-
-              <RHFSelect native name="regType" label="Reg Type" placeholder="Rental Type">
-                <option value="" />
-                {Object.values(RegistrationType).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-              <RHFSelect native name="permitType" label="Permit Type" placeholder="Rental Type">
-                <option value="" />
-                {Object.values(PermitType).map((type: any) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </RHFSelect>
-
-              <RHFTextField name="permitNo" label="Permit No " />
-              <RHFTextField name="vin" label="VIN No " />
-              <RHFTextField name="trNo" label="TR Number " />
-              <RHFTextField name="chassiNo" label="Chassi Number " />
-              <RHFTextField name="engineNo" label="Engine Number " />
-            </Box>
-          </Card>
-          <Card sx={{ p: 3, my: 2 }}>
-            <Box
-              display="grid"
-              gridTemplateColumns={{
-                xs: 'repeat(1, 1fr)',
-                sm: 'repeat(1, 1fr)',
-              }}
-            >
-              <RHFTextField name="rcNo" label="Vehicle's RC No" />
+              <RHFTextField name="rcNo" label="Vehicle's RC No *" />
               <RHFUploadAvatar
                 name="rcBookDoc"
                 placeholder=" Upload RC Doc"
@@ -305,15 +215,107 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               />
             </Box>
           </Card>
-          <Card sx={{ p: 3, my: 2 }}>
-            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Add Vehicle' : 'Save Changes'}
-              </LoadingButton>
-            </Stack>
+          <Card sx={{ p: 3, m: 0 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            >
+              <RHFSelect native name="bodySegment" label="Segment" placeholder="Segment">
+                <option value={undefined} />
+                {Object.values(BodySegment).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="fuelType" label="Fuel Type" placeholder="Rental Type">
+                <option value={undefined} />
+                {Object.values(FuelType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect
+                native
+                name="transmissionType"
+                label=" Transmission Type"
+                placeholder="Transmission Type"
+              >
+                <option value={undefined} />
+                {Object.values(TransmissionType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="make" label="Maker" placeholder="Maker">
+                <option value={undefined} />
+                {Object.values(Maker).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFTextField name="model" label="Model" />
+              <RHFTextField name="year" label="Year " />
+              <RHFTextField name="color" label="Color " />
+              <RHFSelect
+                native
+                name="seatingCapacity"
+                label="Car Seating"
+                placeholder="Car Seatingr"
+              >
+                <option value="" />
+                {Object.values(CarSeating).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <Divider />
+            </Box>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+
+        <Grid item xs={12} md={5}>
+          <Card sx={{ p: 3, my: 2 }}>
+            <Box
+              rowGap={3}
+              columnGap={3}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(1, 1fr)',
+              }}
+            ><RHFSelect native name="registrationType" label="Reg Type" placeholder="Reg Type">
+                <option value={undefined} />
+                {Object.values(RegistrationType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFSelect native name="permitType" label="Permit Type" placeholder="Rental Type">
+                <option value={undefined} />
+                {Object.values(PermitType).map((type: any) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </RHFSelect>
+              <RHFTextField name="permitNo" label="Permit No " />
+              <RHFTextField name="vin" label="VIN No " />
+              <RHFTextField name="trNo" label="TR Number " />
+              <RHFTextField name="chassiNo" label="Chassi Number " />
+              <RHFTextField name="engineNo" label="Engine Number " />
+            </Box>
+          </Card>
           <Card sx={{ pt: 10, pb: 5, px: 3 }}>
             {isEdit && (
               <Label
@@ -325,9 +327,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
             )}
             <Box sx={{ mb: 5 }}>
               <RHFUploadAvatar
-                name="profileImage"
+                name="vehicleImage"
                 maxSize={3145728}
-                onDrop={(data: any) => handleDocUpload(data, 'profileImage')}
+                onDrop={(data: any) => handleDocUpload(data, 'vehicleImage')}
                 helperText={
                   <Typography
                     variant="caption"
@@ -345,11 +347,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 }
               />
             </Box>
-
             <Box sx={{ mb: 1, mt: 1 }}>
               <Typography gutterBottom> Vehicle Features</Typography>
             </Box>
-
             <Divider />
             <Box sx={{ mb: 5, mt: 5 }}>
               <RHFSwitch
@@ -390,7 +390,15 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               />
             </Box>
           </Card>
+          <Card sx={{ p: 3, my: 2 }}>
+            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                {!isEdit ? 'Add Vehicle' : 'Save Changes'}
+              </LoadingButton>
+            </Stack>
+          </Card>
         </Grid>
+        <Grid item xs={12} md={4}></Grid>
       </Grid>
     </FormProvider>
   );

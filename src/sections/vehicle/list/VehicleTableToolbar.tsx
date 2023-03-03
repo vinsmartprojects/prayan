@@ -1,6 +1,6 @@
 // @mui
 import { Stack, InputAdornment, TextField, MenuItem, Button } from '@mui/material';
-import { CarSeating, Makers, TransmissionType, VehicleFilter } from 'src/@types/vehicle';
+import { CarSeating, Maker, TransmissionType, VehicleFilter } from 'src/@types/vehicle';
 import { VehicleSegment } from 'src/config-global';
 // components
 import Iconify from '../../../components/iconify';
@@ -98,7 +98,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(Makers).map((option: any) => (
+        {Object.values(Maker).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
@@ -204,7 +204,7 @@ export default function VehicleTableToolbar({
           textTransform: 'capitalize',
         }}
       >
-        {Object.values(Makers).map((option: any) => (
+        {Object.values(Maker).map((option: any) => (
           <MenuItem
             key={option}
             value={option}
