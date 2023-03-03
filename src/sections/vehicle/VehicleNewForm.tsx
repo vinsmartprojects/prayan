@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 // next
 import { useRouter } from 'next/router';
 // form
@@ -32,6 +32,7 @@ import {
 } from 'src/@types/vehicle';
 import { useVehicle } from 'src/modules/vehicle/hooks/useVehicle';
 import { useUploader } from 'src/modules/cdn/useUploader';
+import { useVendor } from 'src/modules/vendor/hooks/useVendor';
 // ----------------------------------------------------------------------
 
 interface FormValuesProps extends Omit<IVehicleEdit, 'avatarUrl'> {
@@ -46,9 +47,25 @@ type Props = {
 export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
   const { push, reload } = useRouter();
   const { create } = useVehicle();
+  const { getMany } = useVendor();
   const { enqueueSnackbar } = useSnackbar();
   const { uploadFile, cdnPath } = useUploader();
+  const [vendors, setvendors] = useState<any>([]);
 
+  useEffect(() => {
+    loadVendors();
+  }, []);
+
+  async function loadVendors() {
+    const { data } = await getMany();
+
+    await data;
+    console.log(data);
+
+    if (data && data.length > 0) {
+      setvendors(data);
+    }
+  }
   const NewVehicleSchema = Yup.object().shape({
     registerNo: Yup.string().required('Registration Number is required'),
     registrationType: Yup.string().required('Registration Type No  is required'),
@@ -62,10 +79,10 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     () => ({
       registerNo: '',
       registrationType: undefined,
-      bodySegment:undefined,
-      permitType:undefined,
+      bodySegment: undefined,
+      permitType: undefined,
       permitNo: '',
-      make:undefined,
+      make: undefined,
       model: '',
       year: '',
       color: '',
@@ -106,7 +123,9 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     defaultValues,
   });
   async function onSubmit(data: any) {
-    const { rcBookDoc, vehicleImage, vendor,..._data }: any = data;
+    const { rcBookDoc, vehicleImage, vendor, ..._data }: any = data;
+    console.log("vendor",vendor);
+
     var _vehicleData: any = {};
     if (rcBookDoc?.isNew === true) {
       const _fileUploaded: any = await uploadFile(rcBookDoc?.file);
@@ -122,7 +141,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
         _vehicleData.vehicleImage = _fileUploaded?.data?.filename;
       }
     }
-    const vehicleData = { vendor: 24, ..._vehicleData, ..._data };
+    const vehicleData = { vendor: vendor, ..._vehicleData, ..._data };
     try {
       const _newVehicleData = await create(vehicleData);
       await _newVehicleData;
@@ -190,6 +209,19 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 sm: 'repeat(1, 1fr)',
               }}
             >
+              <RHFSelect
+                native
+                name="vendor"
+                label="Vendor ( Ownership )"
+                placeholder="Rental Type"
+              >
+                <option value={undefined} />
+                {vendors.map((type: any) => (
+                  <option key={type?.id} value={type?.id}>
+                    {type?.title}
+                  </option>
+                ))}
+              </RHFSelect>
               <RHFTextField name="registerNo" label="Registration Number *" />
               <RHFTextField name="rcNo" label="Vehicle's RC No *" />
               <RHFUploadAvatar
@@ -293,7 +325,8 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
                 xs: 'repeat(1, 1fr)',
                 sm: 'repeat(1, 1fr)',
               }}
-            ><RHFSelect native name="registrationType" label="Reg Type" placeholder="Reg Type">
+            >
+              <RHFSelect native name="registrationType" label="Reg Type" placeholder="Reg Type">
                 <option value={undefined} />
                 {Object.values(RegistrationType).map((type: any) => (
                   <option key={type} value={type}>

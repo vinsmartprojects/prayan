@@ -24,7 +24,6 @@ export default function VehicleNewPage() {
       <Head>
         <title>Vehicle  | Create - {APP_NAME}</title>      </Head>
 
-     
         <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Create Vehicle "
