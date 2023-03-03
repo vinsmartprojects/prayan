@@ -22,7 +22,7 @@ const StyledIcon = styled(Iconify)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ClientDocumentationDetail({
-    cin, pan, gst
+    gst
 }: IClient) {
     return (
         <Card>
@@ -33,10 +33,7 @@ export default function ClientDocumentationDetail({
                      
                     <Typography variant="body2">GST NO : {gst}</Typography>
                 </Stack>
-                <Stack direction="row">
-                     
-                    <Typography variant="body2">PAN NO : {pan}</Typography>
-                </Stack>
+               
                  
             </Stack>
         </Card>

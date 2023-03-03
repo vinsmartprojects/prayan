@@ -54,10 +54,9 @@ const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
 const TABLE_HEAD = [
 
-  { id: 'title', label: 'Client', align: 'left' },
+  { id: 'name', label: 'Client', align: 'left' },
   { id: 'address.area', label: 'Area', align: 'left' },
   { id: 'address.pincode', label: 'Pincode', align: 'left' },
-  { id: 'contactPerson', label: 'Person In Contact', align: 'left' },
   { id: 'contactMobile', label: 'Mobile', align: 'left' },
   { id: 'isActive', label: 'Active', align: 'center' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
@@ -428,7 +427,7 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (client) => client.title.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (client) => client.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

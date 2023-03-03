@@ -38,7 +38,7 @@ export default function ClientTableRow({
   onDeleteRow,
   onDetailRow
 }: Props) {
-  const { id, title, contactEmail, contactPerson, contactMobile, isVerified, isActive, address } = row;
+  const { id, name, contactEmail, contactMobile, isVerified, isActive, address } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -73,13 +73,12 @@ export default function ClientTableRow({
             {/* <Avatar alt={name} src={avatarUrl} /> */}
 
             <Typography variant="subtitle2" noWrap>
-              {title}
+              {name}
             </Typography>
           </Stack>
         </TableCell>
         <TableCell align="left">{address?.area}</TableCell>
         <TableCell align="left">{address?.pincode}</TableCell>
-        <TableCell align="left">{contactPerson}</TableCell>
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
           {contactMobile}
         </TableCell>
