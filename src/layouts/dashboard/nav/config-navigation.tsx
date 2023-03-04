@@ -65,6 +65,7 @@ const navConfig = [
         children: [
           { title: 'List', path: PATH_VEHICLE.list },
           { title: 'New', path: PATH_VEHICLE.new },
+          { title: 'Settings', path: PATH_VEHICLE.settings },
         ],
       },
       {
