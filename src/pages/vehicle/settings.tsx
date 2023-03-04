@@ -13,6 +13,9 @@ import VehicleBasicInfo from 'src/sections/vehicle/details/VehicleBasicInfo';
 import VehicleDrivers from 'src/sections/vehicle/details/VehicleDrivers';
 import VehicleTrips from 'src/sections/vehicle/details/VehicleTrips';
 import VehicleVechicles from 'src/sections/vehicle/details/VehicleVechicles';
+import VehicleMakerSection from 'src/sections/vehicle/settings/maker/VehicleMaker';
+import VehicleModelsSection from 'src/sections/vehicle/settings/models/VehicleModels';
+import VehicleSegmentSection from 'src/sections/vehicle/settings/segment/VehicleSegment';
 
 
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';
@@ -34,47 +37,24 @@ export default function VehicleSettingsPage() {
 
   const TABS = [
     {
-      value: 'general',
-      label: 'General',
+      value: 'models',
+      label: 'Models',
       icon: <Iconify icon="ic:round-account-box" />,
-      component: <></>,
+      component: <VehicleModelsSection/>,
     },
     {
-      value: 'trips',
-      label: 'Trips',
+      value: 'maker',
+      label: 'Maker',
       icon: <Iconify icon="bx:trip" />,
-      component: <></>,
+      component: <VehicleMakerSection/>,
     },
     {
-      value: 'vehicles',
-      label: 'Vehicles',
+      value: 'segment',
+      label: 'Segment',
       icon: <Iconify icon="ic:baseline-directions-car" />,
-      component: <></>,
+      component: <VehicleSegmentSection/>,
     },
-    {
-      value: 'drivers',
-      label: 'Drivers',
-      icon: <Iconify icon="healthicons:truck-driver" />,
-      component: <></>,
-    },
-    {
-      value: 'locations',
-      label: 'Serving Locations',
-      icon: <Iconify icon="iconoir:stats-report" />,
-       component: <></>,
-    },
-    {
-      value: 'reports',
-      label: 'Reports',
-      icon: <Iconify icon="iconoir:stats-report" />,
-      component: <></>,
-    },
-    {
-      value: 'payments',
-      label: 'Payments',
-      icon: <Iconify icon="mdi:payment-settings" />,
-       component: <></>,
-    },
+   
 
 
   ];
@@ -87,7 +67,7 @@ export default function VehicleSettingsPage() {
 
     <Container maxWidth={themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={"Vehicle ID : " + id}
+        heading={"Vehicle Settings: "}
         links={[
           { name: 'Vehicles', href: PATH_VEHICLE.root },
 

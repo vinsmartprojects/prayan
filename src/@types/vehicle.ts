@@ -143,9 +143,10 @@ export enum PermitType {
   ALL_INDIA = 'ALL_INDIA',
 }
 
+
 export enum VehicleSearchParams {
   REGISTERNO = 'REGISTERNO',
-   
+  NAME = "NAME"
 }
 
 export enum VehicleStatus {
