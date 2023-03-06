@@ -67,14 +67,14 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
     }
   }
   const NewVehicleSchema = Yup.object().shape({
-    registerNo: Yup.string().required('Registration Number is required'),
-    make: Yup.string().required('Make is required'),
+    model: Yup.string().required('Model Number is required'),
+    code: Yup.string().required('Code is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
-      registerNo: '',
-      make: undefined,
+      model: '',
+      code: undefined,
       isAc: false,
       isActive: false,
     }),
@@ -174,8 +174,8 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
               }}
             >
              
-              <RHFTextField name="registerNo" label="Registration Number *" />
-               <RHFTextField name="make" label="Make Name *" />
+              <RHFTextField name="Model Name" label="Model Name *" />
+               <RHFTextField name="Model Code" label="Model Code *" />
          
             </Box>
           </Card>
@@ -224,7 +224,7 @@ export default function VehicleEditForm({ isEdit = false, vehicle }: Props) {
           <Card sx={{ p: 3, my: 2 }}>
             <Stack alignItems="flex-end" sx={{ mt: 3 }}>
               <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                {!isEdit ? 'Add Make' : 'Save Changes'}
+                {!isEdit ? 'Add Model' : 'Save Changes'}
               </LoadingButton>
             </Stack>
           </Card>

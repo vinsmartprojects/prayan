@@ -246,11 +246,11 @@ export default function VehicleModelsSection() {
           action={
             <Button
               component={NextLink}
-              href={PATH_VEHICLE.new}
+              href={PATH_VEHICLE.VehicleModelsNewForm}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New
+              New Model
             </Button>
           }
         />

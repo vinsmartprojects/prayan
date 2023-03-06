@@ -246,11 +246,11 @@ export default function VehicleSegmentSection() {
           action={
             <Button
               component={NextLink}
-              href={PATH_VEHICLE.new}
+              href={PATH_VEHICLE.VehicleSegmentNewForm}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New
+              New Segment
             </Button>
           }
         />
