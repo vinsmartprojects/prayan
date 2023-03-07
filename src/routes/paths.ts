@@ -46,7 +46,13 @@ export const PATH_VEHICLE = {
   settings: path(ROOTS_VEHICLE, '/settings'),
   detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
   udpate: path(ROOTS_VEHICLE, '/update'),
+  udpateMaker: path(ROOTS_VEHICLE, '/updateMaker'),
+  udpateSegment: path(ROOTS_VEHICLE, '/updateSegment'),
+  udpateModels: path(ROOTS_VEHICLE, '/updateModels'),
   edit: (name: string) => path(ROOTS_VEHICLE, `/${name}/edit`),
+  editMaker: (name: string) => path(ROOTS_VEHICLE, `/${name}/editMaker`),
+  editSegment: (name: string) => path(ROOTS_VEHICLE, `/${name}/editSegment`),
+  editModels: (name: string) => path(ROOTS_VEHICLE, `/${name}/editModels`),
 };
 export const PATH_DRIVER = {
   root: ROOTS_DRIVER,

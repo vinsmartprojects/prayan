@@ -9,13 +9,13 @@ import { useSettingsContext } from 'src/components/settings';
 
 // ----------------------------------------------------------------------
 
-VehicleUpdatePage.getLayout = (page: React.ReactElement) => (
+VehicleMakerUpdatePage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
 // ----------------------------------------------------------------------
 
-export default function VehicleUpdatePage() {
+export default function VehicleMakerUpdatePage() {
   const { themeStretch } = useSettingsContext();
 
   return (
