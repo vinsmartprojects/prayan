@@ -25,18 +25,14 @@ export default function VehicleNewPage() {
         <title>Vehicle  | Segment - {APP_NAME}</title>      </Head>
 
         <Container maxWidth={themeStretch ? false : 'lg'}>
-        <CustomBreadcrumbs
-          heading="Create Segment "
+       <CustomBreadcrumbs
+          heading="Create Models "
           links={[
-            {
-              name: 'Dashboard',
-              href: PATH_DASHBOARD.root,
-            },
-            {
-              name: 'Vehicle ',
-              href: PATH_VEHICLE.list,
-            },
-            { name: 'New Segment' },
+            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Vehicle ', href: PATH_VEHICLE.root },
+            { name: 'Settings ', href: PATH_VEHICLE.root },
+            { name: 'Models ', href: PATH_VEHICLE.root },
+            { name: 'New' },
           ]}
         />
         <VehicleSegmentNewForm />

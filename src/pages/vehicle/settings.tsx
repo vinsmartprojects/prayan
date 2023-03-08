@@ -67,11 +67,11 @@ export default function VehicleSettingsPage() {
 
     <Container maxWidth={themeStretch ? false : 'lg'}>
       <CustomBreadcrumbs
-        heading={"Vehicle Settings: "}
+        heading={"Settings: "}
         links={[
           { name: 'Vehicles', href: PATH_VEHICLE.root },
 
-          { name: 'Details' },
+          { name: 'Settings', href: PATH_VEHICLE.settings},
         ]}
       />
 

@@ -2,12 +2,15 @@
 import Head from 'next/head';
 import { Container, Typography } from '@mui/material';
 // layouts
-import DashboardLayout from '../../../../layouts/dashboard';
+import DashboardLayout from 'src/layouts/dashboard';
 // components
-import { useSettingsContext } from '../../../../components/settings';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+import { useSettingsContext } from 'src/components/settings';
 import { APP_NAME } from 'src/assets/data/common';
-import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
-import { PATH_DASHBOARD, PATH_VEHICLE } from 'src/routes/paths';
+
+
+import { PATH_VEHICLE } from 'src/routes/paths';
+import { PATH_DASHBOARD } from 'src/routes/paths';
 import VehicleModelsNewForm from 'src/sections/vehicle/settings/models/VehicleModelsNewForm';
 
 // ----------------------------------------------------------------------
@@ -26,17 +29,13 @@ export default function VehicleNewPage() {
 
         <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create Model "
+          heading="Create Models "
           links={[
-            {
-              name: 'Dashboard',
-              href: PATH_DASHBOARD.root,
-            },
-            {
-              name: 'Vehicle ',
-              href: PATH_VEHICLE.list,
-            },
-            { name: 'New Model' },
+            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Vehicle ', href: PATH_VEHICLE.root },
+             { name: 'Settings ', href: PATH_VEHICLE.root },
+            { name: 'Models ', href: PATH_VEHICLE.root },
+            { name: 'New' },
           ]}
         />
         <VehicleModelsNewForm />
