@@ -33,7 +33,7 @@ export default function VehicleSettingsPage() {
 
 
 
-  const [currentTab, setCurrentTab] = useState('general');
+  const [currentTab, setCurrentTab] = useState('models');
 
   const TABS = [
     {
