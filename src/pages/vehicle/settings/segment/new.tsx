@@ -2,13 +2,13 @@
 import Head from 'next/head';
 import { Container, Typography } from '@mui/material';
 // layouts
-import DashboardLayout from '../../layouts/dashboard';
+import DashboardLayout from '../../../../layouts/dashboard';
 // components
-import { useSettingsContext } from '../../components/settings';
+import { useSettingsContext } from '../../../../components/settings';
 import { APP_NAME } from 'src/assets/data/common';
-import CustomBreadcrumbs from '../../components/custom-breadcrumbs';
+import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 import { PATH_DASHBOARD, PATH_VEHICLE } from 'src/routes/paths';
-import VehicleModelsNewForm from 'src/sections/vehicle/settings/models/VehicleModelsNewForm';
+import VehicleSegmentNewForm from 'src/sections/vehicle/settings/segment/VehicleSegmentNewForm';
 
 // ----------------------------------------------------------------------
 
@@ -22,11 +22,11 @@ export default function VehicleNewPage() {
   return (
     <>
       <Head>
-        <title>Vehicle  | Models - {APP_NAME}</title>      </Head>
+        <title>Vehicle  | Segment - {APP_NAME}</title>      </Head>
 
         <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="Create Model "
+          heading="Create Segment "
           links={[
             {
               name: 'Dashboard',
@@ -36,10 +36,10 @@ export default function VehicleNewPage() {
               name: 'Vehicle ',
               href: PATH_VEHICLE.list,
             },
-            { name: 'New Model' },
+            { name: 'New Segment' },
           ]}
         />
-        <VehicleModelsNewForm />
+        <VehicleSegmentNewForm />
       </Container>
     </>
   );

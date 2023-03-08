@@ -2,9 +2,9 @@
 import { Container, Typography } from '@mui/material';
 // layouts
 
-import DashboardLayout from '../../layouts/dashboard';
+import DashboardLayout from '../../../../layouts/dashboard';
 // components
-import { useSettingsContext } from '../../components/settings';
+import { useSettingsContext } from '../../../../components/settings';
 
 
 // ----------------------------------------------------------------------

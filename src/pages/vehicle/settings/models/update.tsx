@@ -2,20 +2,20 @@
 import { Container, Typography } from '@mui/material';
 // layouts
 
-import DashboardLayout from '../../layouts/dashboard';
+import DashboardLayout from '../../../../layouts/dashboard';
 // components
-import { useSettingsContext } from '../../components/settings';
+import { useSettingsContext } from '../../../../components/settings';
 
 
 // ----------------------------------------------------------------------
 
-VehicleSegmentUpdatePage.getLayout = (page: React.ReactElement) => (
+VehicleModelsUpdatePage.getLayout = (page: React.ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
 
 // ----------------------------------------------------------------------
 
-export default function VehicleSegmentUpdatePage() {
+export default function VehicleModelsUpdatePage() {
   const { themeStretch } = useSettingsContext();
 
   return (
