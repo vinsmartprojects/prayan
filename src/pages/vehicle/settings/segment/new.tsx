@@ -30,7 +30,7 @@ export default function VehicleNewPage() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'Vehicle ', href: PATH_VEHICLE.root },
-            { name: 'Settings ', href: PATH_VEHICLE.root },
+            { name: 'Settings ', href: PATH_VEHICLE.settings},
             { name: 'Models ', href: PATH_VEHICLE.root },
             { name: 'New' },
           ]}

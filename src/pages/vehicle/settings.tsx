@@ -17,7 +17,6 @@ import VehicleMakerSection from 'src/sections/vehicle/settings/maker/VehicleMake
 import VehicleModelsSection from 'src/sections/vehicle/settings/models/VehicleModels';
 import VehicleSegmentSection from 'src/sections/vehicle/settings/segment/VehicleSegment';
 
-
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';
 
 VehicleSettingsPage.getLayout = (page: React.ReactElement) => (
@@ -31,8 +30,6 @@ export default function VehicleSettingsPage() {
     query: { id },
   } = useRouter();
 
-
-
   const [currentTab, setCurrentTab] = useState('models');
 
   const TABS = [
@@ -40,56 +37,53 @@ export default function VehicleSettingsPage() {
       value: 'models',
       label: 'Models',
       icon: <Iconify icon="ic:round-account-box" />,
-      component: <VehicleModelsSection/>,
+      component: <VehicleModelsSection />,
     },
     {
       value: 'maker',
       label: 'Maker',
       icon: <Iconify icon="bx:trip" />,
-      component: <VehicleMakerSection/>,
+      component: <VehicleMakerSection />,
     },
     {
       value: 'segment',
       label: 'Segment',
       icon: <Iconify icon="ic:baseline-directions-car" />,
-      component: <VehicleSegmentSection/>,
+      component: <VehicleSegmentSection />,
     },
-   
-
-
   ];
 
-  return (<>
-    <Head>
-      <title> User: Edit user | Minimal UI</title>
-    </Head>
+  return (
+    <>
+      <Head>
+        <title> User: Edit user | Minimal UI</title>
+      </Head>
 
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <CustomBreadcrumbs
+          heading={'Settings: '}
+          links={[
+            { name: 'Vehicles', href: PATH_VEHICLE.root },
 
-    <Container maxWidth={themeStretch ? false : 'lg'}>
-      <CustomBreadcrumbs
-        heading={"Settings: "}
-        links={[
-          { name: 'Vehicles', href: PATH_VEHICLE.root },
+            { name: 'Settings', href: PATH_VEHICLE.settings.root },
+          ]}
+        />
 
-          { name: 'Settings', href: PATH_VEHICLE.settings},
-        ]}
-      />
+        <Tabs value={currentTab} onChange={(event: any, newValue: any) => setCurrentTab(newValue)}>
+          {TABS.map((tab) => (
+            <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
+          ))}
+        </Tabs>
 
-      <Tabs value={currentTab} onChange={(event: any, newValue: any) => setCurrentTab(newValue)}>
-        {TABS.map((tab) => (
-          <Tab key={tab.value} label={tab.label} icon={tab.icon} value={tab.value} />
-        ))}
-      </Tabs>
-
-      {TABS.map(
-        (tab) =>
-          tab.value === currentTab && (
-            <Box key={tab.value} sx={{ mt: 5 }}>
-              {tab.component}
-            </Box>
-          )
-      )}
-    </Container></>
-
+        {TABS.map(
+          (tab) =>
+            tab.value === currentTab && (
+              <Box key={tab.value} sx={{ mt: 5 }}>
+                {tab.component}
+              </Box>
+            )
+        )}
+      </Container>
+    </>
   );
 }
