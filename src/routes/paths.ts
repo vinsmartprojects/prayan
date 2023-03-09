@@ -5,11 +5,11 @@ function path(root: string, sublink: string) {
 }
 
 const ROOTS_DASHBOARD = '/dashboard';
-const ROOTS_VENDOR = '/vendor';
+const ROOTS_SETTING = '/setting';
 const ROOTS_VEHICLE = '/vehicle';
 const ROOTS_VEHICLETYPE = '/vehicletype';
 const ROOTS_DRIVER = '/driver';
-const ROOTS_CLIENT = '/client';
+const ROOTS_USER = '/user';
 const ROOTS_BOOKING = '/booking';
 const ROOTS_PLAN = '/plan';
 const ROOTS_LOCATION = '/location';
@@ -25,14 +25,14 @@ export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   index: path(ROOTS_DASHBOARD, '/analytics'),
 };
-export const PATH_VENDOR = {
-  root: ROOTS_VENDOR,
-  index: path(ROOTS_VENDOR, '/'),
-  list: path(ROOTS_VENDOR, '/list'),
-  new: path(ROOTS_VENDOR, '/new'),
-  udpate: path(ROOTS_VENDOR, '/update'),
-  edit: (name: string) => path(ROOTS_VENDOR, `/${name}/edit`),
-  detail: (name: string) => path(ROOTS_VENDOR, `/${name}/detail`),
+export const PATH_SETTING = {
+  root: ROOTS_SETTING,
+  index: path(ROOTS_SETTING, '/'),
+  list: path(ROOTS_SETTING, '/list'),
+  new: path(ROOTS_SETTING, '/new'),
+  udpate: path(ROOTS_SETTING, '/update'),
+  edit: (name: string) => path(ROOTS_SETTING, `/${name}/edit`),
+  detail: (name: string) => path(ROOTS_SETTING, `/${name}/detail`),
 };
 
 export const PATH_VEHICLE = {
@@ -40,10 +40,13 @@ export const PATH_VEHICLE = {
   index: path(ROOTS_VEHICLE, '/'),
   list: path(ROOTS_VEHICLE, '/list'),
   new: path(ROOTS_VEHICLE, '/new'),
-  VehicleMakerNewForm: path(ROOTS_VEHICLE, '/settings/maker/new'),
-  VehicleSegmentNewForm: path(ROOTS_VEHICLE, '/settings/segment/new'),
-  VehicleModelsNewForm: path(ROOTS_VEHICLE, '/settings/models/new'),
-  settings: path(ROOTS_VEHICLE, '/settings'),
+
+  settings: {
+    root: path(ROOTS_VEHICLE, '/settings'),
+    model: path(ROOTS_VEHICLE, '/settings/models'),
+    maker: path(ROOTS_VEHICLE, '/settings/maker'),
+    segment: path(ROOTS_VEHICLE, '/settings/segment'),
+  },
   detail: (name: string) => path(ROOTS_VEHICLETYPE, `/${name}/detail`),
   udpate: path(ROOTS_VEHICLE, '/update'),
   udpateMaker: path(ROOTS_VEHICLE, '/settings/maker/update'),
@@ -64,14 +67,14 @@ export const PATH_DRIVER = {
   edit: (name: string) => path(ROOTS_DRIVER, `/${name}/edit`),
 };
 
-export const PATH_CLIENT = {
-  root: ROOTS_CLIENT,
-  index: path(ROOTS_CLIENT, '/'),
-  list: path(ROOTS_CLIENT, '/list'),
-  new: path(ROOTS_CLIENT, '/new'),
-  detail: (name: string) => path(ROOTS_CLIENT, `/${name}/detail`),
-  udpate: path(ROOTS_CLIENT, '/update'),
-  edit: (name: string) => path(ROOTS_CLIENT, `/${name}/edit`),
+export const PATH_USER = {
+  root: ROOTS_USER,
+  index: path(ROOTS_USER, '/'),
+  list: path(ROOTS_USER, '/list'),
+  new: path(ROOTS_USER, '/new'),
+  detail: (name: string) => path(ROOTS_USER, `/${name}/detail`),
+  udpate: path(ROOTS_USER, '/update'),
+  edit: (name: string) => path(ROOTS_USER, `/${name}/edit`),
 };
 export const PATH_BOOKING = {
   root: ROOTS_BOOKING,

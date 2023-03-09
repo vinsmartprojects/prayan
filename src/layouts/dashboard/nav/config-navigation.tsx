@@ -1,5 +1,5 @@
 // routes
-import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE,  PATH_VENDOR, PATH_LOCATION, PATH_PLAN, PATH_CLIENT, PATH_DRIVER, PATH_TRIP } from '../../../routes/paths';
+import { PATH_BOOKING,PATH_CUSTOMER, PATH_VEHICLE,  PATH_SETTING, PATH_TRIP } from '../../../routes/paths';
 
 // components
 import SvgColor from '../../../components/svg-color';
@@ -48,43 +48,16 @@ const navConfig = [
           { title: 'New', path: PATH_BOOKING.new },
         ],
       },
-      {
-        title: 'Drivers',
-        path: PATH_DRIVER.root,
-        icon:  <Iconify icon="healthicons:truck-driver" />,
-        children: [
-          { title: 'List', path: PATH_DRIVER.list },
-          { title: 'New', path: PATH_DRIVER.new },
-        ],
-      },
+      
 
       {
-        title: 'Vehicles',
-        path: PATH_VEHICLE.root,
-        icon: <Iconify icon="ic:baseline-directions-car" />,
-        children: [
-          { title: 'List', path: PATH_VEHICLE.list },
-          { title: 'New', path: PATH_VEHICLE.new },
-          { title: 'Settings', path: PATH_VEHICLE.settings },
-        ],
-      },
-      {
-        title: 'Clients',
-        path: PATH_CLIENT.root,
-        icon: <Iconify icon="clarity:building-outline-alerted" />,
-        children: [
-          { title: 'List', path: PATH_CLIENT.list },
-          { title: 'New', path: PATH_CLIENT.new },
-        ],
-      },
-      {
         
-        title: 'Vendors',
-        path: PATH_VENDOR.root,
+        title: 'Settings',
+        path: PATH_SETTING.root,
         icon: <Iconify icon="carbon:partnership" />,
         children: [
-          { title: 'List', path: PATH_VENDOR.list },
-          { title: 'New', path: PATH_VENDOR.new },
+          { title: 'List', path: PATH_SETTING.list },
+          { title: 'New', path: PATH_SETTING.new },
         ],
       },
        
@@ -97,24 +70,7 @@ const navConfig = [
           { title: 'New', path: PATH_CUSTOMER.new },
         ],
       },
-      {
-        title: 'Plans',
-        path: PATH_PLAN.root,
-        icon: <Iconify icon="ic:twotone-local-offer" />,
-        children: [
-          { title: 'List', path: PATH_PLAN.list },
-          { title: 'New', path: PATH_PLAN.new },
-        ],
-      },
-      {
-        title: 'Location',
-        path: PATH_LOCATION.root,
-        icon: <Iconify icon="majesticons:map-marker-area" />,
-        children: [
-          { title: 'List', path: PATH_LOCATION.list },
-          { title: 'New', path: PATH_LOCATION.new },
-        ],
-      },
+     
 
 
 
