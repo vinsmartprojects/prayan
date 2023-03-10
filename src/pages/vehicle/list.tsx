@@ -248,7 +248,7 @@ export default function vehicleListPage() {
   return (
     <>
       <Head>
-        <title>Vehicles </title>
+        <title>Vehicles</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
