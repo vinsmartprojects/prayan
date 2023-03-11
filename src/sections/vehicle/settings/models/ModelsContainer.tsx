@@ -16,6 +16,7 @@ import {
   Box,
   Paper,
   Typography,
+  TextField,
   Grid,
   Tab,
   Tabs,
@@ -29,8 +30,13 @@ import {
   TableContainer,
   styled,
 } from '@mui/material';
+import FormProvider, {
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
+  RHFUploadAvatar,
+} from 'src/components/hook-form';
 import { useSettingsContext } from 'src/components/settings';
-
 
 type Props = {};
 export default function ModelsContainer({}: Props) {
@@ -56,15 +62,15 @@ export default function ModelsContainer({}: Props) {
   const handleFullWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFullWidth(event.target.checked);
   };
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-const { themeStretch } = useSettingsContext();
-type Props = {};
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+  const { themeStretch } = useSettingsContext();
+  type Props = {};
   return (
     <React.Fragment>
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -84,11 +90,10 @@ type Props = {};
       </Container>
 
       <Dialog fullWidth={fullWidth} maxWidth={maxWidth} open={open} onClose={handleClose}>
-        <DialogTitle>Optional sizes</DialogTitle>
+        <DialogTitle>New Models</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            You can set my maximum width and whether to adapt or not.
-          </DialogContentText>
+          <DialogContentText></DialogContentText>
+          Add new vehicle Models details.
           <Box
             noValidate
             component="form"
@@ -100,7 +105,10 @@ type Props = {};
             }}
           >
             <FormControl sx={{ mt: 2, minWidth: 120 }}>
-              <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+              <TextField sx={{ mb: 2 }} id="models" label="Model Name" variant="outlined" />
+
+              <TextField sx={{ mb: 2 }} id="code" label="Model Code" variant="outlined" />
+              {/* <InputLabel htmlFor="max-width">maxWidth</InputLabel>
               <Select
                 autoFocus
                 value={maxWidth}
@@ -117,16 +125,18 @@ type Props = {};
                 <MenuItem value="md">md</MenuItem>
                 <MenuItem value="lg">lg</MenuItem>
                 <MenuItem value="xl">xl</MenuItem>
-              </Select>
+              </Select> */}
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               sx={{ mt: 1 }}
               control={<Switch checked={fullWidth} onChange={handleFullWidthChange} />}
               label="Full width"
-            />
+            /> */}
           </Box>
         </DialogContent>
         <DialogActions>
+          <Button>Add</Button>
+          <Button>Reset</Button>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>

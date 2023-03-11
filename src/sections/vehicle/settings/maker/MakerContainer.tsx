@@ -16,6 +16,7 @@ import {
   Box,
   Paper,
   Typography,
+  TextField,
   Grid,
   Tab,
   Tabs,
@@ -29,6 +30,12 @@ import {
   TableContainer,
   styled,
 } from '@mui/material';
+import FormProvider, {
+  RHFSelect,
+  RHFSwitch,
+  RHFTextField,
+  RHFUploadAvatar,
+} from 'src/components/hook-form';
 import { useSettingsContext } from 'src/components/settings';
 
 type Props = {};
@@ -83,11 +90,10 @@ export default function MakerContainer({}: Props) {
       </Container>
 
       <Dialog fullWidth={fullWidth} maxWidth={maxWidth} open={open} onClose={handleClose}>
-        <DialogTitle>Optional sizes</DialogTitle>
+        <DialogTitle>New Maker</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            You can set my maximum width and whether to adapt or not.
-          </DialogContentText>
+          <DialogContentText></DialogContentText>
+              Add new vehicle maker details.
           <Box
             noValidate
             component="form"
@@ -99,7 +105,10 @@ export default function MakerContainer({}: Props) {
             }}
           >
             <FormControl sx={{ mt: 2, minWidth: 120 }}>
-              <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+              <TextField sx={{ mb: 2 }} id="maker" label="Maker Name" variant="outlined" />
+
+              <TextField sx={{ mb: 2 }} id="code" label="Maker Code" variant="outlined" />
+              {/* <InputLabel htmlFor="max-width">maxWidth</InputLabel>
               <Select
                 autoFocus
                 value={maxWidth}
@@ -116,16 +125,18 @@ export default function MakerContainer({}: Props) {
                 <MenuItem value="md">md</MenuItem>
                 <MenuItem value="lg">lg</MenuItem>
                 <MenuItem value="xl">xl</MenuItem>
-              </Select>
+              </Select> */}
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               sx={{ mt: 1 }}
               control={<Switch checked={fullWidth} onChange={handleFullWidthChange} />}
               label="Full width"
-            />
+            /> */}
           </Box>
         </DialogContent>
         <DialogActions>
+          <Button>Add</Button>
+          <Button>Reset</Button>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
