@@ -38,10 +38,9 @@ import {
   TableSelectedAction,
   TablePaginationCustom,
 } from '../../components/table';
-import VehicleBasicInfo from 'src/sections/vehicle/details/VehicleBasicInfo';
-import VehicleDrivers from 'src/sections/vehicle/details/VehicleDrivers';
-import VehicleTrips from 'src/sections/vehicle/details/VehicleTrips';
-import VehicleVechicles from 'src/sections/vehicle/details/VehicleVechicles';
+import MakerContainer from 'src/sections/vehicle/settings/maker/MakerContainer';
+import ModelsContainer from 'src/sections/vehicle/settings/models/ModelsContainer';
+import SegmentContainer from 'src/sections/vehicle/settings/segment/SegmentContainer';
 
 
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from 'src/_mock/arrays';
@@ -57,60 +56,26 @@ export default function VehicleSettingsPage() {
     query: { id },
   } = useRouter();
 
-
-
   const [currentTab, setCurrentTab] = useState('general');
 
   const TABS = [
     {
-      value: 'general',
-      label: 'General',
+      value: 'maker',
+      label: 'Maker',
       icon: <Iconify icon="ic:round-account-box" />,
-      component: <VehicleBasicInfo id={id} />,
+      component: <MakerContainer />,
     },
     {
-      value: 'trips',
-      label: 'Trips',
+      value: 'models',
+      label: 'Models',
       icon: <Iconify icon="bx:trip" />,
-      component: <VehicleTrips id={id} />,
+      component: <ModelsContainer  />,
     },
     {
-      value: 'vehicles',
-      label: 'Vehicles',
+      value: 'segment',
+      label: 'Segment',
       icon: <Iconify icon="ic:baseline-directions-car" />,
-      component: <VehicleVechicles id={id} />,
-    },
-    {
-      value: 'drivers',
-      label: 'Drivers',
-      icon: <Iconify icon="healthicons:truck-driver" />,
-      component: (
-        <VehicleDrivers id={id} />
-      ),
-    },
-    {
-      value: 'locations',
-      label: 'Serving Locations',
-      icon: <Iconify icon="iconoir:stats-report" />,
-      component: (
-        <VehicleDrivers id={id} />
-      ),
-    },
-    {
-      value: 'reports',
-      label: 'Reports',
-      icon: <Iconify icon="iconoir:stats-report" />,
-      component: (
-        <VehicleDrivers id={id} />
-      ),
-    },
-    {
-      value: 'payments',
-      label: 'Payments',
-      icon: <Iconify icon="mdi:payment-settings" />,
-      component: (
-        <VehicleDrivers id={id} />
-      ),
+      component: <SegmentContainer  />,
     },
   ];
   return (<>
