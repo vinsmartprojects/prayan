@@ -105,27 +105,38 @@ export default function ModelsContainer({}: Props) {
             }}
           >
             <FormControl sx={{ mt: 2, minWidth: 120 }}>
-              <TextField sx={{ mb: 2 }} id="models" label="Model Name" variant="outlined" />
-
-              <TextField sx={{ mb: 2 }} id="code" label="Model Code" variant="outlined" />
-              {/* <InputLabel htmlFor="max-width">maxWidth</InputLabel>
-              <Select
-                autoFocus
-                value={maxWidth}
-                onChange={handleMaxWidthChange}
-                label="maxWidth"
-                inputProps={{
-                  name: 'max-width',
-                  id: 'max-width',
+              <Box
+                noValidate
+                component="form"
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  m: 'auto',
+                  width: 'fit-content',
                 }}
               >
-                <MenuItem value={false as any}>false</MenuItem>
-                <MenuItem value="xs">xs</MenuItem>
-                <MenuItem value="sm">sm</MenuItem>
-                <MenuItem value="md">md</MenuItem>
-                <MenuItem value="lg">lg</MenuItem>
-                <MenuItem value="xl">xl</MenuItem>
-              </Select> */}
+                {' '}
+                <TextField sx={{ mb: 2 }} id="models" label="Model Name" variant="outlined" />
+                <TextField sx={{ mb: 2 }} id="code" label="Model Code" variant="outlined" />
+              </Box>
+
+              <InputLabel htmlFor="max-width">Select Maker</InputLabel>
+              <Select
+                autoFocus
+                onChange={handleMaxWidthChange}
+                label="Select Maker"
+                inputProps={{
+                  name: 'selectmaker',
+                  id: 'selectmaker',
+                }}
+              >
+                <MenuItem value={false as any}>Audi</MenuItem>
+                <MenuItem value="Benz">Benz</MenuItem>
+                <MenuItem value="BMW">BMW</MenuItem>
+                <MenuItem value="Maruti">Maruti</MenuItem>
+                <MenuItem value="Ford">Ford</MenuItem>
+                <MenuItem value="Hyundai">Hyundai</MenuItem>
+              </Select>
             </FormControl>
             {/* <FormControlLabel
               sx={{ mt: 1 }}
