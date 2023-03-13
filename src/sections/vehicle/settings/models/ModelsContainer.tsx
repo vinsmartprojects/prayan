@@ -130,7 +130,7 @@ export default function ModelsContainer({}: Props) {
                   id: 'selectmaker',
                 }}
               >
-                <MenuItem value={false as any}>Audi</MenuItem>
+                <MenuItem value="Audi">Audi</MenuItem>
                 <MenuItem value="Benz">Benz</MenuItem>
                 <MenuItem value="BMW">BMW</MenuItem>
                 <MenuItem value="Maruti">Maruti</MenuItem>
